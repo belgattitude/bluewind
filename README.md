@@ -5,6 +5,8 @@ Class booking application (**WIP - early stages**)
 API
 
 - [x] Node, NestJS, Typescript
+- [x] TypeORM
+- [x] Swagger
 
 Frontend
 
