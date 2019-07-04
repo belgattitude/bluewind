@@ -1,4 +1,8 @@
-# Claspy
+# Bluewind API
 
+API
 
-https://github.com/ever-co/ever
+- [x] Node, NestJS, Typescript
+- [x] TypeORM
+- [x] Swagger
+
