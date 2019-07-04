@@ -1,0 +1,23 @@
+type Query {
+    getStudents: [Student]
+    student(id: ID!): Student
+}
+
+type Mutation {
+    createStudent(createStudentInput: CreateStudentInput): Student
+}
+
+type Subscription {
+    studentCreated: Student
+}
+
+type Student {
+    id: Int
+    name: String
+    email: String
+}
+
+input CreateStudentInput {
+    name: String
+    email: String
+}

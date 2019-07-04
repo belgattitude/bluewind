@@ -1,0 +1,69 @@
+{
+    "presets": [
+        [
+            "@babel/env",
+            {
+                "modules": "auto",
+                "useBuiltIns": "usage",
+                "debug": true
+            }
+        ],
+        "@babel/react"
+    ],
+    "env": {
+        "development": {
+            "presets": [
+                [
+                    "@babel/env",
+                    {
+                        "useBuiltIns": false
+                    }
+                ]
+            ],
+            "plugins": [
+                // For dev
+                "react-hot-loader/babel"
+            ]
+        },
+        "test": {
+            "presets": [
+                [
+                    "@babel/env",
+                    {
+                        "debug": false,
+                        "useBuiltIns": false,
+                        "modules": "commonjs",
+                        "targets": {
+                            "browsers": [
+                                "chrome >= 57"
+                            ],
+                            "node": 10
+                        }
+                    }
+                ]
+            ],
+            "plugins": [
+                "@babel/plugin-transform-modules-commonjs"
+            ]
+        }
+    },
+    "plugins": [
+        // Runtime
+        ["@babel/plugin-transform-runtime",
+        {
+            "corejs": false,
+            "helpers": true,
+            "regenerator": true,
+            "useESModules": false
+        }],
+
+        // Stage 3
+        "@babel/plugin-syntax-dynamic-import",
+        "@babel/plugin-syntax-import-meta",
+        "@babel/plugin-proposal-class-properties",
+        "@babel/plugin-proposal-json-strings",
+
+        // Stage 4
+        "@babel/plugin-proposal-object-rest-spread",
+    ]
+}
