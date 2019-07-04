@@ -1,7 +1,17 @@
 # Bluewind 
 
+Class booking application (**WIP - early stages**)
 
+API
 
+- [x] Node, NestJS, Typescript
+
+Frontend
+
+- [x] React, Typescript
+- [x] React router
+- [x] Material-ui
+ 
 ## Develop
 
 ### Lerna
