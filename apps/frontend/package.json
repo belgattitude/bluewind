@@ -1,7 +1,9 @@
 {
     "name": "@bluewind/frontend",
     "version": "0.0.1",
-    "license": "MIT",
+    "description": "Classroom application frontend",
+    "author": "Vanvelthem Sébastien",
+    "license": "AGPL-3.0",
     "scripts": {
         "build": "cross-env NODE_ENV=production BABEL_ENV=production webpack --mode production --config config/webpack.production.js",
         "source-map-explorer": "source-map-explorer ./dist/main.*.js ./dist/main.*.js.map",
@@ -164,8 +166,12 @@
         "use-react-router": "^1.0.7",
         "yup": "^0.27.0"
     },
+    "engines": {
+        "node": ">=10.15.0",
+        "yarn": ">=1.13.0"
+    },
     "devEngines": {
         "npm": ">=5.x",
-        "yarn": ">=1.7"
+        "yarn": ">=1.13.0"
     }
 }

@@ -1,9 +1,9 @@
 {
   "name": "@bluewind/api",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "license": "MIT",
+  "description": "Classroom appplication backend",
+  "author": "Vanvelthem Sébastien",
+  "license": "AGPL-3.0",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\"",
@@ -93,5 +93,14 @@
         "tsConfigFile": "./tsconfig.jest.json"
       }
     }
-  }
+  },
+    "engines": {
+        "node": ">=10.15.0",
+        "yarn": ">=1.13.0"
+    },
+    "devEngines": {
+        "npm": ">=5.x",
+        "yarn": ">=1.13.0"
+    }
+
 }
