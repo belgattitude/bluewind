@@ -12,8 +12,8 @@ async function bootstrap() {
     app.enableCors();
 
     const options = new DocumentBuilder()
-        .setTitle('Claspy example')
-        .setDescription('The student API description')
+        .setTitle('Bluewind API')
+        .setDescription('The Bluewind API documentation')
         .setVersion('1.0')
         .addTag('student')
         .build();
