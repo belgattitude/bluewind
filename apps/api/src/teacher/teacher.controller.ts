@@ -1,12 +1,12 @@
 import {
-  Body,
-  Controller,
-  Get,
-  Header,
-  Param,
-  Post,
-  Req,
-  UseInterceptors,
+    Body,
+    Controller,
+    Get,
+    Header,
+    Param,
+    Post,
+    Req,
+    UseInterceptors,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { CreateTeacherDto } from './dto/create-teacher.dto';
@@ -16,15 +16,15 @@ import { ApiResultsetInterceptor } from '../shared/interceptor/api-resultset.int
 
 @Controller('teacher')
 export class TeacherController {
-  constructor(private readonly teacherService: TeacherService) {}
+    constructor(private readonly teacherService: TeacherService) {}
 
-  @Get()
-  //@UseInterceptors(new ApiResultsetInterceptor())
-  async search(): Promise<any> {
-    return this.teacherService.search({ fragment: '', limit: 10 });
-  }
+    @Get()
+    //@UseInterceptors(new ApiResultsetInterceptor())
+    async search(): Promise<any> {
+        return this.teacherService.search({ fragment: '', limit: 10 });
+    }
 
-  /*
+    /*
   @Get()
   async search(@Req() request: Request): Promise<TeacherEntity[]> {
     const result = await this.teacherService.search();
@@ -32,14 +32,14 @@ export class TeacherController {
     return result;
   }*/
 
-  @Post()
-  async save(@Body() teacherDto: CreateTeacherDto) {
-    const a = await this.teacherService.save(teacherDto);
-    return a;
-  }
+    @Post()
+    async save(@Body() teacherDto: CreateTeacherDto) {
+        const a = await this.teacherService.save(teacherDto);
+        return a;
+    }
 
-  @Get(':id')
-  findOne(@Param('id') id): Promise<TeacherEntity> {
-    return this.teacherService.findOneById(id);
-  }
+    @Get(':id')
+    findOne(@Param('id') id): Promise<TeacherEntity> {
+        return this.teacherService.findOneById(id);
+    }
 }

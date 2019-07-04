@@ -3,8 +3,8 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 
 @Injectable()
 export class TeacherGuard implements CanActivate {
-  canActivate(context: ExecutionContext): boolean {
-    const ctx = GqlExecutionContext.create(context);
-    return true;
-  }
+    canActivate(context: ExecutionContext): boolean {
+        const ctx = GqlExecutionContext.create(context);
+        return true;
+    }
 }

@@ -15,7 +15,7 @@
         "tsc": "tsc -p . --noEmit",
         "lint": "tslint --project './tsconfig.json'",
         "lint:fix": "tslint --project './tsconfig.json' --fix",
-        "prettier": "prettier --write \"./src/**/*.{ts,tsx,scss,js,json}\" \"./server/**/*.{ts,tsx,scss,js,json}\" --write \"./*.{js,json}\"",
+        "format": "prettier --write \"./src/**/*.{ts,tsx,scss,js,json}\" \"./server/**/*.{ts,tsx,scss,js,json}\" --write \"./*.{js,json}\"",
         "test": "jest --config jest.config.js",
         "test:coverage": "jest --config jest.config.js --coverage",
         "test:watch": "jest --config jest.config.js --watch",

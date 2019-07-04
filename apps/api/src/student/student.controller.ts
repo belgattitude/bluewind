@@ -1,12 +1,12 @@
 import {
-  Body,
-  Controller,
-  Get,
-  Header,
-  Param,
-  Post,
-  Req,
-  UseInterceptors,
+    Body,
+    Controller,
+    Get,
+    Header,
+    Param,
+    Post,
+    Req,
+    UseInterceptors,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { CreateStudentDto } from './dto/create-student.dto';
@@ -16,15 +16,15 @@ import { ApiResultsetInterceptor } from '../shared/interceptor/api-resultset.int
 
 @Controller('student')
 export class StudentController {
-  constructor(private readonly studentService: StudentService) {}
+    constructor(private readonly studentService: StudentService) {}
 
-  @Get()
-  //@UseInterceptors(new ApiResultsetInterceptor())
-  async search(): Promise<any> {
-    return this.studentService.search({ fragment: '', limit: 10 });
-  }
+    @Get()
+    //@UseInterceptors(new ApiResultsetInterceptor())
+    async search(): Promise<any> {
+        return this.studentService.search({ fragment: '', limit: 10 });
+    }
 
-  /*
+    /*
   @Get()
   async search(@Req() request: Request): Promise<StudentEntity[]> {
     const result = await this.studentService.search();
@@ -32,14 +32,14 @@ export class StudentController {
     return result;
   }*/
 
-  @Post()
-  async save(@Body() studentDto: CreateStudentDto) {
-    const a = await this.studentService.save(studentDto);
-    return a;
-  }
+    @Post()
+    async save(@Body() studentDto: CreateStudentDto) {
+        const a = await this.studentService.save(studentDto);
+        return a;
+    }
 
-  @Get(':id')
-  findOne(@Param('id') id): Promise<StudentEntity> {
-    return this.studentService.findOneById(id);
-  }
+    @Get(':id')
+    findOne(@Param('id') id): Promise<StudentEntity> {
+        return this.studentService.findOneById(id);
+    }
 }

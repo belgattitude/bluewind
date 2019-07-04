@@ -5,28 +5,28 @@
 
 /* tslint:disable */
 export class CreateStudentInput {
-  name?: string;
-  email?: string;
+    name?: string;
+    email?: string;
 }
 
 export abstract class IMutation {
-  abstract createStudent(
-    createStudentInput?: CreateStudentInput,
-  ): Student | Promise<Student>;
+    abstract createStudent(
+        createStudentInput?: CreateStudentInput,
+    ): Student | Promise<Student>;
 }
 
 export abstract class IQuery {
-  abstract getStudents(): Student[] | Promise<Student[]>;
+    abstract getStudents(): Student[] | Promise<Student[]>;
 
-  abstract student(id: string): Student | Promise<Student>;
+    abstract student(id: string): Student | Promise<Student>;
 }
 
 export class Student {
-  id?: number;
-  name?: string;
-  email?: string;
+    id?: number;
+    name?: string;
+    email?: string;
 }
 
 export abstract class ISubscription {
-  abstract studentCreated(): Student | Promise<Student>;
+    abstract studentCreated(): Student | Promise<Student>;
 }
