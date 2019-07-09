@@ -3,6 +3,7 @@ import { StudentController } from './student.controller';
 import { StudentService } from './student.service';
 import { StudentEntity } from '../entity/student.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import {QueryResultMany} from "../core/query-result";
 
 const mockRepository = jest.fn(() => ({
     metadata: {
@@ -34,9 +35,10 @@ describe('Student Controller', () => {
     describe('search', () => {
         it('should return an array of students', async () => {
             const result = {
+                kind: 'many',
                 data: [],
                 total: 0,
-            };
+            } as QueryResultMany<StudentEntity>;
             jest.spyOn(studentService, 'search').mockImplementation(
                 async ({}) => result,
             );
