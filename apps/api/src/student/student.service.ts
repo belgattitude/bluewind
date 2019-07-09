@@ -3,6 +3,8 @@ import { StudentEntity } from '../entity/student.entity';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import {queryFail, QueryResult, QueryResultError, querySuccess} from "../core/query-result";
+import {Result} from "../core/result";
 
 interface Resultset {
     data: StudentEntity[];
@@ -19,8 +21,8 @@ export class StudentService {
     async save(studentDTO: CreateStudentDto): Promise<StudentEntity> {
         const a = await this.studentRepository
             .save({
-                lastName: studentDTO.lastName,
-                firstName: studentDTO.firstName,
+                last_name: studentDTO.last_name,
+                first_name: studentDTO.first_name,
                 email: studentDTO.email,
             })
             .then(student => {
@@ -54,20 +56,19 @@ export class StudentService {
         fragment?: string;
         limit?: number;
         offset?: number;
-    }): Promise<{ data: StudentEntity[]; total: number }> {
-        const qb = await this.studentRepository.createQueryBuilder('student');
+    }): Promise<QueryResult<StudentEntity>> {
+
+        const qb = this.studentRepository.createQueryBuilder('student');
         qb.where('1 = 1');
         if ('id' in criteria) {
-            qb.andWhere('student.id = :id', { id: criteria.id });
+            qb.andWhere('student.id = :id', {id: criteria.id});
         }
 
         if ('fragment' in criteria) {
-            qb.andWhere('student.lastName LIKE :fragment', {
+            qb.andWhere('student.last_name LIKE :fragment', {
                 fragment: `%${criteria.fragment}%`,
             });
         }
-
-        const total = await qb.getCount();
 
         if ('limit' in criteria) {
             qb.limit(criteria.limit);
@@ -77,12 +78,18 @@ export class StudentService {
             qb.offset(criteria.offset);
         }
 
-        const students = await qb.getMany();
+        const p = qb.getManyAndCount()
+        .then(([result, total]) => {
+            return querySuccess<StudentEntity>({data: result, total, limit: criteria.limit});
+        }).catch(error => {
+            return queryFail('error')
+        });
 
-        return { data: students, total };
+        return p;
+
     }
 
-    findAll(): Promise<StudentEntity[]> {
-        return this.studentRepository.find();
+    findAll(): Promise<[StudentEntity[], number]> {
+        return this.studentRepository.findAndCount({});
     }
 }

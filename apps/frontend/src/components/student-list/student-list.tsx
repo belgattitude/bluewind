@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import {
     Avatar,
     Grid,
@@ -14,6 +14,8 @@ import {
 } from '@material-ui/core';
 
 import FolderIcon from '@material-ui/icons/Folder';
+import { httpFetch, HttpFetchResponse } from '../../helpers/httpFetch.helper';
+import { apiReducer, ApiReducerAction, ApiReducerState, StudentOut } from '../../hooks/use-api-reducer';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -31,21 +33,34 @@ const useStyles = makeStyles(theme => ({
 const StudentList: React.FC<{}> = () => {
     const classes = useStyles();
 
-    const [data, setData] = useState({ students: [], status: 'loading' });
+    const [state, dispatch] = useReducer<React.Reducer<ApiReducerState<StudentOut>, ApiReducerAction<StudentOut>>>(
+        apiReducer,
+        { status: 'empty' }
+    );
 
     useEffect(() => {
-        fetch('http://localhost:3000/student', {
-            headers: {
-                Accept: 'application/json',
-            },
-        })
+        let ignore = false;
+        dispatch({ type: 'FETCH_INIT' });
+        fetch(`http://localhost:3000/student`)
             .then(response => {
+                if (!response.ok) {
+                    throw new Error('error');
+                }
                 return response.json();
             })
             .then(response => {
-                setData({ status: 'loaded', students: response.data });
+                if (!ignore) {
+                    // Here check response format
+                    dispatch({ type: 'FETCH_SUCCESS', response: response as any });
+                }
             })
-            .catch(error => setData({ status: 'error', students: [] }));
+            .catch(error => {
+                dispatch({ type: 'FETCH_FAILURE', error: error });
+            });
+
+        return () => {
+            ignore = true;
+        };
     }, []);
 
     return (
@@ -61,20 +76,21 @@ const StudentList: React.FC<{}> = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.students.map((student: any) => (
-                            <TableRow key={student.id}>
-                                <TableCell align="right">
-                                    <Avatar>
-                                        <FolderIcon />
-                                    </Avatar>
-                                </TableCell>
-                                <TableCell component="th" scope="row">
-                                    {student.lastName}
-                                </TableCell>
-                                <TableCell align="right">{student.firstName}</TableCell>
-                                <TableCell align="right">{student.email}</TableCell>
-                            </TableRow>
-                        ))}
+                        {state.status === 'success' &&
+                            state.result.map(student => (
+                                <TableRow key={student.id}>
+                                    <TableCell align="right">
+                                        <Avatar>
+                                            <FolderIcon />
+                                        </Avatar>
+                                    </TableCell>
+                                    <TableCell component="th" scope="row">
+                                        {student.first_name}
+                                    </TableCell>
+                                    <TableCell align="right">{student.first_name}</TableCell>
+                                    <TableCell align="right">{student.last_name}</TableCell>
+                                </TableRow>
+                            ))}
                     </TableBody>
                     <TableFooter>
                         <TableRow>

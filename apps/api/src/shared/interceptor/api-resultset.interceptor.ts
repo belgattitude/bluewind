@@ -20,6 +20,8 @@ export class ApiResultsetInterceptor<T>
         context: ExecutionContext,
         next: CallHandler,
     ): Observable<Response<T>> {
+
+
         return next.handle().pipe(map(data => ({ data })));
     }
 }

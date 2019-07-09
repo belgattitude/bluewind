@@ -11,10 +11,10 @@ export class StudentEntity {
     id: number;
 
     @Column('varchar', { length: 80 })
-    firstName: string;
+    first_name: string;
 
     @Column('varchar', { length: 80 })
-    lastName: string;
+    last_name: string;
 
     @Column('varchar', { length: 80 })
     email: string;
@@ -22,6 +22,4 @@ export class StudentEntity {
     @CreateDateColumn()
     created_at?: string;
 
-    @Column('bool', { default: true })
-    isActive?: boolean;
 }

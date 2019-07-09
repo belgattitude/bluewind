@@ -13,6 +13,7 @@ import { CreateStudentDto } from './dto/create-student.dto';
 import { StudentService } from './student.service';
 import { StudentEntity } from '../entity/student.entity';
 import { ApiResultsetInterceptor } from '../shared/interceptor/api-resultset.interceptor';
+import {QueryResult} from "../core/query-result";
 
 @Controller('student')
 export class StudentController {
@@ -20,7 +21,7 @@ export class StudentController {
 
     @Get()
     //@UseInterceptors(new ApiResultsetInterceptor())
-    async search(): Promise<any> {
+    async search(): Promise<QueryResult<StudentEntity>> {
         return this.studentService.search({ fragment: '', limit: 10 });
     }
 
