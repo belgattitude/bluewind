@@ -10,9 +10,7 @@ export class CreateStudentInput {
 }
 
 export abstract class IMutation {
-    abstract createStudent(
-        createStudentInput?: CreateStudentInput,
-    ): Student | Promise<Student>;
+    abstract createStudent(createStudentInput?: CreateStudentInput): Student | Promise<Student>;
 }
 
 export abstract class IQuery {

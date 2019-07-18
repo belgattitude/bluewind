@@ -1,19 +1,10 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Header,
-    Param,
-    Post,
-    Req,
-    UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, Header, Param, Post, Req, UseInterceptors } from '@nestjs/common';
 import { Request } from 'express';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { StudentService } from './student.service';
 import { StudentEntity } from '../entity/student.entity';
 import { ApiResultsetInterceptor } from '../shared/interceptor/api-resultset.interceptor';
-import {QueryResult} from "../core/query-result";
+import { QueryResult } from '../core/query-result';
 
 @Controller('student')
 export class StudentController {

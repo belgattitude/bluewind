@@ -3,8 +3,8 @@ import { StudentEntity } from '../entity/student.entity';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import {queryFail, QueryResult, QueryResultError, querySuccess} from "../core/query-result";
-import {Result} from "../core/result";
+import { queryFail, QueryResult, QueryResultError, querySuccess } from '../core/query-result';
+import { Result } from '../core/result';
 
 interface Resultset {
     data: StudentEntity[];
@@ -57,11 +57,10 @@ export class StudentService {
         limit?: number;
         offset?: number;
     }): Promise<QueryResult<StudentEntity>> {
-
         const qb = this.studentRepository.createQueryBuilder('student');
         qb.where('1 = 1');
         if ('id' in criteria) {
-            qb.andWhere('student.id = :id', {id: criteria.id});
+            qb.andWhere('student.id = :id', { id: criteria.id });
         }
 
         if ('fragment' in criteria) {
@@ -78,15 +77,16 @@ export class StudentService {
             qb.offset(criteria.offset);
         }
 
-        const p = qb.getManyAndCount()
-        .then(([result, total]) => {
-            return querySuccess<StudentEntity>({data: result, total, limit: criteria.limit});
-        }).catch(error => {
-            return queryFail('error')
-        });
+        const p = qb
+            .getManyAndCount()
+            .then(([result, total]) => {
+                return querySuccess<StudentEntity>({ data: result, total, limit: criteria.limit });
+            })
+            .catch(error => {
+                return queryFail('error');
+            });
 
         return p;
-
     }
 
     findAll(): Promise<[StudentEntity[], number]> {

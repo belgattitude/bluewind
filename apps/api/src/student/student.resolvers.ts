@@ -27,9 +27,7 @@ export class StudentResolvers {
     }
 
     @Mutation('createStudent')
-    async create(
-        @Args('createStudentInput') args: CreateStudentDto,
-    ): Promise<Student> {
+    async create(@Args('createStudentInput') args: CreateStudentDto): Promise<Student> {
         const createdStudent = await this.studentService.save(args);
         pubSub.publish('studentCreated', { studentCreated: createdStudent });
         return createdStudent;

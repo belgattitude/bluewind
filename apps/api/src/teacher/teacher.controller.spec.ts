@@ -37,9 +37,7 @@ describe('Teacher Controller', () => {
                 data: [],
                 total: 0,
             };
-            jest.spyOn(teacherService, 'search').mockImplementation(
-                async ({}) => result,
-            );
+            jest.spyOn(teacherService, 'search').mockImplementation(async ({}) => result);
             expect(await teacherController.search()).toBe(result);
         });
     });

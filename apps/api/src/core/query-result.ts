@@ -1,11 +1,11 @@
-export interface QueryResultMany<T>  {
+export interface QueryResultMany<T> {
     kind: 'many';
     data: T[];
     total?: number;
     limit?: number;
 }
 
-export interface QueryResultOne<T>  {
+export interface QueryResultOne<T> {
     kind: 'one';
     data: T;
 }
@@ -20,18 +20,16 @@ export type QueryResult<T> = QueryResultMany<T> | QueryResultOne<T> | QueryResul
 export function queryFail(error: string): QueryResultError {
     return {
         kind: 'error',
-        error: error
-    }
+        error: error,
+    };
 }
 
-
-export function querySuccess<T>(props: {data: T[], total: number, limit: number}): QueryResult<T> {
-    const {total, data, limit} = props;
+export function querySuccess<T>(props: { data: T[]; total: number; limit: number }): QueryResult<T> {
+    const { total, data, limit } = props;
     return {
         kind: 'many',
-        data, total, limit
-    }
+        data,
+        total,
+        limit,
+    };
 }
-
-
-

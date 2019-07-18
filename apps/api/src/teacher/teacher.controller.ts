@@ -1,13 +1,4 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Header,
-    Param,
-    Post,
-    Req,
-    UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, Header, Param, Post, Req, UseInterceptors } from '@nestjs/common';
 import { Request } from 'express';
 import { CreateTeacherDto } from './dto/create-teacher.dto';
 import { TeacherService } from './teacher.service';
