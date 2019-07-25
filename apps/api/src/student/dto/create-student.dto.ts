@@ -9,7 +9,7 @@ export class CreateStudentDto {
         minLength: 2,
     })
     @IsEmail()
-    readonly last_name: string;
+    readonly last_name!: string;
 
     @ApiModelProperty({
         description: 'First name',
@@ -17,12 +17,12 @@ export class CreateStudentDto {
         maxLength: 80,
         minLength: 2,
     })
-    readonly first_name: string;
+    readonly first_name!: string;
     @ApiModelProperty({
         description: 'Email',
         required: true,
         maxLength: 80,
         minLength: 5,
     })
-    readonly email: string;
+    readonly email!: string;
 }

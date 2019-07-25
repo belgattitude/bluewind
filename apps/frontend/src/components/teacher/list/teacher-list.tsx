@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core';
 
 import FolderIcon from '@material-ui/icons/Folder';
+import { fetchTeachers } from '../teacher.api';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -34,14 +35,7 @@ const TeacherList: React.FC<{}> = () => {
     const [data, setData] = useState({ students: [], status: 'loading' });
 
     useEffect(() => {
-        fetch('http://localhost:3000/teacher', {
-            headers: {
-                Accept: 'application/json',
-            },
-        })
-            .then(response => {
-                return response.json();
-            })
+        fetchTeachers()
             .then(response => {
                 setData({ status: 'loaded', students: response.data });
             })
@@ -55,9 +49,9 @@ const TeacherList: React.FC<{}> = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell>Id</TableCell>
-                            <TableCell align="right">Last name</TableCell>
-                            <TableCell align="right">First Name</TableCell>
-                            <TableCell align="right">email</TableCell>
+                            <TableCell>Last name</TableCell>
+                            <TableCell>First Name</TableCell>
+                            <TableCell>email</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -71,8 +65,8 @@ const TeacherList: React.FC<{}> = () => {
                                 <TableCell component="th" scope="row">
                                     {student.lastName}
                                 </TableCell>
-                                <TableCell align="right">{student.firstName}</TableCell>
-                                <TableCell align="right">{student.email}</TableCell>
+                                <TableCell>{student.firstName}</TableCell>
+                                <TableCell>{student.email}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

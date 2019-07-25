@@ -24,7 +24,7 @@ export function queryFail(error: string): QueryResultError {
     };
 }
 
-export function querySuccess<T>(props: { data: T[]; total: number; limit: number }): QueryResult<T> {
+export function querySuccess<T>(props: { data: T[]; total: number; limit?: number }): QueryResult<T> {
     const { total, data, limit } = props;
     return {
         kind: 'many',

@@ -1,10 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { StudentEntity } from '../entity/student.entity';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { queryFail, QueryResult, QueryResultError, querySuccess } from '../core/query-result';
-import { Result } from '../core/result';
 
 interface Resultset {
     data: StudentEntity[];
@@ -14,15 +13,15 @@ interface Resultset {
 @Injectable()
 export class StudentService {
     constructor(
-        @InjectRepository(StudentEntity)
+        @Inject(StudentEntity)
         private readonly studentRepository: Repository<StudentEntity>,
     ) {}
 
     async save(studentDTO: CreateStudentDto): Promise<StudentEntity> {
         const a = await this.studentRepository
             .save({
-                last_name: studentDTO.last_name,
-                first_name: studentDTO.first_name,
+                lastName: studentDTO.last_name,
+                firstName: studentDTO.first_name,
                 email: studentDTO.email,
             })
             .then(student => {
@@ -48,7 +47,7 @@ export class StudentService {
     }
 
     findOneById(id: number): Promise<StudentEntity> {
-        return this.studentRepository.findOne({ id });
+        return this.studentRepository.findOneOrFail({ id });
     }
 
     async search(criteria: {
@@ -59,22 +58,24 @@ export class StudentService {
     }): Promise<QueryResult<StudentEntity>> {
         const qb = this.studentRepository.createQueryBuilder('student');
         qb.where('1 = 1');
-        if ('id' in criteria) {
-            qb.andWhere('student.id = :id', { id: criteria.id });
-        }
+        if (criteria) {
+            if ('id' in criteria) {
+                qb.andWhere('student.id = :id', { id: criteria.id });
+            }
 
-        if ('fragment' in criteria) {
-            qb.andWhere('student.last_name LIKE :fragment', {
-                fragment: `%${criteria.fragment}%`,
-            });
-        }
+            if ('fragment' in criteria) {
+                qb.andWhere('student.last_name LIKE :fragment', {
+                    fragment: `%${criteria.fragment}%`,
+                });
+            }
 
-        if ('limit' in criteria) {
-            qb.limit(criteria.limit);
-        }
+            if ('limit' in criteria) {
+                qb.limit(criteria.limit);
+            }
 
-        if ('offset' in criteria) {
-            qb.offset(criteria.offset);
+            if ('offset' in criteria) {
+                qb.offset(criteria.offset);
+            }
         }
 
         const p = qb

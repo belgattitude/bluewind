@@ -1,0 +1,41 @@
+import {EntitySchema} from "typeorm";
+
+export interface IStudentEntity {
+    id: number;
+    lastName: string;
+    firstName: string;
+    email: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export const StudentEntity = new EntitySchema<IStudentEntity>({
+    name: "student",
+    columns: {
+        id: {
+            type: Number,
+            primary: true,
+            generated: true
+        },
+        lastName: {
+            type: String,
+            name: 'last_name',
+            length: 80
+        },
+        firstName: {
+            type: String,
+            name: 'first_name',
+            length: 80
+        },
+        createdAt: {
+            type: 'timestamp with time zone',
+            name: 'created_at',
+            createDate: true,
+        },
+        updatedAt: {
+            type: 'timestamp with time zone',
+            name: 'updated_at',
+            updateDate: true,
+        }
+    }
+});

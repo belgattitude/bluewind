@@ -1,8 +1,9 @@
 import * as sqlite3Import from 'sqlite3';
+import {Database} from "sqlite3";
 
 const sqlite3 = sqlite3Import.verbose();
 
-let db;
+let db :  Database;
 
 export const createInMemoryDatabase = (): Promise<void> => {
     return new Promise((res, rej) => {

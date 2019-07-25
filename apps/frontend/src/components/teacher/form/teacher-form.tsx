@@ -2,10 +2,27 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Button, Dialog, DialogActions, makeStyles, TextField } from '@material-ui/core';
+import { CreateTeacherDto } from '../../../../../api/src/teacher/dto/create-teacher.dto';
+import { RequiredKeys } from 'utility-types';
+import { createTeacher } from '../teacher.api';
+
+type FormValues = {
+    firstName: string;
+    lastName: string;
+    email: string;
+};
+
+const defaultValues: Pick<FormValues, RequiredKeys<FormValues>> = {
+    firstName: '',
+    lastName: '',
+    email: '',
+};
 
 const useStyles = makeStyles(theme => ({
     textField: {
         width: '100%',
+        padding: '1em',
+        margin: '1em',
     },
 }));
 //https://medium.com/codefully-io/react-forms-validation-with-formik-and-material-ui-1adf0c1cae5c
@@ -13,35 +30,37 @@ const useStyles = makeStyles(theme => ({
 const TeacherForm: React.FC<{}> = () => {
     const classes = useStyles();
 
-    const handleClose = () => {};
     const [open, setOpen] = useState(true);
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     return (
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
             <Formik
-                initialValues={{ email: '', name: '', comment: '' }}
-                onSubmit={(values, { setSubmitting }) => {
+                initialValues={defaultValues}
+                onSubmit={(values: FormValues, { setSubmitting, resetForm }) => {
+                    const data: CreateTeacherDto = {
+                        lastName: values.lastName,
+                        email: values.email,
+                        firstName: values.firstName,
+                    };
                     setSubmitting(true);
-                    /*
-                axios.post(contactFormEndpoint,
-                    values,
-                    {
-                        headers: {
-                            'Access-Control-Allow-Origin': '*',
-                            'Content-Type': 'application/json',
-                        }
-                    },
-                ).then((resp) => {
-                        setSubmitionCompleted(true);
-                    }
-                );*/
+                    createTeacher(data)
+                        .then(response => {
+                            setSubmitting(false);
+                            setOpen(false);
+                        })
+                        .catch(error => {
+                            alert('error');
+                        });
                 }}
                 validationSchema={Yup.object().shape({
                     email: Yup.string()
                         .email()
                         .required('Required'),
-                    name: Yup.string().required('Required'),
-                    comment: Yup.string().required('Required'),
+                    lastName: Yup.string().required('Required'),
+                    firstName: Yup.string().required('Required'),
                 })}
             >
                 {props => {
@@ -59,13 +78,24 @@ const TeacherForm: React.FC<{}> = () => {
                     return (
                         <form onSubmit={handleSubmit}>
                             <TextField
-                                label="name"
-                                name="name"
+                                label="firstName"
+                                name="firstName"
                                 className={classes.textField}
-                                value={values.name}
+                                value={values.firstName}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                helperText={errors.name && touched.name && errors.name}
+                                helperText={errors.firstName && touched.firstName && errors.firstName}
+                                margin="normal"
+                            />
+
+                            <TextField
+                                label="lastName"
+                                name="lastName"
+                                className={classes.textField}
+                                value={values.lastName}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                helperText={errors.lastName && touched.lastName && errors.lastName}
                                 margin="normal"
                             />
 
@@ -81,18 +111,8 @@ const TeacherForm: React.FC<{}> = () => {
                                 margin="normal"
                             />
 
-                            <TextField
-                                label="comment"
-                                name="comment"
-                                className={classes.textField}
-                                value={values.comment}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                helperText={errors.comment && touched.comment && errors.comment}
-                                margin="normal"
-                            />
                             <DialogActions>
-                                <Button disabled={isSubmitting} onClick={() => setOpen(false)}>
+                                <Button disabled={isSubmitting} onClick={() => handleClose()}>
                                     Cancel
                                 </Button>
                                 <Button

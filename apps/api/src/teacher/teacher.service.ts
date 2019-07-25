@@ -17,6 +17,7 @@ export class TeacherService {
     ) {}
 
     async save(teacherDTO: CreateTeacherDto): Promise<TeacherEntity> {
+        console.log('teacherDTO22', teacherDTO);
         const a = await this.teacherRepository
             .save({
                 lastName: teacherDTO.lastName,
@@ -32,7 +33,7 @@ export class TeacherService {
     }
 
     findOneById(id: number): Promise<TeacherEntity> {
-        return this.teacherRepository.findOne({ id });
+        return this.teacherRepository.findOneOrFail({ id });
     }
 
     async search(criteria?: {
@@ -43,25 +44,26 @@ export class TeacherService {
     }): Promise<{ data: TeacherEntity[]; total: number }> {
         const qb = await this.teacherRepository.createQueryBuilder('teacher');
         qb.where('1 = 1');
-        if ('id' in criteria) {
-            qb.andWhere('teacher.id = :id', { id: criteria.id });
-        }
+        if (criteria !== undefined) {
+            if ('id' in criteria) {
+                qb.andWhere('teacher.id = :id', { id: criteria.id });
+            }
 
-        if ('fragment' in criteria) {
-            qb.andWhere('teacher.last_name LIKE :fragment', {
-                fragment: `%${criteria.fragment}%`,
-            });
-        }
+            if ('fragment' in criteria) {
+                qb.andWhere('teacher.last_name LIKE :fragment', {
+                    fragment: `%${criteria.fragment}%`,
+                });
+            }
 
+            if ('limit' in criteria) {
+                qb.limit(criteria.limit);
+            }
+
+            if ('offset' in criteria) {
+                qb.offset(criteria.offset);
+            }
+        }
         const total = await qb.getCount();
-
-        if ('limit' in criteria) {
-            qb.limit(criteria.limit);
-        }
-
-        if ('offset' in criteria) {
-            qb.offset(criteria.offset);
-        }
 
         const teachers = await qb.getMany();
 

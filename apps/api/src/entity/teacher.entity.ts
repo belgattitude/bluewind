@@ -1,19 +1,20 @@
+import { EntitySchema } from 'typeorm';
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
 @Entity('teacher')
 export class TeacherEntity {
     @PrimaryGeneratedColumn()
-    id: number;
+    id!: number;
 
-    @Column('varchar', { length: 80 })
-    last_name: string;
+    @Column('varchar', { name: 'last_name', length: 80 })
+    lastName!: string;
 
-    @Column('varchar', { length: 80 })
-    first_name: string;
+    @Column('varchar', { name: 'first_name', length: 80 })
+    firstName!: string;
 
-    @Column('varchar', { length: 80 })
-    email: string;
+    @Column('varchar', { name: 'email', length: 80 })
+    email!: string;
 
-    @CreateDateColumn()
-    created_at?: string;
+    @CreateDateColumn({ name: 'created_at' })
+    createdAt?: string;
 }

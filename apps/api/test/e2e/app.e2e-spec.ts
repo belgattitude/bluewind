@@ -3,9 +3,10 @@ import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {env} from "../../src/env";
+import {INestApplication} from "@nestjs/common";
 
 describe('AppController (e2e)', () => {
-  let app;
+  let app : INestApplication;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({

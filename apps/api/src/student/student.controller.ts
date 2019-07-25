@@ -31,7 +31,7 @@ export class StudentController {
     }
 
     @Get(':id')
-    findOne(@Param('id') id): Promise<StudentEntity> {
+    findOne(@Param('id') id: number): Promise<StudentEntity> {
         return this.studentService.findOneById(id);
     }
 }
