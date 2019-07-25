@@ -18,6 +18,10 @@
         // "composite": true,                     /* Enable project compilation */
         "removeComments": true,                   /* Do not emit comments to output. */
 
+        "paths": {
+            "@bluewind/api/*": ["../api/src/*"]
+        },
+
         // Don't emit; allow Babel to transform files. (small speedup too ?)
         "noEmit": true,                        /* Do not emit outputs. */
         //"isolatedModules": true,               /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
@@ -47,15 +51,6 @@
         /* Module Resolution Options */
         "moduleResolution": "node",              /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
         "baseUrl": ".",                          /* Base directory to resolve non-absolute module names. */
-        "paths": {
-            "@src/*": ["src/js/*"],
-            "@styles/*": ["src/styles/*"],
-            "@public/*": ["public/*"],
-            "@config/*": ["src/config/*"],
-            "@assets/*": ["src/assets/*"],
-            "@thirdparty/*": ["src/thirdparty/*"],
-            "@data/*": ["src/data/*"]
-        },                                        /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
         // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
         // "typeRoots": [],                       /* List of folders to include type definitions from. */
         // "types": [],                           /* Type declaration files to be included in compilation. */
@@ -79,6 +74,8 @@
 
         "incremental": true
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "../api/src/**/*"],
+
     "exclude": ["node_modules", "src/js/**/*.spec.*"]
+
 }

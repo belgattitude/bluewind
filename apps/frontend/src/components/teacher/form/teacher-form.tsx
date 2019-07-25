@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Button, Dialog, DialogActions, makeStyles, TextField } from '@material-ui/core';
-import { CreateTeacherDto } from '../../../../../api/src/teacher/dto/create-teacher.dto';
+
 import { RequiredKeys } from 'utility-types';
 import { createTeacher } from '../teacher.api';
+import { CreateTeacherDto } from '@bluewind/api/teacher/dto/create-teacher.dto';
 
 type FormValues = {
     firstName: string;

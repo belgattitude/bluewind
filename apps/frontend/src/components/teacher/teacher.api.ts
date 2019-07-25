@@ -1,4 +1,4 @@
-import { CreateTeacherDto } from '../../../../api/src/teacher/dto/create-teacher.dto';
+import { CreateTeacherDto } from '@bluewind/api/teacher/dto/create-teacher.dto';
 
 const url = 'http://localhost:3000';
 
