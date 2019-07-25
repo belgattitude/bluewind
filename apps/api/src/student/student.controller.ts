@@ -11,7 +11,7 @@ export class StudentController {
     constructor(private readonly studentService: StudentService) {}
 
     @Get()
-    //@UseInterceptors(new ApiResultsetInterceptor())
+    // @UseInterceptors(new ApiResultsetInterceptor())
     async search(): Promise<QueryResult<StudentEntity>> {
         return this.studentService.search({ fragment: '', limit: 10 });
     }

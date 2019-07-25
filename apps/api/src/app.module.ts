@@ -21,10 +21,10 @@ import { TeacherModule } from './teacher/teacher.module';
             synchronize: env.TYPEORM_SYNCHRONIZE,
         }),
 
-        //GraphQLModule.forRoot({
+        // GraphQLModule.forRoot({
         //  typePaths: ['./**/*.graphql'],
         //  installSubscriptionHandlers: true,
-        //}),
+        // }),
         StudentModule,
         TeacherModule,
     ],

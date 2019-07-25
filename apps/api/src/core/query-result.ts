@@ -20,7 +20,7 @@ export type QueryResult<T> = QueryResultMany<T> | QueryResultOne<T> | QueryResul
 export function queryFail(error: string): QueryResultError {
     return {
         kind: 'error',
-        error: error,
+        error,
     };
 }
 

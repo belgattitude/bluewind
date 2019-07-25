@@ -26,7 +26,7 @@ export class StudentService {
             })
             .then(student => {
                 console.log('a', student);
-                //throw new Error('cool');
+                // throw new Error('cool');
                 return student;
             });
         return a;

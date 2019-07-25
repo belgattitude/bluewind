@@ -10,7 +10,7 @@ export class TeacherController {
     constructor(private readonly teacherService: TeacherService) {}
 
     @Get()
-    //@UseInterceptors(new ApiResultsetInterceptor())
+    // @UseInterceptors(new ApiResultsetInterceptor())
     async search(): Promise<any> {
         return this.teacherService.search({ fragment: '', limit: 10 });
     }
