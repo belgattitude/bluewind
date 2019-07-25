@@ -51,7 +51,7 @@ const StudentList: React.FC<{}> = () => {
             .then(response => {
                 if (!ignore) {
                     // Here check response format
-                    dispatch({ type: 'FETCH_SUCCESS', response: response as any });
+                    dispatch({ type: 'FETCH_SUCCESS', response: response });
                 }
             })
             .catch(error => {

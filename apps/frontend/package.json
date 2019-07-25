@@ -58,6 +58,7 @@
         "@babel/preset-env": "^7.5.5",
         "@babel/preset-react": "^7.0.0",
         "@babel/preset-typescript": "^7.3.3",
+        "@babel/runtime-corejs3": "^7.5.5",
         "@gfx/zopfli": "^1.0.14",
         "@types/dotenv": "^6.1.1",
         "@types/dotenv-webpack": "^1.7.0",
@@ -139,7 +140,8 @@
         "webpack-cli": "^3.3.6",
         "webpack-dev-middleware": "^3.7.0",
         "webpack-dev-server": "^3.7.2",
-        "webpack-merge": "^4.2.1"
+        "webpack-merge": "^4.2.1",
+        "webpack-stats-plugin": "^0.3.0"
     },
     "dependencies": {
         "@babel/runtime": "^7.5.5",
@@ -151,11 +153,10 @@
         "formik": "^1.5.8",
         "formik-material-ui": "^0.0.20",
         "history": "^4.9.0",
-        "navi": "^0.13.3",
+        "outdated-browser-rework": "^2.9.0",
         "react": "^16.8.6",
         "react-async-hook": "^3.4.0",
         "react-dom": "^16.8.6",
-        "react-navi": "^0.13.3",
         "react-redux": "^7.1.0",
         "react-router": "^5.0.1",
         "react-router-dom": "^5.0.1",
@@ -165,6 +166,8 @@
         "redux-thunk": "^2.3.0",
         "tslib": "^1.10.0",
         "use-react-router": "^1.0.7",
+        "webpack-manifest-plugin": "^2.0.4",
+        "webpack-pwa-manifest": "^4.0.0",
         "yup": "^0.27.0"
     },
     "engines": {

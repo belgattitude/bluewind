@@ -15,13 +15,11 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const CompressionPlugin = require('compression-webpack-plugin');
 const zopfli = require('@gfx/zopfli');
 const BrotliPlugin = require('brotli-webpack-plugin');
-const Workbox = require('workbox-webpack-plugin');
 const DotenvPlugin = require('dotenv-webpack');
-const Dotenv = require('dotenv');
-const fs = require('fs');
-const SitemapPlugin = require('sitemap-webpack-plugin').default;
 
 //const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
+
+const PUBLIC_URL = './';
 
 const StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 
@@ -29,11 +27,7 @@ const extractSass = new MiniCssExtractPlugin({
     filename: 'static/css/style.[contenthash:8].css',
 });
 
-const distFolder = path.resolve(__dirname, 'dist');
-
-// Workbox worker is manually added to the static folder
-const workboxMainJs = require.resolve('workbox-sw');
-const workboxVersion = require(require.resolve('workbox-sw/package.json')).version;
+const distFolder = path.resolve(__dirname, '../dist');
 
 const outdatedMainJs = require.resolve('outdated-browser-rework');
 const outdatedVersion = require(require.resolve('outdated-browser-rework/package.json')).version;
@@ -41,7 +35,7 @@ const outdatedVersion = require(require.resolve('outdated-browser-rework/package
 module.exports = merge(common, {
     devtool: 'hidden-source-map', // or false if you don't want source map
     mode: 'production',
-    entry: ['./src/js/index.tsx'],
+    entry: ['./src/index.tsx'],
     output: {
         path: path.resolve(distFolder, 'public'),
         filename: 'static/js/[name].[chunkhash:8].bundle.js',
@@ -60,9 +54,8 @@ module.exports = merge(common, {
             //'react-transition-group': path.resolve(__dirname, 'node_modules/react-transition-group'),
             //'hoist-non-react-statics': path.resolve(__dirname, 'node_modules/hoist-non-react-statics'),
             //'react-is': path.resolve(__dirname, 'node_modules/react-is'),
-
             // Everyone will have a different babel 7 runtime, let's flatten it
-            '@babel/runtime': path.resolve(__dirname, 'node_modules/@babel/runtime'),
+            // '@babel/runtime': path.resolve(__dirname, 'node_modules/@babel/runtime'),
             //'regenerator-runtime': path.resolve(__dirname, 'node_modules/@babel/runtime'),
         },
     },
@@ -316,14 +309,14 @@ module.exports = merge(common, {
 
     plugins: [
         new CleanWebpackPlugin({}),
-
+        /*
         new DotenvPlugin({
             path: dotEnvFile, // load this now instead of the ones in '.env'
             safe: true, // load '.env.example' to verify the '.env' variables are all set. Can also be a string to a different file.
             systemvars: true, // load all the predefined 'process.env' variables which will trump anything local per dotenv specs.
             silent: false, // hide any errors
         }),
-
+*/
         new webpack.EnvironmentPlugin({
             'process.env.NODE_ENV': JSON.stringify('production'),
             NODE_ENV: JSON.stringify('production'),
@@ -396,112 +389,6 @@ module.exports = merge(common, {
             asset: '[path].br[query]',
             test: /\.(js|css|svg)$/,
         }),
-
-        // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin
-
-        new Workbox.GenerateSW({
-            // Whether or not the service worker should start controlling any existing clients as soon as it activates.
-            clientsClaim: true,
-            // https://stackoverflow.com/questions/49482680/workbox-the-danger-of-self-skipwaiting
-            skipWaiting: true,
-
-            // Be sure to get our own local copy !
-            importWorkboxFrom: 'disabled',
-            importScripts: [`static/js/workbox-sw.${workboxVersion}.js`],
-
-            // Exclude few things and
-            exclude: [/\.htaccess$/, /assets-manifest\.json$/, /\.(?:map|br|gz)$/],
-            navigateFallback: PUBLIC_URL + '/',
-            navigateFallbackBlacklist: [
-                // Exclude URLs starting with /_, as they're likely an API call
-                new RegExp('^/_'),
-                // Exclude URLs containing a dot, as they're likely a resource in
-                // public/ and not a SPA route
-                new RegExp('/[^/]+\\.[^/]+$'),
-            ],
-        }),
-
-        new SitemapPlugin(
-            PUBLIC_URL,
-            [
-                {
-                    path: '/',
-                    priority: '1.0',
-                },
-                {
-                    path: '/en/menu',
-                    hreflang: 'en',
-                    priority: '0.8',
-                },
-                {
-                    path: '/fr/menu',
-                    hreflang: 'fr',
-                    priority: '0.8',
-                },
-                {
-                    path: '/en/intro',
-                    hreflang: 'en',
-                    priority: '0.8',
-                },
-                {
-                    path: '/fr/intro',
-                    hreflang: 'fr',
-                    priority: '0.8',
-                },
-                {
-                    path: '/en/page-list',
-                    hreflang: 'en',
-                    priority: '0.8',
-                },
-                {
-                    path: '/fr/page-list',
-                    hreflang: 'fr',
-                    priority: '0.8',
-                },
-                {
-                    path: '/en/about/about',
-                    hreflang: 'en',
-                    priority: '0.8',
-                },
-                {
-                    path: '/fr/about/about',
-                    hreflang: 'fr',
-                    priority: '0.8',
-                },
-                {
-                    path: '/en/about/bio',
-                    hreflang: 'en',
-                    priority: '0.6',
-                },
-                {
-                    path: '/fr/about/biblio',
-                    hreflang: 'fr',
-                    priority: '0.6',
-                },
-                {
-                    path: '/en/about/biblio',
-                    hreflang: 'en',
-                    priority: '0.6',
-                },
-                {
-                    path: '/fr/about/credits',
-                    hreflang: 'fr',
-                    priority: '0.4',
-                },
-                {
-                    path: '/en/about/credits',
-                    hreflang: 'en',
-                    priority: '0.4',
-                },
-            ],
-            {
-                fileName: 'sitemap.xml',
-                lastMod: true,
-                skipGzip: true,
-                changeFreq: 'monthly',
-                priority: '0.4',
-            }
-        ),
 
         new StatsWriterPlugin({
             // no support for absolute paths

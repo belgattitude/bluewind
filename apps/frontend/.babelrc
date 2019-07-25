@@ -1,20 +1,17 @@
 {
     "presets": [
-        [
-            "@babel/env",
-            {
-                "modules": "auto",
-                "useBuiltIns": "usage",
-                "debug": true
-            }
-        ],
+        ["@babel/preset-env", {
+            useBuiltIns: "usage", // or "entry"
+            corejs: 3,
+            "debug": true
+        }],
         "@babel/react"
     ],
     "env": {
         "development": {
             "presets": [
                 [
-                    "@babel/env",
+                    "@babel/preset-env",
                     {
                         "useBuiltIns": false
                     }
@@ -28,7 +25,7 @@
         "test": {
             "presets": [
                 [
-                    "@babel/env",
+                    "@babel/preset-env",
                     {
                         "debug": false,
                         "useBuiltIns": false,
@@ -48,14 +45,6 @@
         }
     },
     "plugins": [
-        // Runtime
-        ["@babel/plugin-transform-runtime",
-        {
-            "corejs": false,
-            "helpers": true,
-            "regenerator": true,
-            "useESModules": false
-        }],
 
         // Stage 3
         "@babel/plugin-syntax-dynamic-import",

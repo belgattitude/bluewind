@@ -1,17 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
-import {TypeOrmModule} from "@nestjs/typeorm";
-import {env} from "../../src/env";
-import {INestApplication} from "@nestjs/common";
+import {TypeOrmModule} from '@nestjs/typeorm';
+import {env} from '../../src/env';
+import {INestApplication} from '@nestjs/common';
 
 describe('AppController (e2e)', () => {
-  let app : INestApplication;
+  let app: INestApplication;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
-          AppModule
+          AppModule,
       ],
     }).compile();
 
@@ -21,13 +21,13 @@ describe('AppController (e2e)', () => {
 
   afterAll(() => {
 
-  })
+  });
 
   it('/ (GET)', (done) => {
     return request(app.getHttpServer())
       .get('/')
       .expect(200)
       .expect('Hello World!');
-      //.end(() => done());
+      // .end(() => done());
   });
 });

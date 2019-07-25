@@ -96,7 +96,7 @@ const Layout: React.FC<LayoutProps> = props => {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
-    const { history, location, match } = useReactRouter();
+    const { history } = useReactRouter();
 
     function handleDrawerOpen() {
         setOpen(true);
