@@ -13,7 +13,7 @@ interface Resultset {
 @Injectable()
 export class StudentService {
     constructor(
-        @Inject(StudentEntity)
+        @InjectRepository(StudentEntity)
         private readonly studentRepository: Repository<StudentEntity>,
     ) {}
 
