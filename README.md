@@ -29,11 +29,11 @@ $ lerna bootstrap
 #### Backend
 
 ```bash
-$ yarn run start:dev --prefix apps/api
+$ npm run start:dev --prefix apps/api
 ```
 
 ### Frontend
 
 ```bash
-$ yarn run start --prefix apps/frontend
+$ npm run start --prefix apps/frontend
 ```
