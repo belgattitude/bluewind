@@ -1,0 +1,24 @@
+language: node_js
+
+node_js:
+  - "10"
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+    - apps/api/node_modules
+    - apps/frontend/node_modules
+
+before_install:
+  - yarn install -g codecov lerna
+
+jobs:
+  allow_failures:
+    - stage: "Code checks"
+  include:
+    - stage: "Code checks"
+        script:
+            - lerna run tsc
+            - lerna run lint
+
