@@ -15,10 +15,15 @@ before_install:
 
 jobs:
   allow_failures:
-    - stage: CodeChecks
+    - stage: Lint
   include:
-    - stage: CodeChecks
+    - stage: Api
       script:
-            - lerna run tsc
+        - npm run build --prefix=apps/api
+    - stage: Frontend
+      script:
+          - npm run build --prefix=apps/frontend
+    - stage: Lint
+      script:
             - lerna run lint
 
