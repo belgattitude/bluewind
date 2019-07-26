@@ -20,8 +20,8 @@ export class StudentService {
     async save(studentDTO: CreateStudentDto): Promise<StudentEntity> {
         const a = await this.studentRepository
             .save({
-                lastName: studentDTO.last_name,
-                firstName: studentDTO.first_name,
+                lastName: studentDTO.lastName,
+                firstName: studentDTO.firstName,
                 email: studentDTO.email,
             })
             .then(student => {
