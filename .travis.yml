@@ -10,7 +10,7 @@ cache:
     - apps/frontend/node_modules
 
 before_install:
-  - yarn install -g codecov lerna
+  - npm install -g codecov lerna
 
 jobs:
   allow_failures:
