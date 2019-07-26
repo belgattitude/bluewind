@@ -4,7 +4,6 @@ node_js:
   - "10"
 
 cache:
-  yarn: true
   directories:
     - node_modules
     - apps/api/node_modules
@@ -15,10 +14,10 @@ before_install:
 
 jobs:
   allow_failures:
-    - stage: "Code checks"
+    - stage: CodeChecks
   include:
-    - stage: "Code checks"
-        script:
+    - stage: CodeChecks
+      script:
             - lerna run tsc
             - lerna run lint
 
