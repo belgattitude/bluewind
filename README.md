@@ -1,5 +1,7 @@
 # Bluewind 
 
+[![Build Status](https://travis-ci.org/belgattitude/bluewind.svg?branch=master)](https://travis-ci.org/belgattitude/bluewind)
+
 Class booking application (**WIP - early stages**)
 
 API
