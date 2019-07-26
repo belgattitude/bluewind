@@ -11,6 +11,7 @@ cache:
 
 before_install:
   - npm install -g codecov lerna
+  - lerna bootstrap
 
 jobs:
   allow_failures:
