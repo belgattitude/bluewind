@@ -19,9 +19,11 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
+  /*
   afterAll(() => {
 
   });
+   */
 
   it('/ (GET)', (done) => {
     return request(app.getHttpServer())

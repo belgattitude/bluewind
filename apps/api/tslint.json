@@ -5,6 +5,13 @@
     "no-unused-expression": true
   },
   "rules": {
+    // For dev-only, assuming uglifyjs will remove them for prod ;)
+    "no-console": [
+      true,
+      "console.log",
+      "console.error"
+    ],
+
     "quotemark": [true, "single"],
     "member-access": [false],
     "ordered-imports": [false],

@@ -1,3 +1,4 @@
+// tslint:disable
 /*
 import { useEffect, useState } from 'react';
 import { Service } from '../types/Service';

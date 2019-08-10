@@ -8,6 +8,13 @@
     "lerna": "^3.16.4"
   },
   "scripts": {
-      "format": "npm run format --prefix=apps/api && npm run format --prefix=apps/frontend"
+      "format": "npm run format --prefix=apps/api && npm run format --prefix=apps/frontend",
+      "lint:fix": "npm run lint:fix --prefix=apps/api && npm run lint:fix --prefix=apps/frontend"
+  },
+  "husky": {
+    "hooks": {
+      "post-commit": "git diff --name-only HEAD^ | xargs git add",
+      "pre-commit": "npm run format"
+    }
   }
 }

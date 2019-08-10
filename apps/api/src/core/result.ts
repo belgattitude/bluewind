@@ -2,6 +2,7 @@ export class Result<T> {
     public isSuccess: boolean;
     public isFailure: boolean;
     public error!: string;
+    // tslint:disable-next-line
     private _value!: T;
 
     private constructor(isSuccess: boolean, error?: string, value?: T) {

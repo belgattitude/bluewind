@@ -1,4 +1,4 @@
-import { bool, cleanEnv, num, str, ValidatorSpec } from 'envalid';
+import { bool, cleanEnv, num, str } from 'envalid';
 
 export type Env = Readonly<{
     TYPEORM_CONNECTION: string;
