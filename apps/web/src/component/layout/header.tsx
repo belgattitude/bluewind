@@ -1,7 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const Header: React.FC = () => {
+type HeaderProps = {
+    title: string;
+};
+
+const Header: React.FC<HeaderProps> = props => {
     // To add redux / context or whatever
     const logged = false;
 
@@ -11,10 +15,13 @@ const Header: React.FC = () => {
 
     return (
         <header>
-            <div className="header-text">Interview</div>
+            <div className="header-text">{props.title}</div>
             <nav>
                 <li>
                     <NavLink to={'/'}>Home</NavLink>
+                </li>
+                <li>
+                    <NavLink to={'/student'}>Student</NavLink>
                 </li>
                 <li>
                     {logged ? (

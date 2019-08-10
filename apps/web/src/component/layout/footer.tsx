@@ -1,7 +1,11 @@
 import React from 'react';
 
-const Footer: React.FC = () => {
-    return <footer>Interview 2019</footer>;
+type FooterProps = {
+    text: string;
+};
+
+const Footer: React.FC<FooterProps> = props => {
+    return <footer>{props.text}</footer>;
 };
 
 export default Footer;
