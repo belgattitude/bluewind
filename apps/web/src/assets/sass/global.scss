@@ -1,0 +1,14 @@
+@import '~modern-normalize/modern-normalize.css';
+@import './_variables.scss';
+@import './_custom-form.scss';
+
+body {
+    font-family: $body-default-font;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image: $body-background-image;
+    color: $body-default-color;
+    margin: 0;
+    padding: 0;
+    @import './_layout.scss';
+}
