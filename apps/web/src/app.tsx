@@ -8,6 +8,7 @@ import { PrivateRoute } from './component/route/private-route';
 import { ProfilePage } from './features/profile/profile.page';
 import { HomePage } from './features/home/home.page';
 import { StudentPage } from './features/student/student.page';
+import { ClassesPage } from './features/classes/classes.page';
 
 const App: React.FC = () => {
     return (
@@ -18,8 +19,8 @@ const App: React.FC = () => {
                         <Switch>
                             <Route path="/" exact component={HomePage} />
                             <Route path="/student/:id" component={ProfilePage} />
-                            <Route path="/student" component={StudentPage} />
-
+                            <Route path="/students" component={StudentPage} />
+                            <Route path="/classes" component={ClassesPage} />
                             <PrivateRoute path="/private" component={ProfilePage} />
                         </Switch>
                     </Layout>

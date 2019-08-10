@@ -21,8 +21,12 @@ const Header: React.FC<HeaderProps> = props => {
                     <NavLink to={'/'}>Home</NavLink>
                 </li>
                 <li>
-                    <NavLink to={'/student'}>Student</NavLink>
+                    <NavLink to={'/students'}>Student</NavLink>
                 </li>
+                <li>
+                    <NavLink to={'/classes'}>Classes</NavLink>
+                </li>
+
                 <li>
                     {logged ? (
                         <a href="#" onClick={handleLogout}>
