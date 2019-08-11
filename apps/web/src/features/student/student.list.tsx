@@ -18,7 +18,7 @@ export const StudentList: React.FC<StudentListProps> = props => {
         }).then(response => {
             setStudentList(response);
         });
-    }, [query]);
+    }, [props, query]);
 
     return (
         <div>
