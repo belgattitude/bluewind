@@ -10,7 +10,6 @@ type StudentListProps = {
 export const StudentList: React.FC<StudentListProps> = props => {
     const [query, setQuery] = useState<string>('');
     const [studentList, setStudentList] = useState<StudentListDTO>([]);
-
     useEffect(() => {
         apiFetchStudents({
             query: query,

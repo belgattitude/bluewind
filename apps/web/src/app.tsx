@@ -9,13 +9,21 @@ import { ProfilePage } from './features/profile/profile.page';
 import { HomePage } from './features/home/home.page';
 import { StudentPage } from './features/student/student.page';
 import { ClassesPage } from './features/classes/classes.page';
-import ErrorBoundary from './component/error/error-boundary';
+import ErrorBoundary from 'react-error-boundary';
+import {ErrorBoundaryFallbackDev} from "./component/error/error-boundary-fallback-dev";
+
+const myErrorHandler = (error: Error, componentStack: string) => {
+    // Do something with the error
+    // E.g. log to an error logging client here
+};
+
+const FallbackComponent = ErrorBoundaryFallbackDev;
 
 const App: React.FC = () => {
     return (
         <Provider store={store}>
             <div className="app">
-                <ErrorBoundary>
+                <ErrorBoundary onError={myErrorHandler} FallbackComponent={FallbackComponent}>
                     <Router>
                         <Layout>
                             <Switch>
