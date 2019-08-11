@@ -18,7 +18,8 @@ export const StudentList: React.FC<StudentListProps> = props => {
         }).then(response => {
             setStudentList(response);
         });
-    }, [props, query]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [query]);
 
     return (
         <div>

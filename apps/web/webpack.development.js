@@ -6,14 +6,14 @@ const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
 const PUBLIC_URL = '/';
 
+const buildPath = path.resolve(__dirname, 'build');
+
 module.exports = merge(common, {
     devtool: 'cheap-module-source-map',
     mode: 'development',
     output: {
-        path: '/build',
+        path: buildPath,
         filename: '[name].js',
-        // for webpack-dev-server only !
-        //publicPath: '/public/build/',
     },
     module: {
         rules: [
@@ -67,7 +67,7 @@ module.exports = merge(common, {
         namedModules: true,
     },
     devServer: {
-        contentBase: path.resolve(__dirname, 'build'),
+        contentBase: buildPath,
         port: 3001,
         // to allow devserver to be accessed from multiple
         // machines. Be aware it's a security risk too

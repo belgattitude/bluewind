@@ -1,11 +1,32 @@
-import {classesListMock} from "../classes/classes.api";
+import { classesListMock } from '../classes/classes.api';
 
 const pastClasses = classesListMock;
 
 const studentListMock = [
-    { id: 1, first_name: 'Sébastien', last_name: 'Vanvelthem', email: 'belgattitude@gmail.com', phone: '+32476421609', past_classes: pastClasses},
-    { id: 2, first_name: 'Matilde', last_name: 'Cegarra', email: 'matilde.cegarra@gmail.com', phone: '+32476421609', past_classes: pastClasses },
-    { id: 3, first_name: 'Sébastien', last_name: 'Vanvelthem', email: 'belgattitude@gmail.com', phone: '+32476421609', past_classes: pastClasses },
+    {
+        id: 1,
+        first_name: 'Sébastien',
+        last_name: 'Vanvelthem',
+        email: 'belgattitude@gmail.com',
+        phone: '+32476421609',
+        past_classes: pastClasses,
+    },
+    {
+        id: 2,
+        first_name: 'Matilde',
+        last_name: 'Cegarra',
+        email: 'matilde.cegarra@gmail.com',
+        phone: '+32476421609',
+        past_classes: pastClasses,
+    },
+    {
+        id: 3,
+        first_name: 'Sébastien',
+        last_name: 'Vanvelthem',
+        email: 'belgattitude@gmail.com',
+        phone: '+32476421609',
+        past_classes: pastClasses,
+    },
 ];
 
 export type StudentDetailDTO = typeof studentListMock[0];

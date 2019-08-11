@@ -1,32 +1,31 @@
 {
-    "extends": [
-        "plugin:@typescript-eslint/recommended",
-        "prettier",
-        "prettier/@typescript-eslint"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "jsx": true,
-        "useJSXTextNode": true
-    },
-    "plugins": [
-        "@typescript-eslint",
-        "react-hooks",
-        "prettier"
-    ],
-    "globals": {
-        "context": "readonly",
-        "cy": "readonly",
-        "assert": "readonly",
-        "Cypress": "readonly"
-    },
-    "rules": {
-        "@typescript-eslint/explicit-function-return-type": "off",
-        "jsx-a11y/href-no-hash": "off",
-        "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn",
-        "@typescript-eslint/camelcase": "off",
-        "@typescript-eslint/explicit-member-accessibility": "off",
-        "@typescript-eslint/prefer-interface": "off"
-    }
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "prettier/@typescript-eslint"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "jsx": true,
+    "useJSXTextNode": true
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "react-hooks",
+    "prettier"
+  ],
+  "globals": {
+    "context": "readonly",
+    "cy": "readonly",
+    "assert": "readonly",
+    "Cypress": "readonly"
+  },
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/explicit-member-accessibility": "off",
+    "@typescript-eslint/prefer-interface": "off"
+  }
 }

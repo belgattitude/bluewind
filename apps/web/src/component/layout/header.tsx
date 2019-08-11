@@ -9,7 +9,7 @@ const Header: React.FC<HeaderProps> = props => {
     // To add redux / context or whatever
     const logged = false;
 
-    const handleLogout = (e: any) => {
+    const handleLogout = (e: unknown) => {
         // do the thing
     };
 
