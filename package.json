@@ -14,9 +14,7 @@
     ]
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap",
-    "lint": "eslint ./apps/web --ext .ts,.tsx",
-    "lint:fix": "eslint ./apps/web --ext .ts,.tsx --fix"
+    "bootstrap": "lerna bootstrap"
   },
   "devDependencies": {
     "@types/jest": "^24.0.17",
