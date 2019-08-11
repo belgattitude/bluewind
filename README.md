@@ -39,3 +39,12 @@ $ npm run start:dev --prefix apps/api
 ```bash
 $ npm run start --prefix apps/frontend
 ```
+
+
+### Commands
+
+```bash
+$ lerna run typecheck
+$ lerna run lint
+$ lerna run lint:fix
+```
