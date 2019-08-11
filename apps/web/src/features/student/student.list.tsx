@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import { apiFetchStudents, StudentDetailDTO, StudentListDTO } from './student.api';
 
 type StudentListProps = {
@@ -12,19 +12,21 @@ export const StudentList: React.FC<StudentListProps> = props => {
     const [studentList, setStudentList] = useState<StudentListDTO>([]);
 
     useEffect(() => {
-        props.handleSearchChange(query);
         apiFetchStudents({
             query: query,
         }).then(response => {
             setStudentList(response);
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [query]);
 
     return (
         <div>
             <div>Student list</div>
-            <input type="search" value={query} onChange={event => setQuery(event.target.value)} />
+            <input type="search" value={query} onChange={event => {
+                const query = event.target.value;
+                props.handleSearchChange(query);
+                setQuery(query);
+            }} />
             <div>
                 {studentList.map(student => {
                     return (
