@@ -1,9 +1,3 @@
-declare interface Window {
-    initialReduxState: any;
-    __REDUX_DEVTOOLS_EXTENSION__: any;
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
-}
-
 declare interface ServiceWorkerConfig {
     onSuccess: (registration: ServiceWorkerRegistration) => void;
     onUpdate: (registration: ServiceWorkerRegistration) => void;
@@ -35,16 +29,12 @@ declare module '*.jpg' {
 }
 
 declare module '*.json' {
-    const value: any;
+    const value: string;
     export default value;
 }
 
-declare module '*.glsl' {
-    const value: any;
-    export = value;
-}
-
+// types/mdx.d.ts
 declare module '*.mdx' {
-    let MDXComponent: (props: any) => JSX.Element;
+    let MDXComponent: (props: unknown) => JSX.Element;
     export default MDXComponent;
 }

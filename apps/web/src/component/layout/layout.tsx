@@ -16,9 +16,6 @@ type LayoutProps = {
 class Layout extends React.Component<LayoutProps, {}> {
     static defaultProps = defaultProps;
 
-    constructor(props: LayoutProps) {
-        super(props);
-    }
     render() {
         const { children, ...p } = this.props;
         return (

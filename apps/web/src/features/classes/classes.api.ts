@@ -1,6 +1,4 @@
-import { StudentDetailDTO } from '../student/student.api';
-
-const classesListMock = [
+export const classesListMock = [
     {
         id: 1,
         type: 'regular',
@@ -8,8 +6,8 @@ const classesListMock = [
         label: 'Tuesday evening all levels',
         duration: 90,
         start_date: new Date(2019, 5, 1, 18, 0, 0),
-        end_date: new Date(),
-        status: 'completed',
+        end_date: new Date(2019, 5, 1, 18, 0, 0),
+        status: 'upcoming',
     },
     {
         id: 2,
@@ -18,8 +16,18 @@ const classesListMock = [
         label: 'Tuesday evening all levels',
         duration: 90,
         start_date: new Date(2019, 5, 1, 18, 0, 0),
-        end_date: new Date(),
-        status: 'completed',
+        end_date: new Date(2019, 5, 1, 18, 0, 0),
+        status: 'open',
+    },
+    {
+        id: 49,
+        type: 'regular',
+        level: 'beginner',
+        label: 'Tuesday evening all levels',
+        duration: 90,
+        start_date: new Date(2019, 5, 1, 18, 0, 0),
+        end_date: new Date(2019, 5, 1, 18, 0, 0),
+        status: 'cancelled',
     },
     {
         id: 3,
@@ -29,7 +37,7 @@ const classesListMock = [
         duration: 90,
         start_date: new Date(2019, 5, 1, 18, 0, 0),
         end_date: new Date(),
-        status: 'completed',
+        status: 'archived',
     },
     {
         id: 4,
@@ -39,7 +47,7 @@ const classesListMock = [
         duration: 90,
         start_date: new Date(2019, 5, 1, 18, 0, 0),
         end_date: new Date(),
-        status: 'completed',
+        status: 'archived',
     },
 ];
 

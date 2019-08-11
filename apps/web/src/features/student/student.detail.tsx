@@ -15,16 +15,36 @@ export const StudentDetail: React.FC<StudentDetailProps> = props => {
     }, [props.studentId]);
 
     return (
-        <div>
-            <div>Student detail</div>
-            <div>{props.studentId}</div>
+        <div style={{border: '1px solid white'}}>
+
             {student && (
+                <>
                 <div>
-                    {student.first_name}
-                    {student.last_name}
+                    <h2>{student.first_name}&nbsp;
+                        {student.last_name}</h2>
                     {student.email}
                     {student.phone}
                 </div>
+                <table>
+                <thead>
+
+                </thead>
+                <tbody>
+                {student.past_classes.map(classDetail => (
+                    <tr key={classDetail.id}>
+                        <td>{classDetail.label}</td>
+                        <td style={{backgroundColor: 'green'}}>Abo (1/4)</td>
+                        <td>Restant</td>
+                    </tr>
+                ))}
+                </tbody>
+                </table>
+                    <button>Add payment</button>
+                    <button>Register</button>
+                </>
+
+
+
             )}
         </div>
     );
