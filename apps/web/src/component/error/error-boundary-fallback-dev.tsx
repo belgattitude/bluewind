@@ -28,7 +28,8 @@ export const ErrorBoundaryFallbackDev: React.FC<Props> = ({ componentStack, erro
                 <p><strong>Oops! An error occured!</strong></p>
                 <p>Here’s what we know…</p>
                 <p><strong>Error:</strong>{error && error.message}</p>
-                <p><strong>Stacktrace:</strong><pre>{componentStack}</pre></p>
+                <p><strong>Stacktrace:</strong></p>
+                <pre>{componentStack}</pre>
             </Message>
         </Container>
     );
