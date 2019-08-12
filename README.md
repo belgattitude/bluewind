@@ -40,7 +40,6 @@ $ npm run start:dev --prefix apps/api
 $ npm run start --prefix apps/frontend
 ```
 
-
 ### Commands
 
 ```bash
