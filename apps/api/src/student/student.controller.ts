@@ -5,6 +5,7 @@ import { StudentService } from './student.service';
 import { StudentEntity } from '../entity/student.entity';
 import { ApiResultsetInterceptor } from '../shared/interceptor/api-resultset.interceptor';
 import { QueryResult } from '../core/query-result';
+import {ApiResponseInterceptor} from '../core/api-response-interceptor';
 
 @Controller('student')
 export class StudentController {
@@ -31,6 +32,7 @@ export class StudentController {
     }
 
     @Get(':id')
+    @UseInterceptors(ApiResponseInterceptor)
     findOne(@Param('id') id: number): Promise<StudentEntity> {
         return this.studentService.findOneById(id);
     }

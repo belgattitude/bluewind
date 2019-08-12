@@ -1,7 +1,7 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import { IsEmail } from 'class-validator';
 
-export class CreateStudentDto {
+export class CreateStudentDto  {
     @ApiModelProperty({
         description: 'Last name',
         required: true,

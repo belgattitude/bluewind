@@ -1,19 +1,37 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from 'typeorm';
+
+// tslint:disable
 
 @Entity('student')
 export class StudentEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column('varchar', { name: 'first_name', length: 80 })
-    firstName!: string;
+    @Column('varchar', { length: 50 })
+    first_name!: string;
 
-    @Column('varchar', { name: 'last_name', length: 80 })
-    lastName!: string;
+    @Column('varchar', { length: 50 })
+    last_name!: string;
 
-    @Column('varchar', { name: 'email', length: 80 })
-    email!: string;
+    @Column('varchar', { length: 50, nullable: true})
+    email?: string;
 
-    @CreateDateColumn({ name: 'created_at' })
-    createdAt?: string;
+    @Column('varchar', { length: 20, nullable: true })
+    phone?: string;
+
+    @Column('varchar', { length: 20, nullable: true})
+    mobile?: string;
+
+    @Column('date', {nullable: true})
+    birthdate?: string;
+
+    @Column('varchar', { length: 50, nullable: true })
+    facebook_url?: string;
+
+    @CreateDateColumn()
+    created_at?: string;
+
+    @UpdateDateColumn()
+    updated_at?: string;
 }
+

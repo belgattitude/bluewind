@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { apiFetchStudent, apiFetchStudents, StudentDetailDTO, StudentListDTO } from './student.api';
+import {apiFetchStudent, apiFetchStudents, StudentApi, StudentDetailDTO, StudentListDTO} from './student.api';
+const studentApi = new StudentApi();
 
 type StudentDetailProps = {
     studentId: number;
@@ -9,9 +10,9 @@ export const StudentDetail: React.FC<StudentDetailProps> = props => {
     const [student, setStudent] = useState<StudentDetailDTO | null>(null);
 
     useEffect(() => {
-        apiFetchStudent(props.studentId).then(response => {
+        studentApi.getStudent(props.studentId).then(response => {
             setStudent(response);
-        });
+        })
     }, [props.studentId]);
 
     return (
@@ -29,7 +30,7 @@ export const StudentDetail: React.FC<StudentDetailProps> = props => {
                     <table>
                         <thead></thead>
                         <tbody>
-                            {student.past_classes.map(classDetail => (
+                            {student.past_classes && student.past_classes.map(classDetail => (
                                 <tr key={classDetail.id}>
                                     <td>{classDetail.label}</td>
                                     <td style={{ backgroundColor: 'green' }}>Abo (1/4)</td>

@@ -1,21 +1,20 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import { apiFetchStudents, StudentDetailDTO, StudentListDTO } from './student.api';
+import {apiFetchStudents, StudentApi, StudentDetailDTO, StudentListDTO} from './student.api';
 
 type StudentListProps = {
     handleEdit: (studentId: number) => void;
     handleDelete: (studentId: number) => void;
     handleSearchChange: (query: string) => void;
 };
+const studentApi = new StudentApi();
 
 export const StudentList: React.FC<StudentListProps> = props => {
     const [query, setQuery] = useState<string>('');
     const [studentList, setStudentList] = useState<StudentListDTO>([]);
     useEffect(() => {
-        apiFetchStudents({
-            query: query,
-        }).then(response => {
+        studentApi.getStudents({query: query}).then(response => {
             setStudentList(response);
-        });
+        })
     }, [query]);
 
     return (

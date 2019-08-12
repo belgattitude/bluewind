@@ -1,4 +1,5 @@
 import { classesListMock } from '../classes/classes.api';
+import ky from "ky";
 
 const pastClasses = classesListMock;
 
@@ -32,37 +33,56 @@ const studentListMock = [
 export type StudentDetailDTO = typeof studentListMock[0];
 export type StudentListDTO = StudentDetailDTO[];
 
+const defaultApiUrl = 'http://localhost:3000';
+
+
+type ApiResponse = {
+    success: boolean;
+    data?: unknown[] | unknown;
+    error?: string;
+}
+
+// typeguard
+
+function isApiResponse(response: any): response is ApiResponse {
+    return response.success !== undefined && response.data !== undefined;
+}
+
+
 type SearchParams = {
     query?: string;
 };
 
-export const apiFetchStudents = async (params: SearchParams): Promise<StudentListDTO> => {
-    return new Promise((resolve, reject) => {
-        const { query } = params;
-        if (query && query !== '') {
-            const filtered = studentListMock.filter(({ first_name }) => {
-                return first_name.match(new RegExp(`(.*)${query}(.*)`, 'i'));
-            });
-            resolve(filtered);
-        }
 
-        resolve(studentListMock);
-    });
-};
+export class StudentApi {
 
-export const apiFetchStudent = async (studentId: number): Promise<StudentDetailDTO> => {
-    return new Promise((resolve, reject) => {
-        let student: StudentDetailDTO | null = null;
+    private apiUrl: string;
 
-        for (const row of studentListMock) {
-            if (row.id === studentId) {
-                student = row;
-                break;
+    constructor(apiUrl: string = defaultApiUrl) {
+        this.apiUrl = apiUrl;
+    }
+
+    async getStudents(params: SearchParams): Promise<StudentListDTO> {
+        return ky.get(`${this.apiUrl}/student`, {
+        }).json().then(response => {
+            if (isApiResponse(response) && response.success === true) {
+                return response.data as StudentListDTO;
             }
-        }
-        if (student !== null) {
-            resolve(student);
-        }
-        reject(`Student '${studentId}' does not exists`);
-    });
-};
+            throw new Error('Response does not contain data');
+        });
+    }
+
+    async getStudent(studentId: number): Promise<StudentDetailDTO>  {
+        return ky.get(`${this.apiUrl}/student/${studentId}`, {
+        }).json().then(response => {
+            if (isApiResponse(response) && response.success === true) {
+                return response.data as StudentDetailDTO;
+            }
+            throw new Error('Response does not contain data');
+        });
+    }
+}
+
+
+
+
