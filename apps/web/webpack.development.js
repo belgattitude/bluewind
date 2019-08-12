@@ -15,6 +15,11 @@ module.exports = merge(common, {
         path: buildPath,
         filename: '[name].js',
     },
+    resolve: {
+        alias: {
+            'react-dom': '@hot-loader/react-dom'
+        }
+    },
     module: {
         rules: [
             {

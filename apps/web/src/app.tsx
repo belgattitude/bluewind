@@ -1,5 +1,5 @@
-import React from 'react';
 import { hot } from 'react-hot-loader/root';
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Layout from './component/layout/layout';
 import { Provider } from 'react-redux';
@@ -11,11 +11,7 @@ import { StudentPage } from './features/student/student.page';
 import { ClassesPage } from './features/classes/classes.page';
 import ErrorBoundary from 'react-error-boundary';
 import {ErrorBoundaryFallbackDev} from "./component/error/error-boundary-fallback-dev";
-
-const myErrorHandler = (error: Error, componentStack: string) => {
-    // Do something with the error
-    // E.g. log to an error logging client here
-};
+import {ErrorHandler} from "./utils/error-handler";
 
 const FallbackComponent = ErrorBoundaryFallbackDev;
 
@@ -23,7 +19,7 @@ const App: React.FC = () => {
     return (
         <Provider store={store}>
             <div className="app">
-                <ErrorBoundary onError={myErrorHandler} FallbackComponent={FallbackComponent}>
+                <ErrorBoundary onError={ErrorHandler} FallbackComponent={FallbackComponent}>
                     <Router>
                         <Layout>
                             <Switch>

@@ -2,43 +2,31 @@
 
 [![Build Status](https://travis-ci.org/belgattitude/bluewind.svg?branch=master)](https://travis-ci.org/belgattitude/bluewind) [![Greenkeeper badge](https://badges.greenkeeper.io/belgattitude/bluewind.svg)](https://greenkeeper.io/)
 
-Class booking application (**WIP - early stages**)
-
-API
-
-- [x] Node, NestJS, Typescript
-- [x] TypeORM
-- [x] Swagger
-
-Frontend
-
-- [x] React, Typescript
-- [x] React router
-- [x] Redux
-- [x] Formik
-- [x] Material-ui
  
 ## Develop
 
 ### Lerna
 
-Install lerna globally `npm i -g lerna`, then bootstap the project
-
 ```bash
-$ lerna bootstrap
+$ yarn run bootstrap
 ```
 
-#### Backend
+### Env
+
+Backend 
 
 ```bash
-$ npm run start:dev --prefix apps/api
+$ cp ./apps/api/.env.template ./apps/api/.env
 ```
 
-### Frontend
+Frontend
 
 ```bash
-$ npm run start --prefix apps/frontend
+$ cp ./apps/web/.env.template ./apps/api/.env
 ```
+
+And configure those files
+
 
 ### Commands
 
