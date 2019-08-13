@@ -5,16 +5,14 @@
     "no-unused-expression": true
   },
   "rules": {
-    // For dev-only, assuming uglifyjs will remove them for prod ;)
     "no-console": [
       true,
       "console.log",
       "console.error"
     ],
-
     "quotemark": [true, "single"],
     "variable-name": {
-      "options": ["allow-pascal-case"]
+      "options": ["allow-snake-case"]
     },
     "member-access": [false],
     "ordered-imports": [false],

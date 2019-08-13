@@ -5,10 +5,8 @@ import { StudentService } from './student.service';
 import { StudentEntity } from '../entity/student.entity';
 import { QueryResult } from '../core/query-result';
 import {ApiResponseInterceptor, GenericApiResponse} from '../core/api-response-interceptor';
-import {ApiCreatedResponse, ApiForbiddenResponse, ApiResponse} from "@nestjs/swagger";
-import {StudentListResponse} from "./dto/student-list-response.dto";
-
-
+import {ApiCreatedResponse, ApiForbiddenResponse, ApiResponse} from '@nestjs/swagger';
+import {StudentListResponse} from './dto/student-list-response.dto';
 
 @Controller('student')
 export class StudentController {
@@ -19,7 +17,7 @@ export class StudentController {
         status: 200,
         description: 'List of all students.',
         type: StudentListResponse,
-        isArray: false
+        isArray: false,
     })
     async search(): Promise<QueryResult<StudentEntity>> {
         return this.studentService.search({ fragment: '', limit: 10 });
@@ -46,7 +44,7 @@ export class StudentController {
     @ApiResponse({
         status: 200,
         type: StudentListResponse,
-        isArray: false
+        isArray: false,
     })
     findOne(@Param('id') id: number): Promise<StudentEntity> {
         return this.studentService.findOneById(id);

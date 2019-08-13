@@ -1,5 +1,5 @@
-import {StudentEntity} from "../../entity/student.entity";
-import {ApiModelProperty} from "@nestjs/swagger";
+import {StudentEntity} from '../../entity/student.entity';
+import {ApiModelProperty} from '@nestjs/swagger';
 
 export class StudentListResponse implements NonNullable<StudentEntity> {
     @ApiModelProperty({ example: 1, description: 'Student id' })
