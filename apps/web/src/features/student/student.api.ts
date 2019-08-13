@@ -1,40 +1,26 @@
-import { classesListMock } from '../classes/classes.api';
 import ky from "ky";
+import camelcaseKeys from "camelcase-keys";
+import is from "@sindresorhus/is";
+import {classesListMock} from "../../mocks/datamocks";
 
-const pastClasses = classesListMock;
+export interface IStudentDetailDTO {
+    id: number;
+    firstName: string;
+    lastName: string;
+    birthdate: string;
+    email: string;
+    phone: string;
+    facebookUrl: string;
+    createdAt: string;
+    updatedAt: string;
+    pastClasses: typeof classesListMock[]
+}
 
-const studentListMock = [
-    {
-        id: 1,
-        first_name: 'Paul',
-        last_name: 'Minster',
-        email: 'paul@example.com',
-        phone: '+32476421610',
-        past_classes: pastClasses,
-    },
-    {
-        id: 2,
-        first_name: 'Matilde',
-        last_name: 'Cegarra',
-        email: 'mat@example.com',
-        phone: '+32476421633',
-        past_classes: pastClasses,
-    },
-    {
-        id: 3,
-        first_name: 'Jules',
-        last_name: 'Beacarme',
-        email: 'jules@example.com',
-        phone: '+32476424455',
-        past_classes: pastClasses,
-    },
-];
 
-export type StudentDetailDTO = typeof studentListMock[0];
-export type StudentListDTO = StudentDetailDTO[];
+
+export type StudentListDTO = IStudentDetailDTO[];
 
 const defaultApiUrl = 'http://localhost:3000';
-
 
 type ApiResponse = {
     success: boolean;
@@ -42,10 +28,10 @@ type ApiResponse = {
     error?: string;
 }
 
-// typeguard
 
-function isApiResponse(response: any): response is ApiResponse {
-    return response.success !== undefined && response.data !== undefined;
+// typeguard
+function isApiResponse(response: unknown): response is ApiResponse {
+    return is.plainObject(response) && response.success !== undefined && response.data !== undefined;
 }
 
 
@@ -54,18 +40,29 @@ type SearchParams = {
 };
 
 
+
 export class StudentApi {
 
     private api: typeof ky;
 
     constructor(apiUrl: string = defaultApiUrl) {
         this.api = ky.create({
-           prefixUrl: apiUrl
+            prefixUrl: apiUrl,
+            // Debug for headers, can also transform the response
+            hooks: {
+                afterResponse: [
+                    (response) => {
+                        response.headers.forEach((val, key) => {
+                            console.log(key, val);
+                        })
+                    }
+                ]
+            }
         });
     }
 
     async getStudents(params: SearchParams): Promise<StudentListDTO> {
-        return ky.get('/student', {
+        return this.api.get('student', {
         }).json().then(response => {
             if (isApiResponse(response) && response.success === true) {
                 return response.data as StudentListDTO;
@@ -74,34 +71,15 @@ export class StudentApi {
         });
     }
 
-    async getStudent(studentId: number): Promise<StudentDetailDTO>  {
-        return ky.get(`/student/${studentId}`, {
-        }).json().then(response => {
-            if (isApiResponse(response) && response.success === true) {
-                return response.data as StudentDetailDTO;
-            }
-            throw new Error('Response does not contain data');
-        });
-    }
-}
-
-
-const a = new Promise((resolve, reject) => {
-    if (false) {
-        resolve('cool');
-    }
-})
-
-
-function runPromise() {
-    return Promise.reject("rejection reason");
-}
-
-function foo() {
-    try { // Noncompliant, the catch clause of the 'try' will not be executed for the code inside promise
-        runPromise();
-    } catch (e) {
-        console.log("Failed to run promise", e);
+    async getStudent(studentId: number): Promise<IStudentDetailDTO>  {
+        return this.api.get(`student/${studentId}`)
+            .json().then(response => {
+                if (is.plainObject(response) && is.nonEmptyObject(response)) {
+                    const data = camelcaseKeys(response, {deep: true});
+                    return data as unknown as IStudentDetailDTO;
+                }
+                throw new Error('Response is invalid or does not contain data');
+            });
     }
 }
 

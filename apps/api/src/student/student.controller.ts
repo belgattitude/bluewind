@@ -40,7 +40,6 @@ export class StudentController {
     }
 
     @Get(':id')
-    @UseInterceptors(ApiResponseInterceptor)
     @ApiResponse({
         status: 200,
         type: StudentListResponse,

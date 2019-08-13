@@ -9,7 +9,15 @@ async function bootstrap() {
     });
 
     // app.use(helmet());
-    app.enableCors();
+    app.enableCors({
+        // Here put all headers that could be used
+        // for setting extra information in API
+        exposedHeaders: [
+            'X-RateLimit-Limit',
+            'X-RateLimit-Remaining',
+            'X-RateLimit-Reset',
+        ],
+    });
 
     const options = new DocumentBuilder()
         .setTitle('Bluewind API')

@@ -36,6 +36,7 @@ describe('Student Controller', () => {
         it('should return an array of students', async () => {
             const result = {
                 kind: 'many',
+                success: true,
                 data: [],
                 total: 0,
             } as QueryResultMany<StudentEntity>;

@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {apiFetchStudents, StudentApi, StudentDetailDTO, StudentListDTO} from './student.api';
+import { StudentApi,StudentListDTO} from './student.api';
 
 type StudentListProps = {
     handleEdit: (studentId: number) => void;
@@ -29,8 +29,8 @@ export const StudentList: React.FC<StudentListProps> = props => {
                 {studentList.map(student => {
                     return (
                         <div key={student.id}>
-                            <span>{student.first_name}</span>
-                            <span>{student.last_name}</span>
+                            <span>{student.firstName}</span>
+                            <span>{student.lastName}</span>
                             <button onClick={_ => props.handleEdit(student.id)}>edit</button>
                         </div>
                     );

@@ -1,0 +1,247 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "The Bluewind API documentation",
+    "version": "1.0",
+    "title": "Bluewind API"
+  },
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "student",
+      "description": ""
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/student": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "List of all students.",
+            "schema": {
+              "$ref": "#/definitions/StudentListResponse"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "name": "CreateStudentDto",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/CreateStudentDto"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The record has been successfully created."
+          },
+          "403": {
+            "description": "Forbidden."
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/student/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "type": "number",
+            "name": "id",
+            "required": true,
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/StudentListResponse"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/teacher": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "name": "CreateTeacherDto",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/CreateTeacherDto"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/teacher/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "type": "number",
+            "name": "id",
+            "required": true,
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "StudentListResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1,
+          "description": "Student id"
+        },
+        "first_name": {
+          "type": "string",
+          "example": "Pierre"
+        },
+        "last_name": {
+          "type": "string",
+          "example": "Curie"
+        }
+      },
+      "required": [
+        "id",
+        "first_name",
+        "last_name"
+      ]
+    },
+    "CreateStudentDto": {
+      "type": "object",
+      "properties": {
+        "lastName": {
+          "type": "string",
+          "description": "Last name",
+          "maxLength": 80,
+          "minLength": 2
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name",
+          "maxLength": 80,
+          "minLength": 2
+        },
+        "email": {
+          "type": "string",
+          "description": "Email",
+          "maxLength": 80,
+          "minLength": 5
+        }
+      },
+      "required": [
+        "lastName",
+        "firstName",
+        "email"
+      ]
+    },
+    "CreateTeacherDto": {
+      "type": "object",
+      "properties": {
+        "lastName": {
+          "type": "string",
+          "description": "Last name",
+          "maxLength": 80,
+          "minLength": 2
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name",
+          "maxLength": 80,
+          "minLength": 2
+        },
+        "email": {
+          "type": "string",
+          "description": "Email",
+          "maxLength": 80,
+          "minLength": 5
+        }
+      },
+      "required": [
+        "lastName",
+        "firstName",
+        "email"
+      ]
+    }
+  }
+}
