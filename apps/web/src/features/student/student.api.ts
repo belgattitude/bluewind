@@ -6,26 +6,26 @@ const pastClasses = classesListMock;
 const studentListMock = [
     {
         id: 1,
-        first_name: 'Sébastien',
-        last_name: 'Vanvelthem',
-        email: 'belgattitude@gmail.com',
-        phone: '+32476421609',
+        first_name: 'Paul',
+        last_name: 'Minster',
+        email: 'paul@example.com',
+        phone: '+32476421610',
         past_classes: pastClasses,
     },
     {
         id: 2,
         first_name: 'Matilde',
         last_name: 'Cegarra',
-        email: 'matilde.cegarra@gmail.com',
-        phone: '+32476421609',
+        email: 'mat@example.com',
+        phone: '+32476421633',
         past_classes: pastClasses,
     },
     {
         id: 3,
-        first_name: 'Sébastien',
-        last_name: 'Vanvelthem',
-        email: 'belgattitude@gmail.com',
-        phone: '+32476421609',
+        first_name: 'Jules',
+        last_name: 'Beacarme',
+        email: 'jules@example.com',
+        phone: '+32476424455',
         past_classes: pastClasses,
     },
 ];
@@ -56,14 +56,16 @@ type SearchParams = {
 
 export class StudentApi {
 
-    private apiUrl: string;
+    private api: typeof ky;
 
     constructor(apiUrl: string = defaultApiUrl) {
-        this.apiUrl = apiUrl;
+        this.api = ky.create({
+           prefixUrl: apiUrl
+        });
     }
 
     async getStudents(params: SearchParams): Promise<StudentListDTO> {
-        return ky.get(`${this.apiUrl}/student`, {
+        return ky.get('/student', {
         }).json().then(response => {
             if (isApiResponse(response) && response.success === true) {
                 return response.data as StudentListDTO;
@@ -73,7 +75,7 @@ export class StudentApi {
     }
 
     async getStudent(studentId: number): Promise<StudentDetailDTO>  {
-        return ky.get(`${this.apiUrl}/student/${studentId}`, {
+        return ky.get(`/student/${studentId}`, {
         }).json().then(response => {
             if (isApiResponse(response) && response.success === true) {
                 return response.data as StudentDetailDTO;
@@ -84,5 +86,23 @@ export class StudentApi {
 }
 
 
+const a = new Promise((resolve, reject) => {
+    if (false) {
+        resolve('cool');
+    }
+})
+
+
+function runPromise() {
+    return Promise.reject("rejection reason");
+}
+
+function foo() {
+    try { // Noncompliant, the catch clause of the 'try' will not be executed for the code inside promise
+        runPromise();
+    } catch (e) {
+        console.log("Failed to run promise", e);
+    }
+}
 
 

@@ -3,16 +3,24 @@ import { Request } from 'express';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { StudentService } from './student.service';
 import { StudentEntity } from '../entity/student.entity';
-import { ApiResultsetInterceptor } from '../shared/interceptor/api-resultset.interceptor';
 import { QueryResult } from '../core/query-result';
-import {ApiResponseInterceptor} from '../core/api-response-interceptor';
+import {ApiResponseInterceptor, GenericApiResponse} from '../core/api-response-interceptor';
+import {ApiCreatedResponse, ApiForbiddenResponse, ApiResponse} from "@nestjs/swagger";
+import {StudentListResponse} from "./dto/student-list-response.dto";
+
+
 
 @Controller('student')
 export class StudentController {
     constructor(private readonly studentService: StudentService) {}
 
     @Get()
-    // @UseInterceptors(new ApiResultsetInterceptor())
+    @ApiResponse({
+        status: 200,
+        description: 'List of all students.',
+        type: StudentListResponse,
+        isArray: false
+    })
     async search(): Promise<QueryResult<StudentEntity>> {
         return this.studentService.search({ fragment: '', limit: 10 });
     }
@@ -26,6 +34,8 @@ export class StudentController {
   }*/
 
     @Post()
+    @ApiCreatedResponse({ description: 'The record has been successfully created.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
     async save(@Body() studentDto: CreateStudentDto) {
         const a = await this.studentService.save(studentDto);
         return a;
@@ -33,6 +43,11 @@ export class StudentController {
 
     @Get(':id')
     @UseInterceptors(ApiResponseInterceptor)
+    @ApiResponse({
+        status: 200,
+        type: StudentListResponse,
+        isArray: false
+    })
     findOne(@Param('id') id: number): Promise<StudentEntity> {
         return this.studentService.findOneById(id);
     }

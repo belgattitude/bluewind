@@ -3,24 +3,30 @@
     "react-app",
     "plugin:@typescript-eslint/recommended",
     "prettier",
-    "prettier/@typescript-eslint"
+    "prettier/@typescript-eslint",
+    "plugin:sonarjs/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": [
+    "sonarjs",
     "@typescript-eslint",
     "react-hooks",
     "prettier"
   ],
   "rules": {
-    "@typescript-eslint/explicit-function-return-type": "off",
+    "no-throw-literal": "error",
     "jsx-a11y/href-no-hash": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/camelcase": ["error", { "properties": "never", "ignoreDestructuring": true }],
+    "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
-    "@typescript-eslint/prefer-interface": "off"
+    "@typescript-eslint/prefer-interface": "off",
+    "sonarjs/cognitive-complexity": "error",
+    "sonarjs/no-useless-catch": "error",
+    "sonarjs/no-identical-expressions": "error"
   },
   "overrides": [
     {
