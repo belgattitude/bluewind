@@ -3,6 +3,8 @@ import camelcaseKeys from "camelcase-keys";
 import is from "@sindresorhus/is";
 import {classesListMock} from "../../mocks/datamocks";
 
+type PastClasses = typeof classesListMock;
+
 export interface IStudentDetailDTO {
     id: number;
     firstName: string;
@@ -13,7 +15,7 @@ export interface IStudentDetailDTO {
     facebookUrl: string;
     createdAt: string;
     updatedAt: string;
-    pastClasses: typeof classesListMock[]
+    pastClasses: PastClasses[];
 }
 
 
