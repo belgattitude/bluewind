@@ -1,12 +1,17 @@
 {
   "extends": [
-    "react-app",
     "plugin:@typescript-eslint/recommended",
-    "prettier",
     "prettier/@typescript-eslint",
-    "plugin:sonarjs/recommended"
+    "plugin:sonarjs/recommended",
+    "plugin:jsx-a11y/recommended"
   ],
   "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "project": "./tsconfig.eslint.json"
+  },
   "plugins": [
     "sonarjs",
     "@typescript-eslint",
@@ -14,17 +19,17 @@
     "prettier"
   ],
   "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "no-angle-bracket-type-assertion": "off",
     "no-throw-literal": "error",
     "jsx-a11y/href-no-hash": "off",
     "jsx-a11y/anchor-is-valid": "off",
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
     "@typescript-eslint/interface-name-prefix": "warn",
     "@typescript-eslint/camelcase": ["error", { "properties": "never", "ignoreDestructuring": true }],
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
-    "@typescript-eslint/prefer-interface": "off",
     "sonarjs/cognitive-complexity": "error",
     "sonarjs/no-useless-catch": "error",
     "sonarjs/no-identical-expressions": "warn"
