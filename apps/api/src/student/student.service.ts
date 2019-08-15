@@ -66,8 +66,8 @@ export class StudentService {
                 const params = {
                     fragment: `%${criteria.fragment}%`,
                 };
-                qb.andWhere(new Brackets(qb => {
-                    qb.where('student.last_name LIKE :fragment', params)
+                qb.andWhere(new Brackets(subQb => {
+                    subQb.where('student.last_name LIKE :fragment', params)
                         .orWhere('student.last_name LIKE :fragment', params)
                         .orWhere('student.email LIKE :fragment', params);
                 }));

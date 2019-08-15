@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Field, withTypes} from "react-final-form";
+import {Form, Field} from "react-final-form";
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
