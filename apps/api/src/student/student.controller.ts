@@ -7,7 +7,7 @@ import { QueryResult } from '../core/query-result';
 import {ApiResponseInterceptor, GenericApiResponse} from '../core/api-response-interceptor';
 import {ApiCreatedResponse, ApiForbiddenResponse, ApiResponse} from '@nestjs/swagger';
 import {StudentListResponse} from './dto/student-list-response.dto';
-import {SearchStudentParamsDto} from "./dto/search-student-params.dto";
+import {SearchStudentParamsDto} from './dto/search-student-params.dto';
 
 @Controller('student')
 export class StudentController {
@@ -23,7 +23,7 @@ export class StudentController {
     async findAll(@Query() params: SearchStudentParamsDto): Promise<QueryResult<StudentEntity>> {
         return this.studentService.search({
             fragment: params.query,
-            limit: 10
+            limit: 10,
         });
     }
 
