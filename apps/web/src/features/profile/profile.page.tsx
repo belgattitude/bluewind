@@ -1,5 +1,9 @@
 import React from 'react';
 
-export const ProfilePage: React.FC = () => {
+type Props = {
+    children?: never
+}
+
+export const ProfilePage: React.FC<Props> = () => {
     return <div>My profile</div>;
 };

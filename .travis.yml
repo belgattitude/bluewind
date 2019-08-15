@@ -7,7 +7,7 @@ cache:
   directories:
     - node_modules
     - apps/api/node_modules
-    - apps/frontend/node_modules
+    - apps/web/node_modules
 
 before_install:
   - npm install -g codecov lerna
@@ -17,13 +17,15 @@ jobs:
   allow_failures:
     - stage: Lint
   include:
-    - stage: Api
-      script:
-        - npm run build --prefix=apps/api
-    - stage: Frontend
-      script:
-          - npm run build --prefix=apps/frontend
     - stage: Lint
       script:
             - lerna run lint
+            - lerna run typecheck
+    - stage: Web
+      script:
+          - lerna run --scope @bluewind/web build
+    - stage: Api
+      script:
+          - lerna run --scope @bluewind/api build
+
 

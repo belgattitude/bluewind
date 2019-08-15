@@ -37,8 +37,6 @@ type SearchParams = {
     query?: string;
 };
 
-
-
 export class StudentApi {
 
     private api: typeof ky;
