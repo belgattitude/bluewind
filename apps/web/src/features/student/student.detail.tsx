@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StudentApi, IStudentDetailDTO, StudentListDTO} from './student.api';
+import {StudentForm} from "./student.form";
 const studentApi = new StudentApi();
 
 type StudentDetailProps = {
@@ -20,6 +21,7 @@ export const StudentDetail: React.FC<StudentDetailProps> = props => {
         <div style={{ border: '1px solid white' }}>
             {student && (
                 <>
+                    <StudentForm />
                     <div>
                         <h1>
                             {student.id}

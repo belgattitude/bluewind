@@ -32,7 +32,7 @@ describe('Student Controller', () => {
         studentService = module.get<StudentService>(StudentService);
     });
 
-    describe('search', () => {
+    describe('find students', () => {
         it('should return an array of students', async () => {
             const result = {
                 kind: 'many',
@@ -41,7 +41,7 @@ describe('Student Controller', () => {
                 total: 0,
             } as QueryResultMany<StudentEntity>;
             jest.spyOn(studentService, 'search').mockImplementation(async ({}) => result);
-            expect(await studentController.search()).toBe(result);
+            expect(await studentController.findAll).toBe(result);
         });
     });
 });

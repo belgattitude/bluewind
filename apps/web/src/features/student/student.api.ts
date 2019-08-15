@@ -59,6 +59,9 @@ export class StudentApi {
 
     async getStudents(params: SearchParams): Promise<StudentListDTO> {
         return this.api.get('student', {
+            searchParams: {
+                query: params.query || ''
+            }
         }).json().then(response => {
             if (isApiResponse(response) && response.success === true) {
                 return response.data as StudentListDTO;

@@ -2,8 +2,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import { StudentEntity } from '../entity/student.entity';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import {Brackets, Repository} from 'typeorm';
 import { queryFail, QueryResult, QueryResultError, querySuccess } from '../core/query-result';
+import is from "@sindresorhus/is";
 
 interface Resultset {
     data: StudentEntity[];
@@ -57,22 +58,23 @@ export class StudentService {
         offset?: number;
     }): Promise<QueryResult<StudentEntity>> {
         const qb = this.studentRepository.createQueryBuilder('student');
-        qb.where('1 = 1');
         if (criteria) {
             if ('id' in criteria) {
                 qb.andWhere('student.id = :id', { id: criteria.id });
             }
-
-            if ('fragment' in criteria) {
-                qb.andWhere('student.last_name LIKE :fragment', {
-                    fragment: `%${criteria.fragment}%`,
-                });
+            if (is.string(criteria.fragment)) {
+                const params = {
+                    fragment: `%${criteria.fragment}%`
+                };
+                qb.andWhere(new Brackets(qb => {
+                    qb.where('student.last_name LIKE :fragment', params)
+                        .orWhere('student.last_name LIKE :fragment', params)
+                        .orWhere('student.email LIKE :fragment', params)
+                }))
             }
-
             if ('limit' in criteria) {
                 qb.limit(criteria.limit);
             }
-
             if ('offset' in criteria) {
                 qb.offset(criteria.offset);
             }

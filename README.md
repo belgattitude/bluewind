@@ -5,6 +5,10 @@
  
 ## Develop
 
+```bash
+$ yarn install
+```
+
 ### Lerna
 
 ```bash
@@ -27,6 +31,17 @@ $ cp ./apps/web/.env.template ./apps/api/.env
 
 And configure those files
 
+### Start
+
+```bash
+$ yarn start:dev
+```
+
+### Build
+
+```bash
+$ lerna run build
+```
 
 ### Commands
 
