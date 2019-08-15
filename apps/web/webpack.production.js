@@ -16,10 +16,9 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const zopfli = require('@gfx/zopfli');
 const BrotliPlugin = require('brotli-webpack-plugin');
 const DotenvPlugin = require('dotenv-webpack');
+const StatsPlugin = require('stats-webpack-plugin');
 
 const PUBLIC_URL = './';
-
-const StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 
 const extractSass = new MiniCssExtractPlugin({
     filename: 'static/css/style.[contenthash:8].css',
@@ -321,9 +320,9 @@ module.exports = merge(common, {
             test: /\.(js|css|svg)$/,
         }),
 
-        new StatsWriterPlugin({
-            // no support for absolute paths
-            filename: '../.webpack-stats.json',
+        new StatsPlugin('../.webpack-stats.json', {
+            chunkModules: true,
+            //exclude: [/node_modules[\\\/]react/]
         }),
     ],
 });

@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
 import Header from './header';
 import Footer from './footer';
-import { withDefaultProps } from 'with-default-props';
 
 const defaultProps = {
     headerTitle: 'Bluewind',
@@ -11,6 +10,7 @@ const defaultProps = {
 type LayoutProps = {
     headerTitle: string;
     footerText: string;
+    children: ReactNode;
 };
 
 class Layout extends React.Component<LayoutProps, {}> {

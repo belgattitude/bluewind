@@ -13,7 +13,8 @@
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "test": "jest --config jest.config.js",
-    "test:coverage": "jest --config jest.config.js --coverage"
+    "test:coverage": "jest --config jest.config.js --coverage",
+    "analyze": "webpack-bundle-analyzer dist/.webpack-stats.json"
   },
   "browserslist": {
     "production": [
@@ -42,7 +43,7 @@
     "@babel/preset-typescript": "^7.3.3",
     "@babel/runtime-corejs3": "^7.5.5",
     "@gfx/zopfli": "^1.0.14",
-    "@hot-loader/react-dom": "^16.9.0-4.12.11",
+    "@hot-loader/react-dom": "^16.9.0",
     "@types/date-fns": "^2.6.0",
     "@types/dotenv": "^6.1.1",
     "@types/dotenv-webpack": "^1.7.0",
@@ -50,7 +51,7 @@
     "@types/enzyme-adapter-react-16": "^1.0.5",
     "@types/history": "^4.7.2",
     "@types/jest": "^24.0.17",
-    "@types/node": "^12.7.1",
+    "@types/node": "^12.7.2",
     "@types/react": "^16.9.1",
     "@types/react-dom": "^16.8.5",
     "@types/react-redux": "^7.1.1",
@@ -112,10 +113,11 @@
     "prettier": "^1.18.2",
     "react-hot-loader": "^4.12.11",
     "request": "^2.88.0",
-    "rimraf": "^2.7.0",
+    "rimraf": "^3.0.0",
     "sass-loader": "^7.2.0",
     "source-map-explorer": "^2.0.1",
     "source-map-support": "^0.5.13",
+    "stats-webpack-plugin": "^0.7.0",
     "style-loader": "^1.0.0",
     "terser": "^4.1.4",
     "terser-webpack-plugin": "^1.4.1",
@@ -136,7 +138,6 @@
     "webpack-manifest-plugin": "^2.0.4",
     "webpack-merge": "^4.2.1",
     "webpack-pwa-manifest": "^4.0.0",
-    "webpack-stats-plugin": "^0.3.0",
     "with-default-props": "^0.2.0"
   },
   "dependencies": {
