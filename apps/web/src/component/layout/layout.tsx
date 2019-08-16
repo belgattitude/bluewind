@@ -22,6 +22,7 @@ class Layout extends React.Component<LayoutProps, {}> {
             <div className="layout-ctn">
                 <Header title={p.headerTitle} />
                 <main>{children}</main>
+
                 <Footer text={p.footerText} />
             </div>
         );

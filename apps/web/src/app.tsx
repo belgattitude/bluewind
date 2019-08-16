@@ -12,6 +12,8 @@ import { ClassesPage } from './features/classes/classes.page';
 import ErrorBoundary from 'react-error-boundary';
 import {ErrorBoundaryFallbackDev} from "./component/error/error-boundary-fallback-dev";
 import {ErrorHandler} from "./utils/error-handler";
+import {CssBaseline} from "@material-ui/core";
+import PaperLayout from "./component/layout/paper-layout";
 
 const FallbackComponent = ErrorBoundaryFallbackDev;
 

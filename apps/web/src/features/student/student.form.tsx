@@ -1,41 +1,42 @@
 import React from 'react';
 import {Form, Field} from "react-final-form";
+import {IStudentDetailDTO, studentApi} from "./student.api";
+import snakecaseKeys from "snakecase-keys";
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-interface FormValues {
-    firstName?: string;
-    lastName?: string;
-}
+type FormValues = Partial<IStudentDetailDTO>
 
 const onSubmit = async (values: FormValues) => {
-    await sleep(300);
-    window.alert(JSON.stringify(values, undefined, 2));
+    const val = snakecaseKeys({id: 1, ... values});
+    studentApi.saveStudent(val).then(response => {
+        console.log('returned response', response);
+    })
 };
 
 type Props = {
-    children?: never
+    children?: never,
+    data: FormValues
 }
 
 export const StudentForm: React.FC<Props> = (props) => {
+    const initialValues = props.data;
     return (
         <Form
             onSubmit={onSubmit}
-            initialValues={{ firstName: 'cool', lastName: 'hello' }}
+            initialValues={initialValues}
             render={({ handleSubmit, form, pristine, submitting, values }) => (
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label htmlFor="firstName">First Name</label>
+                        <label htmlFor="first_name">First Name</label>
                         <Field<string>
-                            name="firstName"
+                            name="first_name"
                             component="input"
                             placeholder="First Name"
                         />
                     </div>
                     <div>
-                        <label htmlFor="lastName">Last Name</label>
+                        <label htmlFor="last_name">Last Name</label>
                         <Field<string>
-                            name="lastName"
+                            name="last_name"
                             component="input"
                             placeholder="Last Name"
                         />
@@ -43,9 +44,9 @@ export const StudentForm: React.FC<Props> = (props) => {
                     <div>
                         <label htmlFor="age">Age</label>
                         <Field<number>
-                            name="age"
+                            name="email"
                             component="input"
-                            placeholder="Age"
+                            placeholder="Email"
                         />
                     </div>
                     <div className="buttons">

@@ -46,7 +46,7 @@ $ lerna run build
 ### Commands
 
 ```bash
-$ lerna run typecheck
-$ lerna run lint
-$ lerna run lint:fix
+$ yarn typecheck
+$ yarn lint
+$ yarn lint:fix
 ```

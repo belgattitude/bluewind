@@ -1,18 +1,19 @@
 import ky from "ky";
 import camelcaseKeys from "camelcase-keys";
+import snakecaseKeys from "snakecase-keys";
 import is from "@sindresorhus/is";
 import {classesListMock} from "../../mocks/datamocks";
 
 export interface IStudentDetailDTO {
     id: number;
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     birthdate: string;
     email: string;
     phone: string;
-    facebookUrl: string;
-    createdAt: string;
-    updatedAt: string;
+    facebook_url: string;
+    created_at: string;
+    updated_at: string;
     pastClasses: typeof classesListMock;
 }
 
@@ -74,12 +75,29 @@ export class StudentApi {
         return this.api.get(`student/${studentId}`)
             .json().then(response => {
                 if (is.plainObject(response) && is.nonEmptyObject(response)) {
-                    const data = camelcaseKeys(response, {deep: true});
+                    //const data = camelcaseKeys(response);
+                    const data = response;
                     return data as unknown as IStudentDetailDTO;
                 }
                 throw new Error('Response is invalid or does not contain data');
             });
     }
+
+    async saveStudent<T>(student: {} & T): Promise<IStudentDetailDTO> {
+        console.log('save student', student);
+
+        return this.api.post(`student`, {
+            json: snakecaseKeys(student)
+        }).json().then(response => {
+            if (is.plainObject(response)) {
+                const data = camelcaseKeys(response, {deep: true});
+                return data as unknown as IStudentDetailDTO
+            }
+            throw new Error('Response invalid')
+        });
+    }
 }
 
+
+export const studentApi = new StudentApi(defaultApiUrl);
 

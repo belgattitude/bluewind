@@ -24,11 +24,13 @@ export const ClassesList: React.FC<ClassesListProps> = props => {
             <h1>Upcoming classes</h1>
             <table style={{ border: '1px solid white' }}>
                 <thead>
-                    <th>Start</th>
-                    <th>Label</th>
-                    <th>Level</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <tr>
+                        <th>Start</th>
+                        <th>Label</th>
+                        <th>Level</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
                 </thead>
                 <tbody>
                     {classes.map(classDetail => (

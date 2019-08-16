@@ -15,11 +15,11 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "lint": "lerna run lint --parallel",
+    "lint": "lerna run lint --parallel --stream",
     "lint:fix": "lerna run lint:fix --parallel",
-    "start:dev": "stmux --mouse -- [ [ \"yarn run api:start:dev\" : \"yarn run web:start:dev\"  ]  ]",
-    "api:start:dev": "lerna run --scope @bluewind/api --stream start:dev",
-    "web:start:dev": "lerna run --scope @bluewind/web --stream start"
+    "start:dev": "stmux --mouse -- [ [ \"yarn api:start:dev\" : \"yarn web:start:dev\"  ]  ]",
+    "api:start:dev": "cd apps/api && yarn start:dev",
+    "web:start:dev": "cd apps/web && yarn start"
   },
   "devDependencies": {
     "husky": "^3.0.3",

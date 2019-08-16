@@ -21,8 +21,8 @@ export class StudentService {
     async save(studentDTO: CreateStudentDto): Promise<StudentEntity> {
         const a = await this.studentRepository
             .save({
-                lastName: studentDTO.lastName,
-                firstName: studentDTO.firstName,
+                last_name: studentDTO.last_name,
+                first_name: studentDTO.first_name,
                 email: studentDTO.email,
             })
             .then(student => {
@@ -58,6 +58,7 @@ export class StudentService {
         offset?: number;
     }): Promise<QueryResult<StudentEntity>> {
         const qb = this.studentRepository.createQueryBuilder('student');
+        qb.where('1=1');
         if (criteria) {
             if ('id' in criteria) {
                 qb.andWhere('student.id = :id', { id: criteria.id });
@@ -68,7 +69,7 @@ export class StudentService {
                 };
                 qb.andWhere(new Brackets(subQb => {
                     subQb.where('student.last_name LIKE :fragment', params)
-                        .orWhere('student.last_name LIKE :fragment', params)
+                        .orWhere('student.first_name LIKE :fragment', params)
                         .orWhere('student.email LIKE :fragment', params);
                 }));
             }
@@ -79,7 +80,7 @@ export class StudentService {
                 qb.offset(criteria.offset);
             }
         }
-
+        console.log(qb.getSql());
         const p = qb
             .getManyAndCount()
             .then(([result, total]) => {

@@ -27,14 +27,6 @@ export class StudentController {
         });
     }
 
-    /*
-  @Get()
-  async search(@Req() request: Request): Promise<StudentEntity[]> {
-    const result = await this.studentService.search();
-    console.log(result);
-    return result;
-  }*/
-
     @Post()
     @ApiCreatedResponse({ description: 'The record has been successfully created.'})
     @ApiForbiddenResponse({ description: 'Forbidden.'})

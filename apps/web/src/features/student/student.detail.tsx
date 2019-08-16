@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { StudentApi, IStudentDetailDTO, StudentListDTO} from './student.api';
+import {StudentApi, IStudentDetailDTO, StudentListDTO, studentApi} from './student.api';
 import {StudentForm} from "./student.form";
-const studentApi = new StudentApi();
+
 
 type StudentDetailProps = {
     studentId: number;
@@ -18,17 +18,17 @@ export const StudentDetail: React.FC<StudentDetailProps> = props => {
     }, [props.studentId]);
 
     return (
-        <div style={{ border: '1px solid white' }}>
+        <div >
             {student && (
                 <>
-                    <StudentForm />
+                    <StudentForm data={student}/>
                     <div>
                         <h1>
                             {student.id}
                         </h1>
                         <h2>
-                            Name: {student.firstName}&nbsp;
-                            {student.lastName}
+                            Name: {student.first_name}&nbsp;
+                            {student.last_name}
                         </h2>
                         {student.email}
                         {student.phone}
