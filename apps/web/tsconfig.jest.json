@@ -3,14 +3,11 @@
     "compilerOptions": {
         "target": "es6",
         "module": "commonjs",
+        "allowJs":true,
+        "checkJs": false,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
-        "importHelpers": true,
+        "importHelpers": false,
         "noEmitHelpers": false
-    },
-    "include": [
-      "jest*.js",
-      "jest*.ts",
-      "./src/*"
-    ]
+    }
 }

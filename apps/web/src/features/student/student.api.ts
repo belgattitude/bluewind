@@ -1,7 +1,7 @@
-import ky from "ky";
 import camelcaseKeys from "camelcase-keys";
 import snakecaseKeys from "snakecase-keys";
 import is from "@sindresorhus/is";
+import ky from "ky";
 import {classesListMock} from "../../mocks/datamocks";
 
 export interface IStudentDetailDTO {

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, {Component, ReactNode} from 'react';
 import Header from './header';
 import Footer from './footer';
 
@@ -13,7 +13,7 @@ type LayoutProps = {
     children: ReactNode;
 };
 
-class Layout extends React.Component<LayoutProps, {}> {
+class Layout extends Component<LayoutProps, {}> {
     static defaultProps = defaultProps;
 
     render() {

@@ -1,11 +1,12 @@
-{
+module.exports = {
     "presets": [
         [
             "@babel/preset-env",
             {
+                // to add polyfills
                 "useBuiltIns": "usage",
                 "corejs": 3,
-                "debug": false
+                "debug": true
             }
         ],
         "@babel/react"
@@ -41,19 +42,20 @@
                     "@babel/preset-env",
                     {
                         "debug": true,
-                        "useBuiltIns": false,
+                        //"useBuiltIns": 'entry',
                         "modules": "commonjs",
                         "targets": {
                             "browsers": [
-                                "chrome >= 57"
+                                "last 5 chrome version"
                             ],
-                            "node": 10
+                            "node": 'current'
                         }
                     }
                 ]
             ],
             "plugins": [
-                "@babel/plugin-transform-modules-commonjs"
+                "@babel/plugin-transform-modules-commonjs",
+                '@babel/plugin-proposal-class-properties'
             ]
         }
     },
