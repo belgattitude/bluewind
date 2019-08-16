@@ -9,6 +9,7 @@
         "noEmitHelpers": false
     },
     "include": [
+      "jest*.js",
       "jest*.ts",
       "./src/*"
     ]

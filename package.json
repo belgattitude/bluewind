@@ -19,7 +19,8 @@
     "lint:fix": "lerna run lint:fix --parallel",
     "start:dev": "stmux --mouse -- [ [ \"yarn api:start:dev\" : \"yarn web:start:dev\"  ]  ]",
     "api:start:dev": "cd apps/api && yarn start:dev",
-    "web:start:dev": "cd apps/web && yarn start"
+    "web:start:dev": "cd apps/web && yarn start",
+    "typecheck": "lerna run typecheck --parallel --stream"
   },
   "devDependencies": {
     "husky": "^3.0.3",
