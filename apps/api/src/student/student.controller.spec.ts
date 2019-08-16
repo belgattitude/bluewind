@@ -41,7 +41,7 @@ describe('Student Controller', () => {
                 total: 0,
             } as QueryResultMany<StudentEntity>;
             jest.spyOn(studentService, 'search').mockImplementation(async ({}) => result);
-            expect(await studentController.findAll).toBe(result);
+            expect(await studentController.findAll({})).toBe(result);
         });
     });
 });

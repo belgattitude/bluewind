@@ -18,16 +18,17 @@ jobs:
   allow_failures:
     - stage: Lint
   include:
-    - stage: Lint
+    - stage: CodeStyle
       script:
             - yarn lint
-            - yarn typecheck
+            #- yarn typecheck
     - stage: Web
       script:
           - yarn lerna run --scope @bluewind/web test
           - yarn lerna run --scope @bluewind/web build
     - stage: Api
       script:
+          - yarn lerna run --scope @bluewind/api test
           - yarn lerna run --scope @bluewind/api build
 
 
