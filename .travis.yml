@@ -10,8 +10,9 @@ cache:
     - apps/web/node_modules
 
 before_install:
-  - npm install -g codecov lerna
-  - lerna bootstrap
+  - npm install -g codecov
+  - yarn install
+  - yarn bootstrap
 
 jobs:
   allow_failures:
@@ -19,13 +20,14 @@ jobs:
   include:
     - stage: Lint
       script:
-            - lerna run lint
-            - lerna run typecheck
+            - yarn lint
+            - yarn typecheck
     - stage: Web
       script:
-          - lerna run --scope @bluewind/web build
+          - yarn lerna run --scope @bluewind/web test
+          - yarn lerna run --scope @bluewind/web build
     - stage: Api
       script:
-          - lerna run --scope @bluewind/api build
+          - yarn lerna run --scope @bluewind/api build
 
 

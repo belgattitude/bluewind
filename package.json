@@ -15,6 +15,7 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
+    "lerna": "lerna",
     "lint": "lerna run lint --parallel --stream",
     "lint:fix": "lerna run lint:fix --parallel",
     "start:dev": "stmux --mouse -- [ [ \"yarn api:start:dev\" : \"yarn web:start:dev\"  ]  ]",
