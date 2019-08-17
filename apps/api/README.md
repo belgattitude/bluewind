@@ -1,8 +1,3 @@
-# Bluewind API
+# @bluewind/api
 
-API
-
-- [x] Node, NestJS, Typescript
-- [x] TypeORM
-- [x] Swagger
-
+> WIP
