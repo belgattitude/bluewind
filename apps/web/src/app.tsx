@@ -14,6 +14,7 @@ import {ErrorBoundaryFallbackDev} from "./component/error/error-boundary-fallbac
 import {ErrorHandler} from "./utils/error-handler";
 import {CssBaseline} from "@material-ui/core";
 import PaperLayout from "./component/layout/paper-layout";
+import DashboardLayout from "./component/dashboard/dashboard-layout";
 
 const FallbackComponent = ErrorBoundaryFallbackDev;
 
@@ -23,7 +24,7 @@ const App: React.FC = () => {
             <div className="app">
                 <ErrorBoundary onError={ErrorHandler} FallbackComponent={FallbackComponent}>
                     <Router>
-                        <Layout>
+                        <DashboardLayout>
                             <Switch>
                                 <Route path="/" exact component={HomePage} />
                                 <Route path="/student/:id" component={ProfilePage} />
@@ -31,7 +32,7 @@ const App: React.FC = () => {
                                 <Route path="/classes" component={ClassesPage} />
                                 <PrivateRoute path="/private" component={ProfilePage} />
                             </Switch>
-                        </Layout>
+                        </DashboardLayout>
                     </Router>
                 </ErrorBoundary>
             </div>
