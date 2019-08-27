@@ -13,6 +13,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 
 type StudentListProps = {
+    query: string | null;
     handleEdit: (studentId: number) => void;
     handleDelete: (studentId: number) => void;
     handleSearchChange: (query: string) => void;
@@ -20,11 +21,12 @@ type StudentListProps = {
 const studentApi = new StudentApi();
 
 export const StudentList: React.FC<StudentListProps> = props => {
-    const [query, setQuery] = useState<string>('');
+    //const [query, setQuery] = useState<string>('');
     const [studentList, setStudentList] = useState<StudentListDTO>([]);
     const classes = useStyles();
     const [checked, setChecked] = React.useState([1]);
 
+    //const query = props.query ? props.query : undefined;
     const handleToggle = (value: number) => () => {
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];
@@ -39,10 +41,10 @@ export const StudentList: React.FC<StudentListProps> = props => {
     };
 
     useEffect(() => {
-        studentApi.getStudents({query: query}).then(response => {
+        studentApi.getStudents({query: props.query || undefined}).then(response => {
             setStudentList(response);
         })
-    }, [query]);
+    }, [props.query]);
 
 
     return (
