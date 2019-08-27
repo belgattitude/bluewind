@@ -19,6 +19,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: yarn bootstrap, install, build, and test
       run: |
+        yarn install
         yarn bootstrap
         yarn typecheck
         yarn test
