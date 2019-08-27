@@ -15,6 +15,11 @@ module.exports = {
     module: {
         rules: [
             {
+                // Ignore old fonts
+                test: /\.(eot|ttf)(\?.*$|$)/,
+                use: ['raw-loader', 'null-loader']
+            },
+            {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
                 use: [

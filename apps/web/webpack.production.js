@@ -54,15 +54,6 @@ module.exports = merge(common, {
                     name: 'static/fonts/[name].[ext]',
                 },
             },
-            {
-                test: /\.eot|\.ttf$/,
-                loader: 'file-loader',
-                options: {
-                    limit: 50000,
-                    mimetype: 'application/font',
-                    name: 'static/fonts/[name].[ext]',
-                },
-            },
 
             // Process any JS outside of the app with Babel.
             // Unlike the application JS, we only compile the standard ES features.
