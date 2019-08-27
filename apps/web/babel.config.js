@@ -60,6 +60,13 @@ module.exports = {
         }
     },
     "plugins": [
+        ["@babel/plugin-transform-runtime",
+            {
+                "corejs": false,
+                "helpers": true,
+                "regenerator": true,
+                "useESModules": false
+            }],
         "@babel/plugin-syntax-dynamic-import",
         "@babel/plugin-syntax-import-meta",
         "@babel/plugin-proposal-class-properties",

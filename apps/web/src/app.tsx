@@ -23,17 +23,17 @@ const App: React.FC = () => {
         <Provider store={store}>
             <div className="app">
                 <ErrorBoundary onError={ErrorHandler} FallbackComponent={FallbackComponent}>
+                    <DashboardLayout>
                     <Router>
-                        <DashboardLayout>
-                            <Switch>
-                                <Route path="/" exact component={HomePage} />
-                                <Route path="/student/:id" component={ProfilePage} />
-                                <Route path="/students" component={StudentPage} />
-                                <Route path="/classes" component={ClassesPage} />
-                                <PrivateRoute path="/private" component={ProfilePage} />
-                            </Switch>
-                        </DashboardLayout>
+                        <Switch>
+                                    <Route path="/" exact component={HomePage} />
+                                    <Route path="/student/:id" component={ProfilePage} />
+                                    <Route path="/students" component={StudentPage} />
+                                    <Route path="/classes" component={ClassesPage} />
+                                    <PrivateRoute path="/private" component={ProfilePage} />
+                        </Switch>
                     </Router>
+                    </DashboardLayout>
                 </ErrorBoundary>
             </div>
         </Provider>

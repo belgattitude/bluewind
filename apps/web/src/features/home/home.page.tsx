@@ -9,11 +9,24 @@ type Props = {
 }
 
 export const HomePage: React.FC<Props> = () => {
+
+    const test = Array.from (Array(400).keys());
+
+    return (
+        <div className="test">
+            {test.map(v => {
+                return (<div key={v}>{v}</div>);
+            })}
+        </div>
+    );
+
     return (
         <div className="test">
         <div className="grid-container">
             <header className="header">
-                <div className="header__search">Search...</div>
+                <div className="header__search">
+                    <input type="search" placeholder="Search" />
+                </div>
                 <div className="header__avatar">Your face</div>
             </header>
             <aside className="sidenav">

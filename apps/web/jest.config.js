@@ -2,9 +2,6 @@
 
 const esModules = ['lodash'];
 
-console.error(require.resolve('ky'));
-console.error(`${require.resolve('ky')}$`);
-console.error(`node_modules/(?!${esModules.join('|')}).+\\.js$`);
 module.exports = {
     verbose: true,
     testURL: 'http://localhost/',

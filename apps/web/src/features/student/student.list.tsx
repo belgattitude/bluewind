@@ -47,8 +47,6 @@ export const StudentList: React.FC<StudentListProps> = props => {
 
     return (
 
-
-
             <List className={classes.root}>
 
                 {studentList.map(student => {
