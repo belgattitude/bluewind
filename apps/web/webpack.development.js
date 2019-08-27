@@ -48,6 +48,16 @@ module.exports = merge(common, {
                     name: 'fonts/[name].[ext]',
                 },
             },
+            {
+                test: /\.eot|\.ttf$/,
+                loader: 'file-loader',
+                options: {
+                    limit: 50000,
+                    mimetype: 'application/font',
+                    name: 'fonts/[name].[ext]',
+                },
+            },
+
         ],
     },
     plugins: [

@@ -37,10 +37,9 @@ export const HomePage: React.FC<Props> = () => {
             </div>
             <div className="test-detail">
                 {studentId &&
-                <StudentDetail studentId={studentId}/>
+                    <StudentDetail studentId={studentId}/>
                 }
             </div>
-
         </div>
     );
 };

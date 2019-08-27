@@ -46,11 +46,20 @@ module.exports = merge(common, {
     module: {
         rules: [
             {
-                test: /\.woff$|\.woff2?$/,
+                test: /\.woff2?$/,
                 loader: 'file-loader',
                 options: {
                     limit: 50000,
                     mimetype: 'application/font-woff',
+                    name: 'static/fonts/[name].[ext]',
+                },
+            },
+            {
+                test: /\.eot|\.ttf$/,
+                loader: 'file-loader',
+                options: {
+                    limit: 50000,
+                    mimetype: 'application/font',
                     name: 'static/fonts/[name].[ext]',
                 },
             },
