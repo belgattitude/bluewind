@@ -86,7 +86,8 @@ export const StudentPage: React.FC = () => {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            flexGrow: 1,
+            //flexGrow: 1,
+            border: "1px solid blue"
         },
         paper: {
             padding: theme.spacing(2),

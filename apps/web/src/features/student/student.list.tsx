@@ -98,25 +98,22 @@ export const StudentList: React.FC<StudentListProps> = props => {
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-
         searchRoot: {
             padding: '2px 4px',
             display: 'flex',
             alignItems: 'center',
             width: 400,
         },
-
         root: {
             width: '100%',
             backgroundColor: theme.palette.background.paper,
-            overflow: 'auto',
+            height: '100%',
 
         },
         inline: {
             display: 'inline',
 
         },
-
         input: {
             marginLeft: 8,
             backgroundColor: 'white',
