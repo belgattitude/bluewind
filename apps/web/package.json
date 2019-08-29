@@ -117,7 +117,7 @@
     "react-hot-loader": "^4.12.12",
     "request": "^2.88.0",
     "rimraf": "^3.0.0",
-    "sass-loader": "^7.3.1",
+    "sass-loader": "^8.0.0",
     "source-map-explorer": "^2.0.1",
     "source-map-support": "^0.5.13",
     "stats-webpack-plugin": "^0.7.0",
