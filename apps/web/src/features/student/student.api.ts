@@ -4,7 +4,7 @@ import is from "@sindresorhus/is";
 import ky from "ky";
 import {classesListMock} from "../../mocks/datamocks";
 
-export interface IStudentDetailDTO {
+export interface StudentDetailDTO {
     id: number;
     first_name: string;
     last_name: string;
@@ -17,7 +17,7 @@ export interface IStudentDetailDTO {
     pastClasses: typeof classesListMock;
 }
 
-export type StudentListDTO = IStudentDetailDTO[];
+export type StudentListDTO = StudentDetailDTO[];
 
 const defaultApiUrl = 'http://localhost:3000';
 
@@ -48,7 +48,7 @@ export class StudentApi {
             // Debug for headers, can also transform the response
             hooks: {
                 afterResponse: [
-                    (response) => {
+                    (input, options, response)  => {
                         response.headers.forEach((val, key) => {
                             console.log(key, val);
                         })
@@ -58,7 +58,7 @@ export class StudentApi {
         });
     }
 
-    async getStudents(params: SearchParams): Promise<StudentListDTO> {
+    async getStudents(params: SearchParams): Promise<StudentDetailDTO[]> {
         return this.api.get('student', {
             searchParams: {
                 query: params.query || ''
@@ -71,19 +71,19 @@ export class StudentApi {
         });
     }
 
-    async getStudent(studentId: number): Promise<IStudentDetailDTO>  {
+    async getStudent(studentId: number): Promise<StudentDetailDTO>  {
         return this.api.get(`student/${studentId}`)
             .json().then(response => {
                 if (is.plainObject(response) && is.nonEmptyObject(response)) {
                     //const data = camelcaseKeys(response);
                     const data = response;
-                    return data as unknown as IStudentDetailDTO;
+                    return data as unknown as StudentDetailDTO;
                 }
                 throw new Error('Response is invalid or does not contain data');
             });
     }
 
-    async saveStudent<T>(student: {} & T): Promise<IStudentDetailDTO> {
+    async saveStudent<T>(student: {} & T): Promise<StudentDetailDTO> {
         console.log('save student', student);
 
         return this.api.post(`student`, {
@@ -91,7 +91,7 @@ export class StudentApi {
         }).json().then(response => {
             if (is.plainObject(response)) {
                 const data = camelcaseKeys(response, {deep: true});
-                return data as unknown as IStudentDetailDTO
+                return data as unknown as StudentDetailDTO
             }
             throw new Error('Response invalid')
         });

@@ -67,7 +67,7 @@ export const StudentPage: React.FC = () => {
                 </Grid>
                 <Grid item xs={6} style={{backgroundColor: 'white'}}>
                     <StudentList
-                        query={null}
+                        students={[]}
                         handleEdit={student => setSelected(student)}
                         handleDelete={student => {
                             console.log('delete');

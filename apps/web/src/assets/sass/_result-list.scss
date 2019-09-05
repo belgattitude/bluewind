@@ -1,0 +1,44 @@
+.result-list {
+
+    ul {
+        margin: 0;
+        padding: 0;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        position: relative;
+        list-style: none;
+        background-color: white;
+
+        li {
+            padding-left: 16px;
+            padding-right: 16px;
+            text-decoration: none;
+            display: flex;
+
+            &.item {
+                align-items: flex-start;
+                width: 100%;
+                position: relative;
+                box-sizing: border-box;
+                text-align: left;
+                padding-top: 8px;
+                padding-bottom: 8px;
+                justify-content: flex-start;
+
+                &.active {
+                    background-color: rgba(grey, 0.2);
+                }
+            }
+
+            &.divider {
+                border: none;
+                height: 1px;
+                margin: 0;
+                flex-shrink: 0;
+                background-color: rgba(0, 0, 0, 0.12);
+            }
+        }
+
+    }
+
+}

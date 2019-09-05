@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {StudentApi, IStudentDetailDTO, StudentListDTO, studentApi} from './student.api';
+import {StudentApi, StudentDetailDTO, StudentListDTO, studentApi} from './student.api';
 import {StudentForm} from "./student.form";
 
 
@@ -8,7 +8,7 @@ type StudentDetailProps = {
 };
 
 export const StudentDetail: React.FC<StudentDetailProps> = props => {
-    const [student, setStudent] = useState<IStudentDetailDTO | null>(null);
+    const [student, setStudent] = useState<StudentDetailDTO | null>(null);
 
     useEffect(() => {
         studentApi.getStudent(props.studentId).then(response => {

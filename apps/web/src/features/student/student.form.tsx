@@ -1,9 +1,9 @@
 import React from 'react';
 import {Form, Field} from "react-final-form";
-import {IStudentDetailDTO, studentApi} from "./student.api";
+import {StudentDetailDTO, studentApi} from "./student.api";
 import snakecaseKeys from "snakecase-keys";
 
-type FormValues = Partial<IStudentDetailDTO>
+type FormValues = Partial<StudentDetailDTO>
 
 const onSubmit = async (values: FormValues) => {
     const val = snakecaseKeys({id: 1, ... values});

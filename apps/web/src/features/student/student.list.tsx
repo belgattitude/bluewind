@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import { StudentApi,StudentListDTO} from './student.api';
+import {StudentApi, StudentDetailDTO, StudentListDTO} from './student.api';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -11,15 +11,17 @@ import Typography from '@material-ui/core/Typography';
 import {Box, Checkbox, IconButton, InputBase, ListItemSecondaryAction, Paper} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import {useKeyPress} from "../../component/core/hooks/use-key-press";
 
 type StudentListProps = {
-    query: string | null;
-    handleEdit: (studentId: number) => void;
-    handleDelete: (studentId: number) => void;
-    handleSearchChange: (query: string) => void;
+    students: StudentDetailDTO[];
+    handleEdit?: (studentId: number) => void;
+    handleDelete?: (studentId: number) => void;
+    handleSearchChange?: (query: string) => void;
 };
 const studentApi = new StudentApi();
 
+/*
 export const StudentList: React.FC<StudentListProps> = props => {
     //const [query, setQuery] = useState<string>('');
     const [studentList, setStudentList] = useState<StudentListDTO>([]);
@@ -126,3 +128,53 @@ const useStyles = makeStyles((theme: Theme) =>
         }
     }),
 );
+*/
+
+
+export const StudentList: React.FC<StudentListProps> = props => {
+
+    const {students} = props;
+    const [cursor, setCursor] = useState<number>(0);
+    const downPress = useKeyPress('ArrowDown');
+    const upPress = useKeyPress('ArrowUp');
+    const [hovered, setHovered] = useState(undefined);
+
+    useEffect(() => {
+        if (downPress) {
+            setCursor(prevState =>
+                prevState < students.length - 1 ? prevState + 1 : 0
+            );
+        }
+    }, [downPress, students.length]);
+
+    useEffect(() => {
+        if (upPress) {
+            setCursor(prevState =>
+                prevState > 0 ? prevState - 1 : students.length - 1
+            );
+        }
+    }, [upPress, students.length]);
+
+
+    return (
+        <div className="result-list">
+            <ul>
+                {(students || []).map((student, i) => {
+                    return (
+                        <React.Fragment key={student.id}>
+                            <li className={`item ${i === cursor ? "active" : ""}`}
+                                onPointerOver={(e: React.SyntheticEvent) => {setCursor(i)}}
+                            >
+                                <div>Left</div>
+                                <div>{student.first_name} / {student.last_name}</div>
+                                <div>Right</div>
+                            </li>
+                            <li className="divider" ></li>
+                        </React.Fragment>
+
+                    )
+                })}
+            </ul>
+        </div>
+    );
+};
