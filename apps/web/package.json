@@ -15,7 +15,7 @@
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "test": "jest --config jest.config.js",
     "test:coverage": "jest --config jest.config.js --coverage",
-    "analyze": "webpack-bundle-analyzer dist/.webpack-stats.json"
+    "analyze": "webpack-bundle-analyzer dist/.webpack-stats.json dist/public"
   },
   "browserslist": {
     "production": [
@@ -120,7 +120,6 @@
     "sass-loader": "^8.0.0",
     "source-map-explorer": "^2.0.1",
     "source-map-support": "^0.5.13",
-    "stats-webpack-plugin": "^0.7.0",
     "style-loader": "^1.0.0",
     "terser": "^4.2.1",
     "terser-webpack-plugin": "^2.0.1",

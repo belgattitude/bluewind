@@ -16,7 +16,8 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const zopfli = require('@gfx/zopfli');
 const BrotliPlugin = require('brotli-webpack-plugin');
 const DotenvPlugin = require('dotenv-webpack');
-const StatsPlugin = require('stats-webpack-plugin');
+//const StatsPlugin = require('stats-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const PUBLIC_URL = './';
 
@@ -322,9 +323,12 @@ module.exports = merge(common, {
             test: /\.(js|css|svg)$/,
         }),
 
-        new StatsPlugin('../.webpack-stats.json', {
-            chunkModules: true,
-            //exclude: [/node_modules[\\\/]react/]
-        }),
+        new BundleAnalyzerPlugin({
+            analyzerMode: "disabled",
+            generateStatsFile: true,
+            defaultSizes: 'parsed',
+            statsFilename: '../.webpack-stats.json'
+
+        })
     ],
 });

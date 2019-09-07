@@ -4,8 +4,8 @@ module.exports = {
             "@babel/preset-env",
             {
                 // to add polyfills
-                //"useBuiltIns": "usage",
-                //"corejs": 3,
+                "useBuiltIns": "usage",
+                "corejs": 3,
                 "debug": true
             }
         ],
