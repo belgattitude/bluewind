@@ -4,8 +4,8 @@ module.exports = {
             "@babel/preset-env",
             {
                 // to add polyfills
-                "useBuiltIns": "usage",
-                "corejs": 3,
+                //"useBuiltIns": "usage",
+                //"corejs": 3,
                 "debug": true
             }
         ],
@@ -62,7 +62,8 @@ module.exports = {
     "plugins": [
         ["@babel/plugin-transform-runtime",
             {
-                "corejs": false,
+                "absoluteRuntime": false,
+                "corejs": 3,
                 "helpers": true,
                 "regenerator": true,
                 "useESModules": false
