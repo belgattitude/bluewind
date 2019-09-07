@@ -164,7 +164,8 @@ export const StudentList: React.FC<StudentListProps> = props => {
                     return (
                         <React.Fragment key={student.id}>
                             <li className={`item ${i === cursor ? "active" : ""}`}
-                                onClick={(e: React.SyntheticEvent) => {
+                                role={"button"}
+                                onPointerDown={(e) => {
                                     setCursor(i)
                                     props.handleSelected && props.handleSelected(student.id)}
                                 }
