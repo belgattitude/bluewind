@@ -18,15 +18,16 @@
         }
     }
     .result-wrapper {
+        background-color: white;
         display: flex;
         flex: 1 1 100%;
         .test-list {
             overflow: auto  ;
-            background-color: red;
             flex: 1 1 100%;
         }
 
         .test-detail {
+            padding: 15px;
             flex: 1 1 100%;
         }
     }

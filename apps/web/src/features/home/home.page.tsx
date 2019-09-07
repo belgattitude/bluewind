@@ -16,11 +16,7 @@ const HomePage: React.FC<Props> = (props) => {
 
     const [studentId, setStudentId] = useState<number | null>(null);
     const [query, setQuery] = useState<string | null>(null);
-
     const searchRef = useRef<HTMLInputElement>(null);
-
-
-    console.log('props.timeout', props.timeout);
 
     const [debouncedCallback] = useDebouncedCallback(
         (query) => {
@@ -48,7 +44,12 @@ const HomePage: React.FC<Props> = (props) => {
             <div className={"test-search"}>
                 <input type="search"
                        ref={searchRef}
-                       onChange={(e: React.SyntheticEvent<HTMLInputElement>) => {
+                       onKeyPress={(e) => {
+                           if (e.key === "Enter") {
+                               console.log('selected');
+                           }
+                       }}
+                       onChange={(e) => {
                            debouncedCallback(e.currentTarget.value);
                        }}
                 />

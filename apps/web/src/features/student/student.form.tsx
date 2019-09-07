@@ -42,13 +42,22 @@ export const StudentForm: React.FC<Props> = (props) => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="age">Age</label>
+                        <label htmlFor="email">Email</label>
                         <Field<number>
                             name="email"
                             component="input"
                             placeholder="Email"
                         />
                     </div>
+                    <div>
+                        <label htmlFor="sex">Sex</label>
+                        <Field<number>
+                            name="sex"
+                            component="input"
+                            placeholder="Sex"
+                        />
+                    </div>
+
                     <div className="buttons">
                         <button type="submit" disabled={submitting || pristine}>
                             Submit
@@ -61,6 +70,21 @@ export const StudentForm: React.FC<Props> = (props) => {
                             Reset
                         </button>
                     </div>
+                    <h1>Abonnements</h1>
+                    <div>
+                        <div>Red | 3/5 | Expires in 5 days</div>
+                        <div>Red | 5/5 | Expired</div>
+                        <div>Blue | 5/5 | Expired</div>
+                        <div>more...</div>
+                    </div>
+                    <h1>Past classes</h1>
+                    <div>
+                        <div>Tuesday 15th - 18h30</div>
+                        <div>Tuesday 15th - 18h30</div>
+                        <div>Tuesday 15th - 18h30</div>
+                        <div>more...</div>
+                    </div>
+
                     <pre>{JSON.stringify(values, undefined, 2)}</pre>
                 </form>
             )}
