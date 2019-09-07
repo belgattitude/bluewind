@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './home.scss';
 import {StudentList} from "../student/student.list";
 import {StudentDetail} from "../student/student.detail";
@@ -17,6 +17,9 @@ const HomePage: React.FC<Props> = (props) => {
     const [studentId, setStudentId] = useState<number | null>(null);
     const [query, setQuery] = useState<string | null>(null);
 
+    const searchRef = useRef<HTMLInputElement>(null);
+
+
     console.log('props.timeout', props.timeout);
 
     const [debouncedCallback] = useDebouncedCallback(
@@ -29,6 +32,12 @@ const HomePage: React.FC<Props> = (props) => {
     const [studentList, setStudentList] = useState<StudentDetailDTO[]>([]);
 
     useEffect(() => {
+        if (searchRef && searchRef.current) {
+            searchRef.current.focus();
+        }
+    }, []);
+
+    useEffect(() => {
         studentApi.getStudents({query: query || undefined}).then(response => {
             setStudentList(response);
         })
@@ -38,6 +47,7 @@ const HomePage: React.FC<Props> = (props) => {
         <div className="test">
             <div className={"test-search"}>
                 <input type="search"
+                       ref={searchRef}
                        onChange={(e: React.SyntheticEvent<HTMLInputElement>) => {
                            debouncedCallback(e.currentTarget.value);
                        }}
