@@ -26,6 +26,7 @@ jobs:
       script:
           - yarn lerna run --scope @bluewind/web test
           - yarn lerna run --scope @bluewind/web build
+          - yarn lerna run --scope @bluewind/web es-check
     - stage: Api
       script:
           - yarn lerna run --scope @bluewind/api test
