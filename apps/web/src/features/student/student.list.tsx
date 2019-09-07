@@ -18,6 +18,7 @@ type StudentListProps = {
     handleEdit?: (studentId: number) => void;
     handleDelete?: (studentId: number) => void;
     handleSearchChange?: (query: string) => void;
+    handleSelected?: (studentId: number) => void;
 };
 const studentApi = new StudentApi();
 
@@ -163,7 +164,10 @@ export const StudentList: React.FC<StudentListProps> = props => {
                     return (
                         <React.Fragment key={student.id}>
                             <li className={`item ${i === cursor ? "active" : ""}`}
-                                onPointerOver={(e: React.SyntheticEvent) => {setCursor(i)}}
+                                onClick={(e: React.SyntheticEvent) => {
+                                    setCursor(i)
+                                    props.handleSelected && props.handleSelected(student.id)}
+                                }
                             >
                                 <div>Left</div>
                                 <div>{student.first_name} / {student.last_name}</div>
@@ -171,7 +175,6 @@ export const StudentList: React.FC<StudentListProps> = props => {
                             </li>
                             <li className="divider" ></li>
                         </React.Fragment>
-
                     )
                 })}
             </ul>

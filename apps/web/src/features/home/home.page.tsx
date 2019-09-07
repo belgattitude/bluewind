@@ -39,18 +39,23 @@ const HomePage: React.FC<Props> = (props) => {
             <div className={"test-search"}>
                 <input type="search"
                        onChange={(e: React.SyntheticEvent<HTMLInputElement>) => {
-                            debouncedCallback(e.currentTarget.value);
-                        }}
+                           debouncedCallback(e.currentTarget.value);
+                       }}
                 />
             </div>
-            <div className="test-list">
-                <StudentList students={studentList}
-                />
-            </div>
-            <div className="test-detail">
-                {studentId &&
-                    <StudentDetail studentId={studentId}/>
-                }
+            <div className="result-wrapper">
+                <div className="test-list">
+                    <StudentList students={studentList}
+                                 handleSelected={(studentId: number) => {
+                                     setStudentId(studentId);
+                                 }}
+                    />
+                </div>
+                <div className="test-detail">
+                    {studentId &&
+                        <StudentDetail studentId={studentId}/>
+                    }
+                </div>
             </div>
         </div>
     );
