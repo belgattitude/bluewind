@@ -9,10 +9,9 @@ type RegisterRequestDTO = {
     password: string;
 };
 
-export type UserData = {} & AuthUserDataResponseDTO;
 
 export type AuthContextState = {
-    user: UserData | null;
+    user: {} & AuthUserDataResponseDTO | null;
 };
 
 export type AuthContextProps = {

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { AuthContextProps, useAuth, UserData } from './auth-context';
+import {AuthContextState, useAuth} from './auth-context';
 
-const UserContext = React.createContext<UserData | null>(null);
+const UserContext = React.createContext<AuthContextState['user'] | null>(null);
 
 type UserProviderProps = {};
 
