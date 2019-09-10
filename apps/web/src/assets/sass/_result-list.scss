@@ -1,5 +1,4 @@
 .result-list {
-
     ul {
         margin: 0;
         padding: 0;
@@ -28,7 +27,6 @@
                 justify-content: flex-start;
                 justify-content: space-between;
 
-
                 &.active {
                     background-color: rgba(grey, 0.2);
                 }
@@ -41,7 +39,6 @@
                         width: 30px;
                         overflow: hidden;
                         margin-right: 5px;
-
                     }
                     &:nth-child(2) {
                         flex-grow: 1;
@@ -50,7 +47,6 @@
                         overflow: hidden;
                         max-width: 30px;
                     }
-
                 }
             }
 
@@ -62,7 +58,5 @@
                 background-color: rgba(0, 0, 0, 0.12);
             }
         }
-
     }
-
 }

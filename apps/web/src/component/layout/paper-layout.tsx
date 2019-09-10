@@ -1,10 +1,9 @@
 import React from 'react';
-import {createMuiTheme, createStyles, makeStyles, Theme, useTheme, withStyles} from '@material-ui/core/styles';
+import { createMuiTheme, createStyles, makeStyles, Theme, useTheme, withStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-let theme = createMuiTheme({
-});
+let theme = createMuiTheme({});
 
 theme = {
     ...theme,
@@ -21,13 +20,10 @@ theme = {
             },
         },
     },
-    props: {
-    },
+    props: {},
     mixins: {
         ...theme.mixins,
-        toolbar: {
-
-        },
+        toolbar: {},
     },
 };
 
@@ -47,25 +43,21 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: '0',
             background: 'white',
         },
-    }),
+    })
 );
 
-
-const PaperLayout: React.FC = (props) => {
-        const classes = useStyles(useTheme());
-        return (
-            <ThemeProvider theme={theme}>
-                <div className={classes.root}>
-                    <CssBaseline />
-                    <div className={classes.appContent}>
-                        <main className={classes.mainContent}>
-                            {props.children}
-                        </main>
-                    </div>
+const PaperLayout: React.FC = props => {
+    const classes = useStyles(useTheme());
+    return (
+        <ThemeProvider theme={theme}>
+            <div className={classes.root}>
+                <CssBaseline />
+                <div className={classes.appContent}>
+                    <main className={classes.mainContent}>{props.children}</main>
                 </div>
-            </ThemeProvider>
-        );
-}
-
+            </div>
+        </ThemeProvider>
+    );
+};
 
 export default PaperLayout;

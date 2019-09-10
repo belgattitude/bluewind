@@ -1,10 +1,10 @@
 import { configureStore } from 'redux-starter-kit';
 
-//import authReducer from './features/login/login.ducks';
+import authReducer from './features/auth/auth.ducks';
 
 export const store = configureStore({
     reducer: {
-        //auth: authReducer,
+        auth: authReducer,
     },
 });
 

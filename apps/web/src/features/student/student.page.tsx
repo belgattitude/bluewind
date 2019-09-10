@@ -13,9 +13,10 @@ import {
     makeStyles,
     Paper,
     TextField,
-    Theme, Toolbar,
-    Tooltip
-} from "@material-ui/core";
+    Theme,
+    Toolbar,
+    Tooltip,
+} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
@@ -32,53 +33,52 @@ export const StudentPage: React.FC = () => {
     return (
         <div className={classes.root}>
             <Container>
-
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <AppBar position="relative" color="default" elevation={2}>
-                        <Toolbar>
-                            <Grid container spacing={2} alignItems="center">
-                                <Grid item>
-                                    <SearchIcon className={classes.block} color="inherit" />
+                <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                        <AppBar position="relative" color="default" elevation={2}>
+                            <Toolbar>
+                                <Grid container spacing={2} alignItems="center">
+                                    <Grid item>
+                                        <SearchIcon className={classes.block} color="inherit" />
+                                    </Grid>
+                                    <Grid item xs>
+                                        <TextField
+                                            fullWidth
+                                            placeholder="Search by email address, phone number, or user UID"
+                                            InputProps={{
+                                                disableUnderline: true,
+                                                className: classes.searchInput,
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item>
+                                        <Button variant="contained" color="primary" className={classes.addUser}>
+                                            Add student
+                                        </Button>
+                                        <Tooltip title="Reload">
+                                            <IconButton>
+                                                <RefreshIcon className={classes.block} color="inherit" />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs>
-                                    <TextField
-                                        fullWidth
-                                        placeholder="Search by email address, phone number, or user UID"
-                                        InputProps={{
-                                            disableUnderline: true,
-                                            className: classes.searchInput,
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item>
-                                    <Button variant="contained" color="primary" className={classes.addUser}>
-                                        Add student
-                                    </Button>
-                                    <Tooltip title="Reload">
-                                        <IconButton>
-                                            <RefreshIcon className={classes.block} color="inherit" />
-                                        </IconButton>
-                                    </Tooltip>
-                                </Grid>
-                            </Grid>
-                        </Toolbar>
-                    </AppBar>
+                            </Toolbar>
+                        </AppBar>
+                    </Grid>
+                    <Grid item xs={6} style={{ backgroundColor: 'white' }}>
+                        <StudentList
+                            students={[]}
+                            handleEdit={student => setSelected(student)}
+                            handleDelete={student => {
+                                console.log('delete');
+                            }}
+                            handleSearchChange={handleSearchChange}
+                        />
+                    </Grid>
+                    <Grid item xs={6} style={{ backgroundColor: 'white' }}>
+                        {selected && <StudentDetail studentId={selected} />}
+                    </Grid>
                 </Grid>
-                <Grid item xs={6} style={{backgroundColor: 'white'}}>
-                    <StudentList
-                        students={[]}
-                        handleEdit={student => setSelected(student)}
-                        handleDelete={student => {
-                            console.log('delete');
-                        }}
-                        handleSearchChange={handleSearchChange}
-                    />
-                </Grid>
-                <Grid item xs={6} style={{backgroundColor: 'white'}}>
-                    {selected && <StudentDetail studentId={selected} />}
-                </Grid>
-            </Grid>
             </Container>
         </div>
     );
@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             //flexGrow: 1,
-            border: "1px solid blue"
+            border: '1px solid blue',
         },
         paper: {
             padding: theme.spacing(2),
@@ -107,5 +107,5 @@ const useStyles = makeStyles((theme: Theme) =>
         contentWrapper: {
             margin: '40px 16px',
         },
-    }),
+    })
 );

@@ -1,4 +1,4 @@
-import {classesListMock} from "../../mocks/datamocks";
+import { classesListMock } from '../../mocks/datamocks';
 
 export type ClassesListDTO = typeof classesListMock;
 

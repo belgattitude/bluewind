@@ -1,5 +1,3 @@
-
-export class SearchStudentParamsDto  {
+export class SearchStudentParamsDto {
     query?: string;
-
 }

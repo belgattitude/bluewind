@@ -1,11 +1,10 @@
-import React, {Component, ReactNode} from 'react';
+import React, { Component, ReactNode } from 'react';
 import './dashboard-layout.scss';
 
-const defaultProps = {
-};
+const defaultProps = {};
 
 type Props = {
-    children?: never
+    children?: never;
 };
 
 class DashboardMainHeader extends Component<Props, {}> {
@@ -17,7 +16,8 @@ class DashboardMainHeader extends Component<Props, {}> {
             <div className="dashboard-main-header">
                 <div className="dashboard-main-header__intro-wrapper">
                     <div className="main-header__welcome">
-                        <div className="main-header__welcome-title text-light">Welcome, <strong>Matthew</strong>
+                        <div className="main-header__welcome-title text-light">
+                            Welcome, <strong>Matthew</strong>
                         </div>
                         <div className="main-header__welcome-subtitle text-light">How are you today?</div>
                     </div>

@@ -1,4 +1,3 @@
-
 export const classesListMock = [
     {
         id: 1,

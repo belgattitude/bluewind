@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 // tslint:disable
 
@@ -13,16 +13,16 @@ export class StudentEntity {
     @Column('varchar', { length: 50 })
     last_name!: string;
 
-    @Column('varchar', { length: 50, nullable: true})
+    @Column('varchar', { length: 50, nullable: true })
     email?: string;
 
     @Column('varchar', { length: 20, nullable: true })
     phone?: string;
 
-    @Column('varchar', { length: 20, nullable: true})
+    @Column('varchar', { length: 20, nullable: true })
     mobile?: string;
 
-    @Column('date', {nullable: true})
+    @Column('date', { nullable: true })
     birthdate?: string;
 
     @Column('varchar', { length: 50, nullable: true })
@@ -34,4 +34,3 @@ export class StudentEntity {
     @UpdateDateColumn()
     updated_at?: string;
 }
-

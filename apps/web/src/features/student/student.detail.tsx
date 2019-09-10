@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {StudentApi, StudentDetailDTO, StudentListDTO, studentApi} from './student.api';
-import {StudentForm} from "./student.form";
-
+import { StudentApi, StudentDetailDTO, StudentListDTO, studentApi } from './student.api';
+import { StudentForm } from './student.form';
 
 type StudentDetailProps = {
     studentId: number;
@@ -12,20 +11,18 @@ export const StudentDetail: React.FC<StudentDetailProps> = props => {
 
     useEffect(() => {
         studentApi.getStudent(props.studentId).then(response => {
-            console.log('RESPONSE STUDENT', response)
+            console.log('RESPONSE STUDENT', response);
             setStudent(response);
-        })
+        });
     }, [props.studentId]);
 
     return (
-        <div >
+        <div>
             {student && (
                 <>
-                    <StudentForm data={student}/>
+                    <StudentForm data={student} />
                     <div>
-                        <h1>
-                            {student.id}
-                        </h1>
+                        <h1>{student.id}</h1>
                         <h2>
                             Name: {student.first_name}&nbsp;
                             {student.last_name}
@@ -36,13 +33,14 @@ export const StudentDetail: React.FC<StudentDetailProps> = props => {
                     <table>
                         <thead></thead>
                         <tbody>
-                            {student.pastClasses && student.pastClasses.map(classDetail => (
-                                <tr key={classDetail.id}>
-                                    <td>{classDetail.label}</td>
-                                    <td style={{ backgroundColor: 'green' }}>Abo (1/4)</td>
-                                    <td>Restant</td>
-                                </tr>
-                            ))}
+                            {student.pastClasses &&
+                                student.pastClasses.map(classDetail => (
+                                    <tr key={classDetail.id}>
+                                        <td>{classDetail.label}</td>
+                                        <td style={{ backgroundColor: 'green' }}>Abo (1/4)</td>
+                                        <td>Restant</td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
                     <button>Add payment</button>

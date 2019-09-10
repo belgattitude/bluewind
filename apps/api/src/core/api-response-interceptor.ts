@@ -9,9 +9,11 @@ export interface GenericApiResponse<T> {
 @Injectable()
 export class ApiResponseInterceptor<T> implements NestInterceptor<T, GenericApiResponse<T>> {
     intercept(context: ExecutionContext, next: CallHandler): Observable<GenericApiResponse<T>> {
-        return next.handle().pipe(map(data => ({
-            success: true,
-            data,
-        })));
+        return next.handle().pipe(
+            map(data => ({
+                success: true,
+                data,
+            })),
+        );
     }
 }
