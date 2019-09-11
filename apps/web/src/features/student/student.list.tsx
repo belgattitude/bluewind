@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { Box, Checkbox, IconButton, InputBase, ListItemSecondaryAction, Paper } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import { useKeyPress } from '../../component/core/hooks/use-key-press';
+import { useKeyPress } from '../../hooks/use-key-press';
 
 type StudentListProps = {
     students: StudentDetailDTO[];

@@ -22,8 +22,9 @@ const App: React.FC = () => {
     const user = useUser();
 
     console.log('auth', auth);
+    console.log('user', user);
 
-    if (user !== null) {
+    if (user === null) {
         return (
             <div>
                 Unauthenticated

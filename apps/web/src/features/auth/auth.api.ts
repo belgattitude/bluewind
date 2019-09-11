@@ -36,7 +36,7 @@ export class AuthApi {
                         token: 'ssssss',
                     });
                 } else {
-                    reject('Invalid login/passS');
+                    reject('Invalid login/pass');
                 }
             }, 1000);
         });
@@ -51,7 +51,7 @@ export class AuthApi {
                     lastName: 'Vanvelthem',
                     email: 'belgattitude@gmail.com',
                 });
-            }, 1000);
+            }, 2000);
         });
     }
 

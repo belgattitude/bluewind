@@ -1,12 +1,11 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 
 import {AuthContextState, useAuth} from './auth-context';
 
 const UserContext = React.createContext<AuthContextState['user'] | null>(null);
 
-type UserProviderProps = {};
 
-function UserProvider(props: UserProviderProps) {
+function UserProvider(props: {children: ReactNode}) {
     const auth = useAuth();
     return <UserContext.Provider value={auth.data ? auth.data.user : null} {...props} />;
 }

@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, {FC, ReactNode, useContext} from 'react';
 import { authApi, AuthRequestDTO, AuthUserDataResponseDTO } from '../features/auth/auth.api';
 import { useAsync } from 'react-async';
+import {FullPageSpinner} from "../component/loading-spinner";
 
 const localStorageKey = '__bluewind_token__';
 
@@ -24,7 +25,11 @@ export type AuthContextProps = {
 const AuthContext = React.createContext<AuthContextProps | null>(null);
 
 async function boostrapUserData(): Promise<AuthContextState> {
-    const token = window.localStorage.getItem(localStorageKey) || 'cool';
+    const token = window.localStorage.getItem(localStorageKey);
+    console.log('BOOTSTRAP TOKEN', token);
+    if (token === null) {
+        return { user: null };
+    }
     const userData = await authApi.getUserData(token).catch(error => {
         window.localStorage.removeItem(localStorageKey);
         authApi.logout(token);
@@ -33,7 +38,8 @@ async function boostrapUserData(): Promise<AuthContextState> {
     return { user: userData };
 }
 
-function AuthProvider(props: { children: any }) {
+
+function AuthProvider(props: {children: ReactNode}) {
     const [firstAttemptFinished, setFirstAttemptFinished] = React.useState<boolean>(false);
 
     const { data = { user: null }, error, isRejected, isPending, isSettled, reload } = useAsync({
@@ -48,7 +54,7 @@ function AuthProvider(props: { children: any }) {
 
     if (!firstAttemptFinished) {
         if (isPending) {
-            return <div>Loading spinner</div>;
+            return <FullPageSpinner/>;
         }
         if (isRejected) {
             return (
@@ -72,6 +78,7 @@ function AuthProvider(props: { children: any }) {
     const logout = () => {
         const token = window.localStorage.getItem(localStorageKey);
         if (token !== null) {
+            window.localStorage.removeItem(localStorageKey);
             authApi.logout(token);
         }
         reload();
