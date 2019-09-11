@@ -150,6 +150,7 @@ module.exports = merge(common, {
             automaticNameDelimiter: '~',
             name: true,
 
+            /*
             cacheGroups: {
                 react: {
                     test: /[\\/]node_modules\/(react|react-dom)\//,
@@ -170,6 +171,7 @@ module.exports = merge(common, {
                     chunks: 'all',
                 },
             },
+             */
         },
 
         noEmitOnErrors: true, // NoEmitOnErrorsPlugin

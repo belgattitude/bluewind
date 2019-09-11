@@ -24,7 +24,7 @@ export type AuthContextProps = {
 
 const AuthContext = React.createContext<AuthContextProps | null>(null);
 
-async function boostrapUserData(): Promise<AuthContextState> {
+async function bootstrapUserData(): Promise<AuthContextState> {
     const token = window.localStorage.getItem(localStorageKey);
     console.log('BOOTSTRAP TOKEN', token);
     if (token === null) {
@@ -43,7 +43,7 @@ function AuthProvider(props: {children: ReactNode}) {
     const [firstAttemptFinished, setFirstAttemptFinished] = React.useState<boolean>(false);
 
     const { data = { user: null }, error, isRejected, isPending, isSettled, reload } = useAsync({
-        promiseFn: boostrapUserData,
+        promiseFn: bootstrapUserData,
     });
 
     React.useLayoutEffect(() => {
