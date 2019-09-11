@@ -1,5 +1,5 @@
 {
-  "name": "@bluewind/api",
+  "name": "@bluewind/api-nestjs-experiment",
   "version": "0.0.1",
   "description": "Classroom appplication backend",
   "author": "Vanvelthem Sébastien",

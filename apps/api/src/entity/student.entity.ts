@@ -1,19 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-
-// tslint:disable
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Index } from 'typeorm';
 
 @Entity('student')
 export class StudentEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column('varchar', { length: 50 })
-    first_name!: string;
+    @Column('varchar', { name: 'first_name', length: 50 })
+    firstName!: string;
 
-    @Column('varchar', { length: 50 })
-    last_name!: string;
+    @Column('varchar', { name: 'last_name', length: 50, nullable: true })
+    lastName!: string | null;
 
     @Column('varchar', { length: 50, nullable: true })
+    @Index({ unique: true })
     email?: string;
 
     @Column('varchar', { length: 20, nullable: true })
@@ -23,14 +22,14 @@ export class StudentEntity {
     mobile?: string;
 
     @Column('date', { nullable: true })
-    birthdate?: string;
+    birthdate?: Date | null;
 
-    @Column('varchar', { length: 50, nullable: true })
-    facebook_url?: string;
+    @Column('varchar', { name: 'facebook_url', length: 50, nullable: true })
+    facebookUrl?: string | null;
 
-    @CreateDateColumn()
-    created_at?: string;
+    @CreateDateColumn({ name: 'created_at' })
+    createdAt?: Date;
 
-    @UpdateDateColumn()
-    updated_at?: string;
+    @UpdateDateColumn({ name: 'updated_at', nullable: true })
+    updatedAt?: Date | null;
 }
