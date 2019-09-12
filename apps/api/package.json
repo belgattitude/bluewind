@@ -55,7 +55,7 @@
         "sqlite3": "^4.1.0",
         "ts-jest": "^24.0.2",
         "ts-node": "^8.3.0",
-        "tsconfig-paths": "3.8.0",
+        "tsconfig-paths": "3.9.0",
         "tslint": "^5.20.0",
         "typescript": "^3.6.3",
         "utility-types": "^3.7.0",
