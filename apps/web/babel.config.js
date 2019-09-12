@@ -42,11 +42,11 @@ module.exports = {
                     "@babel/preset-env",
                     {
                         "debug": true,
-                        //"useBuiltIns": 'entry',
-                        "modules": "commonjs",
+                        "useBuiltIns": false,
+                        //"modules": "commonjs",
                         "targets": {
                             "browsers": [
-                                "last 5 chrome version"
+                                "last 1 chrome version"
                             ],
                             "node": 'current'
                         }
@@ -60,6 +60,7 @@ module.exports = {
         }
     },
     "plugins": [
+        /*
         ["@babel/plugin-transform-runtime",
             {
                 "absoluteRuntime": false,
@@ -67,7 +68,7 @@ module.exports = {
                 "helpers": true,
                 "regenerator": true,
                 "useESModules": false
-            }],
+            }],*/
         "@babel/plugin-syntax-dynamic-import",
         "@babel/plugin-syntax-import-meta",
         "@babel/plugin-proposal-class-properties",

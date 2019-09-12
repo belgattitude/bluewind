@@ -4,8 +4,7 @@ import React from "react";
 //import styled from '@emotion/styled'
 
 import {keyframes} from '@emotion/core'
-import {FaSpinner} from "react-icons/all";
-
+import {FaSpinner} from "react-icons/fa";
 
 const spin = keyframes({
     '0%': {transform: 'rotate(0deg)'},

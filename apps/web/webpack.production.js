@@ -41,7 +41,9 @@ module.exports = merge(common, {
         alias: {
             /**
              * Aliases to avoid duplicates in build.
+             * @see https://github.com/darrenscerri/duplicate-package-checker-webpack-plugin#resolving-duplicate-packages-in-your-bundle
              */
+            // '@babel/runtime': path.resolve(__dirname, 'node_modules/@babel/runtime'),
         },
     },
     module: {
@@ -267,15 +269,16 @@ module.exports = merge(common, {
 
         new DuplicatePackageCheckerPlugin({
             verbose: true,
-            emitError: true,
+            emitError: false,
             // Warn also if major versions differ (default: true)
-            strict: false,
+            strict: true,
             exclude(instance) {
                 // @material-ui/core and history
                 // use different major versions for 'warning' package
                 // That can be ignored.
                 //return instance.name === 'warning';
-                return ['warning', 'regenerator-runtime'].includes(instance.name);
+                //return ['warning', 'regenerator-runtime'].includes(instance.name);
+                return false;
             },
         }),
 
