@@ -6,26 +6,25 @@ import { ErrorHandler } from './utils/error-handler';
 import { useUser } from './context/user-context';
 
 const FallbackComponent = ErrorBoundaryFallbackDev;
-const loadAuthenticatedApp = () => import('./authenticated-app')
-const AuthenticatedApp = React.lazy(loadAuthenticatedApp)
-const UnauthenticatedApp = React.lazy(() => import('./unauthenticated-app'))
+const loadAuthenticatedApp = () => import('./authenticated-app');
+const AuthenticatedApp = React.lazy(loadAuthenticatedApp);
+const UnauthenticatedApp = React.lazy(() => import('./unauthenticated-app'));
 
 const App: React.FC = () => {
-
     const user = useUser();
 
     // pre-load the authenticated side in the background while the user's
     // filling out the login form.
     React.useEffect(() => {
-        loadAuthenticatedApp()
-    }, [])
+        loadAuthenticatedApp();
+    }, []);
 
     return (
-            <ErrorBoundary onError={ErrorHandler} FallbackComponent={FallbackComponent}>
-                <React.Suspense fallback={<div>Loading...</div>}>
-                    {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
-                </React.Suspense>
-            </ErrorBoundary>
+        <ErrorBoundary onError={ErrorHandler} FallbackComponent={FallbackComponent}>
+            <React.Suspense fallback={<div>Loading...</div>}>
+                {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+            </React.Suspense>
+        </ErrorBoundary>
     );
 };
 

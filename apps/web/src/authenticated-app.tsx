@@ -10,34 +10,30 @@ import { useAuth } from './context/auth-context';
 import { Provider } from 'react-redux';
 import { store } from './store';
 
-
 const AuthenticatedApp: React.FC = () => {
-
     const auth = useAuth();
 
     return (
         <Provider store={store}>
             <div className="app">
-                    <DashboardLayout
-                        handleLogout={() => {
-                            auth.logout();
-                        }}
-                    >
-                        <Router>
-                            <Switch>
-                                <Route path="/" exact component={HomePage} />
-                                <Route path="/student/:id" component={ProfilePage} />
-                                <Route path="/students" component={StudentPage} />
-                                <Route path="/classes" component={ClassesPage} />
-                                <PrivateRoute path="/private" component={ProfilePage} />
-                            </Switch>
-                        </Router>
-                    </DashboardLayout>
+                <DashboardLayout
+                    handleLogout={() => {
+                        auth.logout();
+                    }}
+                >
+                    <Router>
+                        <Switch>
+                            <Route path="/" exact component={HomePage} />
+                            <Route path="/student/:id" component={ProfilePage} />
+                            <Route path="/students" component={StudentPage} />
+                            <Route path="/classes" component={ClassesPage} />
+                            <PrivateRoute path="/private" component={ProfilePage} />
+                        </Switch>
+                    </Router>
+                </DashboardLayout>
             </div>
         </Provider>
     );
 };
 
 export default AuthenticatedApp;
-
-
