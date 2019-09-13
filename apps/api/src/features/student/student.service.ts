@@ -1,14 +1,16 @@
-import { StudentSearchRequestDto, StudentSearchResponseDto } from './student.dto';
-import { Brackets, getConnection, getRepository, Repository } from 'typeorm';
+import {CreateStudentDto, StudentSearchRequestDto, StudentSearchResponseDto} from './student.dto';
+import {Brackets, getConnection, getManager, getRepository, Repository} from 'typeorm';
 import { StudentEntity } from '../../entity/student.entity';
 import is from '@sindresorhus/is';
 import { queryFail, querySuccess } from '../../core/query-result';
+
 
 class StudentService {
     private studentRepo: Repository<StudentEntity>;
 
     constructor() {
         this.studentRepo = getConnection().getRepository(StudentEntity);
+        //getManager().s
     }
 
     async search(params: StudentSearchRequestDto): Promise<StudentSearchResponseDto> {
@@ -47,6 +49,22 @@ class StudentService {
             .catch(error => {
                 return queryFail('error');
             });
+    }
+
+    async save(studentDTO: CreateStudentDto): Promise<StudentEntity> {
+
+        const student = await this.studentRepo
+            .save({
+                last_name: studentDTO.last_name,
+                first_name: studentDTO.first_name,
+                email: studentDTO.email,
+            })
+            .then(entity => {
+                return entity;
+            });
+
+        return student;
+
     }
 }
 

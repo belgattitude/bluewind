@@ -1,6 +1,5 @@
 /* tslint:disable:max-classes-per-file */
 
-// Input DTO's
 
 export class StudentSearchRequestDto {
     id?: number;
@@ -9,6 +8,10 @@ export class StudentSearchRequestDto {
     offset?: number;
 }
 
-// Output DTO's
-
 export class StudentSearchResponseDto {}
+
+export class CreateStudentDto {
+    readonly last_name!: string;
+    readonly first_name!: string;
+    readonly email!: string;
+}
