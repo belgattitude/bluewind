@@ -1,44 +1,93 @@
-export class Result<T> {
-    public isSuccess: boolean;
-    public isFailure: boolean;
-    public error!: string;
-    // tslint:disable-next-line
-    private _value!: T;
+type ErrorType = Error;
 
-    private constructor(isSuccess: boolean, error?: string, value?: T) {
-        if (isSuccess && error === undefined) {
-            throw new Error('InvalidOperation: A result cannot be successful and contain an error');
-        }
-        if (!isSuccess && error) {
-            throw new Error('InvalidOperation: A failing result needs to contain an error message');
-        }
+type OkPayload<T> = {
+    isError: false;
+    value: T;
+};
+type FailPayload<E extends ErrorType = Error> = {
+    isError: true;
+    error: E;
+};
+type ResultPayload<T, E extends ErrorType = Error> = OkPayload<T> | FailPayload<E>;
 
-        this.isSuccess = isSuccess;
-        this.isFailure = !isSuccess;
+export class Result<T, E extends ErrorType = Error> {
+    /**
+     * Discriminated union between OkPayload | FailPayload
+     */
+    readonly payload: Readonly<ResultPayload<Readonly<T>, Readonly<E>>>;
 
-        if (this.isFailure) {
-            this.error = error!;
-        }
-        if (this.isSuccess) {
-            this._value = value!;
-        }
-
+    /**
+     * @throws Error if runtime validation of the payload failed
+     */
+    constructor(payload: ResultPayload<T, E>) {
+        this.runRuntimePayloadValidation(payload);
+        this.payload = payload;
         Object.freeze(this);
     }
 
-    public getValue(): T {
-        if (!this.isSuccess) {
-            throw new Error(`Cant retrieve the value from a failed result.`);
+    /**
+     * Create a successful result
+     * @param value can be anything except an instance of Error.
+     * @throws Error if runtime validation of the payload failed
+     */
+    static ok<U, E extends ErrorType = Error>(value: Exclude<U, Error>): Result<U, E> {
+        return new Result({
+            isError: false,
+            value,
+        });
+    }
+
+    /**
+     * Creates a failed result
+     * @param error - An Error object or string (Error object is recommended to keep trace)
+     * @throws Error if runtime validation of the payload failed
+     */
+    static fail<U extends unknown = unknown, E extends ErrorType = Error>(error: E | string): Result<U, E> {
+        return new Result({
+            isError: true,
+            error: typeof error === 'string' ? new Error(error) : error,
+        } as FailPayload<E>);
+    }
+
+    getValueOrError(): E | T {
+        return this.payload.isError ? this.payload.error : this.payload.value;
+    }
+
+    /**
+     * What could possibly go wrong at runtime.
+     *
+     * @remarks
+     * This should not be necessary for typescript only projects.
+     * The type system already guards against those errors.
+     *
+     * @throws Error when payload fails validation
+     */
+    private runRuntimePayloadValidation(payload: ResultPayload<T, E>): void {
+        const msg = 'Result class runtime validation failure';
+        if (typeof payload !== 'object') {
+            throw new Error(`${msg}: Payload must be an object.`);
         }
-
-        return this._value;
-    }
-
-    public static ok<U>(value: U): Result<U> {
-        return new Result<U>(true, undefined, value);
-    }
-
-    public static fail<U>(error: string): Result<U> {
-        return new Result<U>(false, error);
+        if (!('isError' in payload)) {
+            throw new Error(`${msg}: Payload lacks 'isError' discriminant.`);
+        }
+        if (typeof payload.isError !== 'boolean') {
+            throw new Error(`${msg}: isError must stricly be a boolean.`);
+        }
+        if (payload.isError) {
+            if (!('error' in payload)) {
+                throw new Error(`${msg}: Failure payload require a valid error.`);
+            }
+            if (!(payload.error instanceof Error)) {
+                throw new Error(`${msg}: Failure payload error must be an instance of Error.`);
+            }
+        }
+        if (!payload.isError) {
+            if (!('value' in payload)) {
+                throw new Error(`${msg}: Success payload requires a value.`);
+            }
+            if (payload.value instanceof Error) {
+                throw new Error(`${msg}: Success payload value cannot be an instance of Error.`);
+            }
+        }
     }
 }
