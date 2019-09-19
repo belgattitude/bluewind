@@ -8,21 +8,19 @@ test('authenticateAndReturnUser should work', async () => {
         username: 'cool',
         password: 'theuserpasswOORD!',
         status: 'valid',
-    } as User;
+    } as Partial<User>;
 
     // Arrange
     const mockUserRepo = jest.fn(() => ({
-        async findByUsername(username: 'found' | 'dberror'): Promise<Result<Partial<User>>> {
-            return new Promise(resolve => {
+        findByUsername(username: 'found' | 'dberror'): Result<Partial<User>> {
                 switch (username) {
                     case 'found':
-                        return resolve(Result.ok(foundUser));
+                        return Result.ok(foundUser);
                     case 'dberror':
-                        return resolve(Result.fail(`Could not connect to database`));
+                        return Result.fail(`Could not connect to database`);
                     default:
-                        return resolve(Result.fail(`User ${username} cannot be found`));
+                        return Result.fail(`User ${username} cannot be found`);
                 }
-            });
         },
     }));
 
@@ -34,11 +32,11 @@ test('authenticateAndReturnUser should work', async () => {
 
     // Assert
     const result1 = await auth('dberror', '');
-    await expect((result1.payload as any).error.message).toEqual('Could not connect to database');
+    expect((result1.payload as any).error.message).toEqual('Could not connect to database');
 
     const result2 = await auth('found', 'A');
     await expect((result2.payload as any).error.message).toEqual('Passwords does not match');
 
-    const result3 = await auth('found', foundUser.password);
+    const result3 = await auth('found', foundUser.password!);
     await expect((result3.payload as any).value).toEqual(foundUser);
 });
