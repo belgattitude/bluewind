@@ -12,7 +12,7 @@ import {hashSync} from 'bcryptjs';
 import {seedStudentData, seedUserData} from './test.data';
 
 async function initConnection(): Promise<Connection> {
-    return createConnection({
+    return await createConnection({
         type: 'sqlite',
         name: 'default',
         database: ':memory:',
@@ -23,6 +23,7 @@ async function initConnection(): Promise<Connection> {
 }
 
 beforeAll(async () => {
+
     const connection = await initConnection().then((conn) => {
         console.debug('Connection ready');
         return conn;
@@ -30,14 +31,11 @@ beforeAll(async () => {
 
     await seedUserData(connection);
     await seedStudentData(connection);
-
-    /*
     await getRepository(StudentEntity).find().then((result) => {
         console.log('result', result);
-    })
-    */
+    });
 });
 
 afterAll(async () => {
-    await getConnection().close();
+    // await getConnection().close();
 });
