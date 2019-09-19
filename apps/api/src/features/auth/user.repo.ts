@@ -3,7 +3,7 @@ import { Result } from '../../core/result';
 import { DatabaseError, RecordNotFoundError } from '../../core/exceptions';
 
 export interface IUserRepo {
-    findByUsername(username: string): Promise<Result<User>>;
+    findByUsername(username: string): Promise<Result<User>> | Result<User>;
 }
 
 export class UserRepo implements IUserRepo {
