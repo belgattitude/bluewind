@@ -47,6 +47,7 @@ $ lerna run build
 
 ```bash
 $ yarn typecheck
+$ yarn format
 $ yarn lint
 $ yarn lint:fix
 ```
