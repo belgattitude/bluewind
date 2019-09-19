@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { DTOValidationFailure } from './generic-dto-mapper';
+import { DTOValidationFailure } from './mapper/generic-dto-mapper';
 
 /**
  * Add dto validation errors to response

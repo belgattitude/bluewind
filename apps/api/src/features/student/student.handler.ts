@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { GenericDtoMapper } from '../../common/generic-dto-mapper';
+import { GenericDtoMapper } from '../../core/mapper/generic-dto-mapper';
 import StudentService from './student.service';
-import { addDTOErrorToResponse } from '../../common/utils';
+import { addDTOErrorToResponse } from '../../core/utils';
 import { StudentSearchRequestDto } from './student.dto';
 
 export const studentRequestHandler = async (req: Request, res: Response) => {

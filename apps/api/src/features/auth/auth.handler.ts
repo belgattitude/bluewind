@@ -4,9 +4,9 @@ import { UserEntity } from '../../entity/user.entity';
 import { LoginRequestDto } from './auth.dto';
 import { compareSync } from 'bcryptjs';
 import { logger } from '../../logger';
-import { GenericDtoMapper } from '../../common/generic-dto-mapper';
+import { GenericDtoMapper } from '../../core/mapper/generic-dto-mapper';
 import { sign } from 'jsonwebtoken';
-import { addDTOErrorToResponse } from '../../common/utils';
+import { addDTOErrorToResponse } from '../../core/utils';
 
 /**
  * Login handler just authenticate credentials
