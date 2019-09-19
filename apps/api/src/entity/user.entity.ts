@@ -34,8 +34,8 @@ export class UserEntity {
     @Column('datetime', { name: 'password_reset_expires', nullable: true })
     passwordResetExpires!: Date | null;
 
-    @Column('boolean', { name: 'is_active', default: true })
-    isActive!: boolean;
+    @Column('varchar', { name: 'auth_status', default: 'active' })
+    authStatus!: 'active' | 'locked' | 'pending' | 'disabled';
 
     @Column('varchar', { name: 'activation_token', nullable: true })
     activationToken!: string | null;
