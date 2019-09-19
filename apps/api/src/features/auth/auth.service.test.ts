@@ -1,7 +1,7 @@
 import { AuthService } from './auth.service';
-import { IUserRepo } from './user.repo';
 import { User } from './user.interface';
 import { Result } from '../../core/result';
+import { IUserRepo } from './user.repo';
 
 test('authenticateAndReturnUser should work', async () => {
     const foundUser = {
@@ -11,18 +11,22 @@ test('authenticateAndReturnUser should work', async () => {
     } as Partial<User>;
 
     // Arrange
-    const mockUserRepo = jest.fn(() => ({
-        findByUsername(username: 'found' | 'dberror'): Result<Partial<User>> {
-                switch (username) {
-                    case 'found':
-                        return Result.ok(foundUser);
-                    case 'dberror':
-                        return Result.fail(`Could not connect to database`);
-                    default:
-                        return Result.fail(`User ${username} cannot be found`);
-                }
-        },
-    }));
+    const mockUserRepo = jest.fn(
+        (): IUserRepo => ({
+            async findByUsername(username: 'found' | 'dberror'): Promise<Result<User>> {
+                return new Promise(resolve => {
+                    switch (username) {
+                        case 'found':
+                            return resolve(Result.ok(foundUser as User));
+                        case 'dberror':
+                            return resolve(Result.fail(`Could not connect to database`));
+                        default:
+                            return resolve(Result.fail(`User ${username} cannot be found`));
+                    }
+                });
+            },
+        }),
+    );
 
     // Act
     const authService = new AuthService(mockUserRepo() as any);
