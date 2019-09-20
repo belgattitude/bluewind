@@ -49,6 +49,14 @@ export class Result<T, E extends ErrorType = Error> {
         } as FailPayload<E>);
     }
 
+    map() {
+
+    }
+
+    mapErr() {
+
+    }
+
     getValueOrError(): E | T {
         return this.payload.isError ? this.payload.error : this.payload.value;
     }
