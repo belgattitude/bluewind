@@ -2,7 +2,7 @@ import { IUserRepo } from './user.repo';
 import { Result } from '../../core/result';
 import { User } from './user.interface';
 import { assertNever } from '../../core/typeguards';
-import { compareSync } from 'bcryptjs';
+import {compare as bcryptCompare} from 'bcryptjs';
 
 export class AuthService {
     constructor(private userRepo: IUserRepo) {
@@ -19,7 +19,7 @@ export class AuthService {
             // Narrowed to User
             const user = payload.value;
 
-            if (! await compareSync(password, user.password)) {
+            if (! await bcryptCompare(password, user.password)) {
                 return Result.fail<User>(`Passwords does not match`);
             }
 
