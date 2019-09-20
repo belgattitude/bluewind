@@ -35,10 +35,10 @@ describe('AuthService tests', () => {
                     switch (username) {
                         case 'found':
                             return Result.ok(foundUser as User);
+                        case 'locked':
+                            return Result.ok(lockedUser as User);
                         case 'dberror':
                             return Result.fail(`Could not connect to database`);
-                        case 'locked':
-                            return Result.fail(`Account locked`);
                         default:
                             return Result.fail(`User ${username} cannot be found`);
                     }

@@ -25,13 +25,13 @@ export class AuthService {
 
             switch (user.auth_status) {
                 case 'disabled':
-                    return Result.fail<User>(new Error(`Expired account`));
+                    return Result.fail<User>(new Error(`Account disabled`));
                 case 'locked':
-                    return Result.fail<User>(new Error(`Locked account`));
+                    return Result.fail<User>(new Error(`Account locked`));
                 case 'pending':
                     return Result.fail<User>(new Error(`Account pending approval`));
                 case 'expired':
-                    return Result.fail<User>(new Error(`Expired account`));
+                    return Result.fail<User>(new Error(`Account expired`));
             }
 
             if (user.auth_status === 'active') {
