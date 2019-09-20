@@ -14,11 +14,14 @@ import { DatabaseError } from '../../core/exceptions';
  */
 
 export const loginHandler = async (req: Request, res: Response) => {
+    // Validate input
     const dtoOrError = await GenericDtoMapper.fromRequest(LoginRequestDto, req);
     if (dtoOrError.type === 'failure') {
         addDTOErrorToResponse(res, dtoOrError).send();
         return;
     }
+
+    // Authentication
 
     const dto = dtoOrError.dto;
     const authService = new AuthService(UserRepo.fromConnection());
@@ -34,10 +37,11 @@ export const loginHandler = async (req: Request, res: Response) => {
         return res.status(401).send(payload.error.message);
     }
 
+    // Return
+    const user = payload.value;
     const validFor = 86400;
 
-    const user = payload.value;
-    const signedToken = sign({ userId: user.id, username: user.username }, 'MyJWTsecretThatShouldBeSomewhereElse', {
+    const signedToken = sign({ userId: user.id }, 'MyJWTsecretThatShouldBeSomewhereElse', {
         expiresIn: validFor,
     });
 

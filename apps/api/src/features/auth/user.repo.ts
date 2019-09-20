@@ -29,7 +29,10 @@ export class UserRepo implements IUserRepo {
                     // If more complex make a mapper
                     const { id, password, authStatus: auth_status } = entity;
                     return Result.ok({
-                        id, username, password, auth_status,
+                        id,
+                        username,
+                        password,
+                        auth_status,
                     });
                 },
             )
