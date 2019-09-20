@@ -2,12 +2,20 @@ import { AuthService } from './auth.service';
 import { User } from './user.interface';
 import { Result } from '../../core/result';
 import { IUserRepo } from './user.repo';
+import { ActiveStatus } from '../../entity/user.entity';
 
 test('authenticateAndReturnUser should work', async () => {
+    /**
+     * readonly users: User[] = [
+     * { id: 1, username: 'valid_user', password: 'valid_pwd', auth_status: 'active' },
+     * { id: 2, username: 'expired_user', password: 'valid_pwd', auth_status: 'expired' },
+     * { id: 3, username: 'locked_user', password: 'valid_pwd', auth_status: 'locked' },
+     * ];
+     */
     const foundUser = {
         username: 'cool',
         password: 'theuserpasswOORD!',
-        status: 'valid',
+        auth_status: ActiveStatus,
     } as Partial<User>;
 
     // Arrange

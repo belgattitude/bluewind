@@ -6,7 +6,7 @@ import { logger } from './logger';
 import { initConnection } from './init-connection';
 import swaggerUi from 'swagger-ui-express';
 import * as swaggerConfig from './swagger.json';
-import { loginHandler } from './features/auth/auth.handler';
+import { loginHandler } from './features/auth/auth.handlers';
 import { env } from './env';
 import { studentRequestHandler } from './features/student/student.handler';
 

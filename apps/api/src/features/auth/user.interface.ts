@@ -1,5 +1,8 @@
+import { AuthStatuses } from '../../entity/user.entity';
+
 export interface User {
+    id: number;
     username: string;
     password: string;
-    status: 'valid' | 'expired' | 'locked';
+    auth_status: AuthStatuses;
 }

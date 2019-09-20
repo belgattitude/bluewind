@@ -1,5 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, Index, UpdateDateColumn } from 'typeorm';
 
+export const ActiveStatus = 'active';
+export type AuthStatuses = typeof ActiveStatus | 'locked' | 'pending' | 'expired' | 'disabled';
+
 @Entity('user')
 export class UserEntity {
     @PrimaryGeneratedColumn()
@@ -34,8 +37,11 @@ export class UserEntity {
     @Column('datetime', { name: 'password_reset_expires', nullable: true })
     passwordResetExpires!: Date | null;
 
-    @Column('varchar', { name: 'auth_status', default: 'active' })
-    authStatus!: 'active' | 'locked' | 'pending' | 'disabled';
+    @Column('varchar', { name: 'auth_status', default: ActiveStatus })
+    authStatus!: AuthStatuses;
+
+    @Column('datetime', { name: 'auth_status_at', nullable: true })
+    authStatusAt!: Date | null;
 
     @Column('varchar', { name: 'activation_token', nullable: true })
     activationToken!: string | null;

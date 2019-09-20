@@ -2,6 +2,7 @@ import { IUserRepo } from './user.repo';
 import { Result } from '../../core/result';
 import { User } from './user.interface';
 import { assertNever } from '../../core/typeguards';
+import { compareSync } from 'bcryptjs';
 
 export class AuthService {
     constructor(private userRepo: IUserRepo) {
@@ -14,6 +15,7 @@ export class AuthService {
             // Narrowed to error
             if (payload.isError) {
                 return result;
+                // eventually: Result.fail("Authentication failure")
             }
 
             // Narrowed to User
@@ -24,37 +26,36 @@ export class AuthService {
                 return Result.fail(pwdValidation.error);
             }
 
-            switch (user.status) {
-                case 'expired':
+            switch (user.auth_status) {
+                case 'disabled':
                     return Result.fail(new Error(`Expired account`));
                 case 'locked':
                     return Result.fail(new Error(`Locked account`));
+                case 'pending':
+                    return Result.fail(new Error(`Account pending approval`));
+                case 'expired':
+                    return Result.fail(new Error(`Expired account`));
             }
 
-            if (user.status === 'valid') {
+            if (user.auth_status === 'active') {
                 return result;
             }
 
             // Exhaustive typechecks here
             // https://www.typescriptlang.org/docs/handbook/advanced-types.html#exhaustiveness-checking
-            assertNever(user.status);
+            assertNever(user.auth_status);
 
             return Result.fail(new Error(`Unexpected error`));
         });
     }
 
     /**
-     * For purpose of example
+     * Will be refactored in a PasswordCryptService
      */
     comparePassword(password1: string, password2: string): Result<true> {
-        const letsPretendABCryptComparison = password1 === password2;
-        if (!letsPretendABCryptComparison) {
+        if (!compareSync(password1, password2)) {
             return Result.fail(`Passwords does not match`);
         }
-        if (password1.trim().length < 8) {
-            return Result.fail(`Our security policy has been upgraded`);
-        }
-
         return Result.ok(true);
     }
 }
