@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import {GenericDtoMapper} from "../../core/mapper/generic-dto-mapper";
-import {addDTOErrorToResponse} from "../../core/utils";
-import {DatabaseError} from "../../core/exceptions";
-import {GetProfileDto} from "./user.dto";
-import {UserService} from "./user.service";
-import {UserRepo} from "./user.repo";
+import {GenericDtoMapper} from '../../core/mapper/generic-dto-mapper';
+import {addDTOErrorToResponse} from '../../core/utils';
+import {DatabaseError} from '../../core/exceptions';
+import {GetProfileDto} from './user.dto';
+import {UserService} from './user.service';
+import {UserRepo} from './user.repo';
 
 /**
  * Return user profile data
@@ -19,7 +19,7 @@ export const getProfileHandler = async (req: Request, res: Response) => {
     }
 
     const userService = new UserService(UserRepo.fromConnection());
-    const result = await userService.getUserProfile(dtoOrError.dto.user_id)
+    const result = await userService.getUserProfile(dtoOrError.dto.user_id);
 
     const { payload } = result;
 
