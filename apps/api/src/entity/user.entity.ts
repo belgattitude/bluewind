@@ -19,11 +19,11 @@ export class UserEntity {
     @Index({ unique: true })
     email!: string;
 
-    @Column('varchar', { name: 'first_name', length: 50, nullable: true })
-    firstName!: string | null;
+    @Column('varchar', { length: 50, nullable: true })
+    first_name!: string | null;
 
-    @Column('varchar', { name: 'last_name', length: 50, nullable: true })
-    lastName!: string | null;
+    @Column('varchar', { length: 50, nullable: true })
+    last_name!: string | null;
 
     @Column('varchar', { length: 20, nullable: true })
     phone!: string | null;
@@ -31,27 +31,27 @@ export class UserEntity {
     @Column('varchar', { length: 20, nullable: true })
     mobile!: string | null;
 
-    @Column('varchar', { name: 'password_reset_token', nullable: true })
-    passwordResetToken!: string | null;
+    @Column('varchar', { nullable: true })
+    password_reset_token!: string | null;
 
-    @Column('datetime', { name: 'password_reset_expires', nullable: true })
-    passwordResetExpires!: Date | null;
+    @Column('datetime', { nullable: true })
+    password_reset_expires!: Date | null;
 
-    @Column('varchar', { name: 'auth_status', default: ActiveStatus })
-    authStatus!: AuthStatuses;
+    @Column('varchar', { default: ActiveStatus })
+    auth_status!: AuthStatuses;
 
-    @Column('datetime', { name: 'auth_status_at', nullable: true })
-    authStatusAt!: Date | null;
+    @Column('datetime', { nullable: true })
+    auth_status_at!: Date | null;
 
-    @Column('varchar', { name: 'activation_token', nullable: true })
-    activationToken!: string | null;
+    @Column('varchar', { nullable: true })
+    activation_token!: string | null;
 
-    @Column('datetime', { name: 'activation_expires', nullable: true })
-    activationExpires!: Date | null;
+    @Column('datetime', { nullable: true })
+    activation_expires!: Date | null;
 
-    @CreateDateColumn({ name: 'created_at' })
-    createdAt!: Date;
+    @CreateDateColumn()
+    created_at!: Date;
 
-    @UpdateDateColumn({ name: 'updated_at', nullable: true })
-    updatedAt!: Date | null;
+    @UpdateDateColumn({ nullable: true })
+    updated_at!: Date | null;
 }

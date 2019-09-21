@@ -1,7 +1,7 @@
 import { AuthService } from './auth.service';
-import { User } from './user.interface';
+import { User } from './interface';
 import { Result } from '../../core/result';
-import { IUserRepo } from './user.repo';
+import { IUserRepo } from './interface';
 import {ActiveStatus, AuthStatuses} from '../../entity/user.entity';
 import { hashSync } from 'bcryptjs';
 
@@ -16,6 +16,8 @@ describe('AuthService tests', () => {
      */
 
     test('authenticateAndReturnUser should work', async () => {
+
+        // Arrange
         const password = 'theuserpasswOORD!';
         const foundUser = {
             username: 'cool',
@@ -28,7 +30,6 @@ describe('AuthService tests', () => {
             auth_status: 'locked',
         } as Partial<User>;
 
-        // Arrange
         const mockUserRepo = jest.fn(
             (): IUserRepo => ({
                 async findByUsername(username: 'found' | 'dberror' | 'locked'): Promise<Result<User>> {
@@ -51,16 +52,16 @@ describe('AuthService tests', () => {
         const auth = async (username: string, pwd: string) => {
             return await authService.authenticateAndReturnUser(username, pwd);
         };
-        const result1 = await auth('dberror', '');
-        const result2 = await auth('found', 'A');
-        const result3 = await auth('found', password);
-        const result4 = await auth('locked', password);
+        const resDbError = await auth('dberror', '');
+        const resWrongPwd = await auth('found', 'A');
+        const resOk = await auth('found', password);
+        const resLocked = await auth('locked', password);
 
         // Assert
-        await expect((result1.payload as any).error.message).toEqual(`Could not connect to database`);
-        await expect((result2.payload as any).error.message).toEqual(`Passwords does not match`);
-        await expect((result3.payload as any).value).toEqual(foundUser);
-        await expect((result4.payload as any).error.message).toEqual(`Account locked`);
+        await expect((resDbError.payload as any).error.message).toEqual(`Could not connect to database`);
+        await expect((resWrongPwd.payload as any).error.message).toEqual(`Passwords does not match`);
+        await expect((resOk.payload as any).value).toEqual(foundUser);
+        await expect((resLocked.payload as any).error.message).toEqual(`Account locked`);
     });
 
 });

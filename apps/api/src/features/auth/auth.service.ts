@@ -1,6 +1,6 @@
 import { IUserRepo } from './user.repo';
 import { Result } from '../../core/result';
-import { User } from './user.interface';
+import { User } from './interface';
 import { assertNever } from '../../core/typeguards';
 import {compare as bcryptCompare} from 'bcryptjs';
 

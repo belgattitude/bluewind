@@ -5,11 +5,11 @@ export class StudentEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column('varchar', { name: 'first_name', length: 50 })
-    firstName!: string;
+    @Column('varchar', { length: 50 })
+    first_name!: string;
 
-    @Column('varchar', { name: 'last_name', length: 50, nullable: true })
-    lastName!: string | null;
+    @Column('varchar', { length: 50, nullable: true })
+    last_name!: string | null;
 
     @Column('varchar', { length: 50, nullable: true })
     @Index({ unique: true })
@@ -24,12 +24,12 @@ export class StudentEntity {
     @Column('date', { nullable: true })
     birthdate?: Date | null;
 
-    @Column('varchar', { name: 'facebook_url', length: 50, nullable: true })
-    facebookUrl?: string | null;
+    @Column('varchar', { length: 50, nullable: true })
+    facebook_url?: string | null;
 
-    @CreateDateColumn({ name: 'created_at' })
-    createdAt?: Date;
+    @CreateDateColumn()
+    created_at?: Date;
 
-    @UpdateDateColumn({ name: 'updated_at', nullable: true })
-    updatedAt?: Date | null;
+    @UpdateDateColumn({ nullable: true })
+    updated_at?: Date | null;
 }

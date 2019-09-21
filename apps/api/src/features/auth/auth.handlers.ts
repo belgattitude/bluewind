@@ -12,7 +12,6 @@ import { DatabaseError } from '../../core/exceptions';
  * Login handler just authenticate credentials
  * and generate a JWT token on success
  */
-
 export const loginHandler = async (req: Request, res: Response) => {
     // Validate input
     const dtoOrError = await GenericDtoMapper.fromRequest(LoginRequestDto, req);
