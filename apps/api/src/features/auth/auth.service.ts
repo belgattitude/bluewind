@@ -2,15 +2,15 @@ import { IAuthRepo } from './interface';
 import { Result } from '../../core/result';
 import { AuthUser } from './interface';
 import { assertNever } from '../../core/typeguards';
-import {compare as bcryptCompare} from 'bcryptjs';
+import { compare as bcryptCompare } from 'bcryptjs';
 
 export class AuthService {
     constructor(private userRepo: IAuthRepo) {
         this.userRepo = userRepo;
     }
     async authenticateAndReturnUser(username: string, password: string): Promise<Result<AuthUser>> {
-        return this.userRepo.findByUsername(username).then(async (result)  => {
-            const {payload} = result;
+        return this.userRepo.findByUsername(username).then(async result => {
+            const { payload } = result;
             // Narrowed to error
             if (payload.isError) {
                 return result;
@@ -19,7 +19,7 @@ export class AuthService {
             // Narrowed to User
             const user = payload.value;
 
-            if (! await bcryptCompare(password, user.password)) {
+            if (!(await bcryptCompare(password, user.password))) {
                 return Result.fail<AuthUser>(`Passwords does not match`);
             }
 

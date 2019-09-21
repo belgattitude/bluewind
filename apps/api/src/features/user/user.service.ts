@@ -1,14 +1,14 @@
 import { Result } from '../../core/result';
-import {UserProfile} from './interface';
-import {UserRepo} from "./user.repo";
+import { UserProfile } from './interface';
+import { UserRepo } from './user.repo';
 
 export class UserService {
     constructor(private userRepo: UserRepo) {
         this.userRepo = userRepo;
     }
     async getUserProfile(userId: number): Promise<Result<UserProfile>> {
-        return this.userRepo.getProfile(userId).then(async (result) => {
-            const {payload} = result;
+        return this.userRepo.getProfile(userId).then(async result => {
+            const { payload } = result;
             // Narrowed to error
             if (payload.isError) {
                 return result;

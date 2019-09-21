@@ -2,11 +2,10 @@ import { AuthService } from './auth.service';
 import { AuthUser } from './interface';
 import { Result } from '../../core/result';
 import { IAuthRepo } from './interface';
-import {ActiveStatus, AuthStatuses} from '../../entity/user.entity';
+import { ActiveStatus, AuthStatuses } from '../../entity/user.entity';
 import { hashSync } from 'bcryptjs';
 
 describe('AuthService tests', () => {
-
     /**
      * readonly users: User[] = [
      * { id: 1, username: 'valid_user', password: 'valid_pwd', auth_status: 'active' },
@@ -16,7 +15,6 @@ describe('AuthService tests', () => {
      */
 
     test('authenticateAndReturnUser should work', async () => {
-
         // Arrange
         const password = 'theuserpasswOORD!';
         const foundUser = {
@@ -63,5 +61,4 @@ describe('AuthService tests', () => {
         await expect((resOk.payload as any).value).toEqual(foundUser);
         await expect((resLocked.payload as any).error.message).toEqual(`Account locked`);
     });
-
 });

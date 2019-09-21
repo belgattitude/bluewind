@@ -1,9 +1,8 @@
-import {AuthUser, AuthRole, IAuthRepo} from './interface';
+import { AuthUser, AuthRole, IAuthRepo } from './interface';
 import { Result } from '../../core/result';
 import { DatabaseError, RecordNotFoundError } from '../../core/exceptions';
 import { Connection, getConnection } from 'typeorm';
 import { UserEntity } from '../../entity/user.entity';
-
 
 export class AuthRepo implements IAuthRepo {
     private conn: Connection;
@@ -31,7 +30,7 @@ export class AuthRepo implements IAuthRepo {
                         username,
                         password,
                         auth_status,
-                        roles: [] // todo
+                        roles: [], // todo
                     });
                 },
             )

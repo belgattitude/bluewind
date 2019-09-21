@@ -5,6 +5,4 @@ import { Request, Response } from 'express';
  * and generate a JWT token on success
  */
 
-export const getProfile = async (req: Request, res: Response) => {
-
-};
+export const getProfile = async (req: Request, res: Response) => {};
