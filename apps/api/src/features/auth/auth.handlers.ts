@@ -5,7 +5,7 @@ import { GenericDtoMapper } from '../../core/mapper/generic-dto-mapper';
 import { sign } from 'jsonwebtoken';
 import { addDTOErrorToResponse } from '../../core/utils';
 import { AuthService } from './auth.service';
-import { UserRepo } from './user.repo';
+import { AuthRepo } from './user.repo';
 import { DatabaseError } from '../../core/exceptions';
 
 /**
@@ -23,7 +23,7 @@ export const loginHandler = async (req: Request, res: Response) => {
     // Authentication
 
     const dto = dtoOrError.dto;
-    const authService = new AuthService(UserRepo.fromConnection());
+    const authService = new AuthService(AuthRepo.fromConnection());
 
     const result = await authService.authenticateAndReturnUser(dto.username, dto.password);
 

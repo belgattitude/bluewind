@@ -1,7 +1,7 @@
 import { AuthService } from './auth.service';
-import { User } from './interface';
+import { AuthUser } from './interface';
 import { Result } from '../../core/result';
-import { IUserRepo } from './interface';
+import { IAuthRepo } from './interface';
 import {ActiveStatus, AuthStatuses} from '../../entity/user.entity';
 import { hashSync } from 'bcryptjs';
 
@@ -23,21 +23,21 @@ describe('AuthService tests', () => {
             username: 'cool',
             password: hashSync(password, 10),
             auth_status: ActiveStatus,
-        } as Partial<User>;
+        } as Partial<AuthUser>;
         const lockedUser = {
             username: 'locked',
             password: hashSync(password, 10),
             auth_status: 'locked',
-        } as Partial<User>;
+        } as Partial<AuthUser>;
 
         const mockUserRepo = jest.fn(
-            (): IUserRepo => ({
-                async findByUsername(username: 'found' | 'dberror' | 'locked'): Promise<Result<User>> {
+            (): IAuthRepo => ({
+                async findByUsername(username: 'found' | 'dberror' | 'locked'): Promise<Result<AuthUser>> {
                     switch (username) {
                         case 'found':
-                            return Result.ok(foundUser as User);
+                            return Result.ok(foundUser as AuthUser);
                         case 'locked':
-                            return Result.ok(lockedUser as User);
+                            return Result.ok(lockedUser as AuthUser);
                         case 'dberror':
                             return Result.fail(`Could not connect to database`);
                         default:

@@ -1,3 +1,3 @@
-export {Role} from './role.inteface';
-export {User} from './user.interface';
-export {IUserRepo} from './user.repo.interface';
+export {AuthRole} from './auth-role.inteface';
+export {AuthUser} from './auth-user.interface';
+export {IAuthRepo} from './auth.repo.interface';
