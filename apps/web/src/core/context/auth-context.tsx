@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useContext } from 'react';
+import React, { ReactNode, useContext } from 'react';
 import { authApi, AuthRequestDTO, AuthUserDataResponseDTO } from '../../features/auth/auth.api';
 import { useAsync } from 'react-async';
 import { FullPageSpinner } from '../../component/loading-spinner';
@@ -6,7 +6,7 @@ import { FullPageSpinner } from '../../component/loading-spinner';
 const localStorageKey = '__bluewind_token__';
 
 type RegisterRequestDTO = {
-    login: string;
+    username: string;
     password: string;
 };
 

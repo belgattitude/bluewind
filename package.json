@@ -16,6 +16,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "lerna": "lerna",
+    "format": "lerna run format --parallel --stream",
     "lint": "lerna run lint --parallel --stream",
     "lint:fix": "lerna run lint:fix --parallel",
     "test": "lerna run test --parallel --stream",

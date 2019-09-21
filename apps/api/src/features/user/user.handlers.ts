@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import {GenericDtoMapper} from '../../core/mapper/generic-dto-mapper';
-import {addDTOErrorToResponse} from '../../core/utils';
-import {DatabaseError} from '../../core/exceptions';
-import {GetProfileDto} from './user.dto';
-import {UserService} from './user.service';
-import {UserRepo} from './user.repo';
+import { GenericDtoMapper } from '../../core/mapper/generic-dto-mapper';
+import { addDTOErrorToResponse } from '../../core/utils';
+import { DatabaseError } from '../../core/exceptions';
+import { GetProfileDto } from './user.dto';
+import { UserService } from './user.service';
+import { UserRepo } from './user.repo';
 
 /**
  * Return user profile data

@@ -14,7 +14,7 @@ const App: React.FC = () => {
     const user = useUser();
 
     // pre-load the authenticated side in the background while the user's
-    // filling out the login form.
+    // filling out the username form.
     React.useEffect(() => {
         loadAuthenticatedApp();
     }, []);
