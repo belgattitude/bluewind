@@ -1,4 +1,6 @@
 import ky from 'ky';
+import {StudentListDTO} from "../student/student.api";
+import is from "@sindresorhus/is";
 
 export type AuthRequestDTO = {
     login: string;
@@ -19,7 +21,9 @@ export type AuthUserDataResponseDTO = {
 
 const defaultApiUrl = 'http://localhost:3000';
 
-export class AuthApi {
+interface IAuthApi {};
+
+export class AuthApi implements IAuthApi {
     private api: typeof ky;
 
     constructor(apiUrl: string = defaultApiUrl) {
@@ -28,18 +32,23 @@ export class AuthApi {
         });
     }
 
-    async login(params: AuthRequestDTO): Promise<AuthSuccessResponseDTO> {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                if (params.login === 'test') {
-                    resolve({
-                        token: 'ssssss',
-                    });
+    async login(authRequest: AuthRequestDTO): Promise<AuthSuccessResponseDTO> {
+        return this.api
+            .post('auth/login', {
+                json: authRequest
+            })
+            .json()
+            .then((response) : AuthSuccessResponseDTO => {
+                if (is.plainObject(response) && is.nonEmptyString(response.token)) {
+                    return {
+                        token: response.token
+                    }
                 } else {
-                    reject('Invalid login/pass');
+                    throw new Error(`Response did not respond with a valid token`);
                 }
-            }, 1000);
-        });
+                throw new Error(`Invalid response`)
+            });
+
     }
 
     async getUserData(token: string): Promise<AuthUserDataResponseDTO> {

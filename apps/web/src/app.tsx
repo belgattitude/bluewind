@@ -2,8 +2,8 @@ import { hot } from 'react-hot-loader/root';
 import React from 'react';
 import ErrorBoundary from 'react-error-boundary';
 import { ErrorBoundaryFallbackDev } from './component/error/error-boundary-fallback-dev';
-import { ErrorHandler } from './utils/error-handler';
-import { useUser } from './context/user-context';
+import { ErrorHandler } from './core/utils/error-handler';
+import { useUser } from './core/context/user-context';
 
 const FallbackComponent = ErrorBoundaryFallbackDev;
 const loadAuthenticatedApp = () => import('./authenticated-app');

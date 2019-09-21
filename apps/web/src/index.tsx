@@ -4,7 +4,7 @@ import './assets/sass/global.scss';
 import 'typeface-muli';
 
 import App from './app';
-import AppProviders from './context';
+import AppProviders from './core/context';
 import DevTools from 'react-async-devtools';
 
 ReactDOM.render(

@@ -6,7 +6,7 @@ import HomePage from './features/home/home.page';
 import { StudentPage } from './features/student/student.page';
 import { ClassesPage } from './features/classes/classes.page';
 import DashboardLayout from './component/dashboard/dashboard-layout';
-import { useAuth } from './context/auth-context';
+import { useAuth } from './core/context/auth-context';
 import { Provider } from 'react-redux';
 import { store } from './store';
 
