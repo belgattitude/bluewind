@@ -5,7 +5,7 @@ import { GenericDtoMapper } from '../../core/mapper/generic-dto-mapper';
 import { sign } from 'jsonwebtoken';
 import { addDTOErrorToResponse } from '../../core/utils';
 import { AuthService } from './auth.service';
-import { AuthRepo } from './user.repo';
+import { AuthRepo } from './auth.repo';
 import { DatabaseError } from '../../core/exceptions';
 
 /**
