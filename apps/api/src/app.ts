@@ -9,6 +9,7 @@ import * as swaggerConfig from './swagger.json';
 import { loginHandler } from './features/auth/auth.handlers';
 import { env } from './env';
 import { studentRequestHandler } from './features/student/student.handler';
+import {getProfileHandler} from "./features/user/user.handlers";
 
 const port: number = env.DEVSERVER_PORT;
 
@@ -25,6 +26,9 @@ initConnection()
 
         app.post('/auth/login', loginHandler);
         app.get('/student/search', studentRequestHandler);
+
+        // There should be a middleware @todo jwt...
+        app.get('/profile/me', getProfileHandler);
 
         app.get('/', (req: Request, res: Response) => {
             res.redirect('/swagger');
