@@ -1,4 +1,4 @@
-import { IUserRepo } from './user.repo';
+import { IUserRepo } from './interface';
 import { Result } from '../../core/result';
 import { User } from './interface';
 import { assertNever } from '../../core/typeguards';

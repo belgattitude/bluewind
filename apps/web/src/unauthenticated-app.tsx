@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from './context/auth-context';
+import { useAuth } from './core/context/auth-context';
 
 const UnAuthenticatedApp: React.FC = () => {
     const auth = useAuth();
@@ -7,13 +7,11 @@ const UnAuthenticatedApp: React.FC = () => {
     return (
         <div className="unauthenticated-app">
             Unauthenticated
-            <button
-                onClick={() => {
-                    auth.login({ login: 'test', password: 'test' });
-                }}
-            >
-                authenticate
-            </button>
+            <form>
+                <input name="login" type="text" value="" />
+                <input name="password" type="text" value="" />
+                <button>Submit</button>
+            </form>
         </div>
     );
 };

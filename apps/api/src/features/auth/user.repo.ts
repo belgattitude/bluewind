@@ -24,7 +24,7 @@ export class UserRepo implements IUserRepo {
                         return Result.fail(new RecordNotFoundError(`Username cannot be found.`));
                     }
                     // If more complex make a mapper
-                    const { id, password, authStatus: auth_status } = entity;
+                    const { id, password, auth_status } = entity;
                     return Result.ok({
                         id,
                         username,
