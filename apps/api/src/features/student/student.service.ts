@@ -2,17 +2,17 @@ import { CreateStudentDto, StudentSearchRequestDto, StudentSearchResponseDto } f
 import { Brackets, getConnection, getManager, getRepository, Repository } from 'typeorm';
 import { StudentEntity } from '../../entity/student.entity';
 import is from '@sindresorhus/is';
-import { queryFail, querySuccess } from '../../core/query-result';
+import {queryFail, QueryResultMany, querySuccess} from '../../core/query-result';
+import {Result} from "../../core/result";
 
 class StudentService {
     private studentRepo: Repository<StudentEntity>;
 
     constructor() {
         this.studentRepo = getConnection().getRepository(StudentEntity);
-        // getManager().s
     }
 
-    async search(params: StudentSearchRequestDto): Promise<StudentSearchResponseDto> {
+    async search(params: StudentSearchRequestDto): Promise<Result<StudentEntity[]>> {
         const qb = this.studentRepo.createQueryBuilder('student');
         qb.where('1=1');
         if (params) {
@@ -43,10 +43,11 @@ class StudentService {
         return qb
             .getManyAndCount()
             .then(([result, total]) => {
-                return querySuccess<StudentEntity>({ data: result, total, limit: params.limit });
+                return Result.ok(result);
+
             })
             .catch(error => {
-                return queryFail('error');
+                return Result.fail(`Error ${error}`);
             });
     }
 

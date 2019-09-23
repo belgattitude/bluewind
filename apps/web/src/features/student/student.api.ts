@@ -3,6 +3,8 @@ import snakecaseKeys from 'snakecase-keys';
 import is from '@sindresorhus/is';
 import ky from 'ky';
 import { classesListMock } from '../../mocks/datamocks';
+import {isApiResponse} from "../../core/typeguards";
+import {getTokenStore} from "../../core/token-store";
 
 export interface StudentDetailDTO {
     id: number;
@@ -19,18 +21,9 @@ export interface StudentDetailDTO {
 
 export type StudentListDTO = StudentDetailDTO[];
 
-const defaultApiUrl = 'http://localhost:3000';
+const defaultApiUrl = 'http://localhost:3000/api';
 
-type ApiResponse = {
-    success: boolean;
-    data?: unknown[] | unknown;
-    error?: string;
-};
 
-// typeguard
-function isApiResponse(response: unknown): response is ApiResponse {
-    return is.plainObject(response) && response.success !== undefined && response.data !== undefined;
-}
 
 type SearchParams = {
     query?: string;
@@ -44,6 +37,14 @@ export class StudentApi {
             prefixUrl: apiUrl,
             // Debug for headers, can also transform the response
             hooks: {
+                beforeRequest: [
+                    (input, options) => {
+                        const token = getTokenStore().getToken();
+                        if (token !== null) {
+                            options.headers.set('Authorization', token);
+                        }
+                    }
+                ],
                 afterResponse: [
                     (input, options, response) => {
                         response.headers.forEach((val, key) => {
@@ -98,7 +99,7 @@ export class StudentApi {
                     const data = camelcaseKeys(response, { deep: true });
                     return (data as unknown) as StudentDetailDTO;
                 }
-                throw new Error('Response invalid');
+                throw new Error(`Invalid response`);
             });
     }
 }
