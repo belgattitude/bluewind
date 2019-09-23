@@ -1,13 +1,15 @@
 import StudentService from './student.service';
 import { StudentSearchRequestDto, StudentSearchResponseDto } from './student.dto';
 
-describe('StudentService ', () => {
+describe('StudentService ', async () => {
     test('should reply to search', async () => {
-        expect.assertions(1);
         const student = new StudentService();
         const request: StudentSearchRequestDto = {
             limit: 1,
         };
-        await expect(student.search(request)).resolves.toHaveProperty('success');
+
+        const val = ((await student.search(request)).payload as any).value;
+        // await expect((result as any).value).resolves.toHaveProperty('success');
+        expect(val).toBeInstanceOf(Array);
     });
 });

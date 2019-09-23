@@ -14,7 +14,7 @@ export class Result<T, E extends ErrorType = Error> {
     /**
      * Discriminated union between OkPayload | FailPayload
      */
-   // readonly payload: Readonly<ResultPayload<Readonly<T>, Readonly<E>>>;
+    // readonly payload: Readonly<ResultPayload<Readonly<T>, Readonly<E>>>;
     readonly payload: ResultPayload<T, E>;
 
     /**

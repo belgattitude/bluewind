@@ -17,4 +17,3 @@ test('Payload error must always give an Error object.', () => {
     expect((failFromError as any).error).toBeInstanceOf(Error);
     expect((failFromString as any).error).toBeInstanceOf(Error);
 });
-

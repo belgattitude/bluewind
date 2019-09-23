@@ -13,8 +13,12 @@ const authMiddleware = (req: RequestWithToken, res: Response, next: NextFunction
 
     const tokenService = TokenService.createFormEnv();
 
+    type ExtraTokenValues = {
+        userId: number;
+    };
+
     if (token) {
-        const result = tokenService.verify<{ userId: string }>(token);
+        const result = tokenService.verify<ExtraTokenValues>(token);
         const { payload } = result;
         if (payload.isError) {
             return res.status(401).json(`Authentication failure ${payload.error.message}`);

@@ -2,7 +2,6 @@ import { Request, Response, Router } from 'express';
 import { LoginRequestDto } from './auth.dto';
 import { logger } from '../../logger';
 import { GenericDtoMapper } from '../../core/mapper/generic-dto-mapper';
-import { sign } from 'jsonwebtoken';
 import { addDTOErrorToResponse } from '../../core/utils';
 import { AuthService } from './auth.service';
 import { AuthRepo } from './auth.repo';
