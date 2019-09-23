@@ -1,25 +1,25 @@
-import { Request, Response } from 'express';
-import { GenericDtoMapper } from '../../core/mapper/generic-dto-mapper';
-import { addDTOErrorToResponse } from '../../core/utils';
+import { Request, Response, Router } from 'express';
 import { DatabaseError } from '../../core/exceptions';
-import { GetProfileDto } from './user.dto';
 import { UserService } from './user.service';
 import { UserRepo } from './user.repo';
+import { isSafeId } from '../../core/typeguards';
 
 /**
  * Return user profile data
  */
 
-export const getProfileHandler = async (req: Request, res: Response) => {
-    // Validate input
-    const dtoOrError = await GenericDtoMapper.fromRequest(GetProfileDto, req);
-    if (dtoOrError.type === 'failure') {
-        addDTOErrorToResponse(res, dtoOrError).send();
-        return;
+type RequestWithUser = {
+    userId?: number;
+} & Request;
+
+export const getProfileHandler = async (req: RequestWithUser, res: Response) => {
+    const { userId } = req;
+    if (!isSafeId(userId)) {
+        return res.status(401).json({ userId: req.userId });
     }
 
     const userService = new UserService(UserRepo.fromConnection());
-    const result = await userService.getUserProfile(dtoOrError.dto.user_id);
+    const result = await userService.getUserProfile(userId);
 
     const { payload } = result;
 
