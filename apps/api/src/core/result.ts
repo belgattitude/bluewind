@@ -30,7 +30,6 @@ export class Result<T, E extends ErrorType = Error> {
      * @param value can be anything except an instance of Error.
      * @throws Error if runtime validation of the payload failed
      */
-    //static ok<U, E extends ErrorType = Error>(value: Exclude<U, Error>): Result<U, E> {
     static ok<U, E extends ErrorType = Error>(value: U): Result<U, E> {
         return new Result({
             isError: false,
