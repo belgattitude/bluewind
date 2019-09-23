@@ -14,7 +14,7 @@ describe('AuthService tests', () => {
      * ];
      */
 
-    test('authenticateAndReturnUser should work', async () => {
+    test('authenticate should work', async () => {
         // Arrange
         const password = 'theuserpasswOORD!';
         const foundUser = {
@@ -48,7 +48,7 @@ describe('AuthService tests', () => {
         // Act
         const authService = new AuthService(mockUserRepo() as any);
         const auth = async (username: string, pwd: string) => {
-            return await authService.authenticateAndReturnUser(username, pwd);
+            return await authService.authenticate(username, pwd);
         };
         const resDbError = await auth('dberror', '');
         const resWrongPwd = await auth('found', 'A');

@@ -25,7 +25,7 @@ export const loginHandler = async (req: Request, res: Response) => {
     const dto = dtoOrError.dto;
     const authService = new AuthService(AuthRepo.fromConnection());
 
-    const result = await authService.authenticateAndReturnUser(dto.username, dto.password);
+    const result = await authService.authenticate(dto.username, dto.password);
 
     const { payload } = result;
 

@@ -8,7 +8,8 @@ export class AuthService {
     constructor(private userRepo: IAuthRepo) {
         this.userRepo = userRepo;
     }
-    async authenticateAndReturnUser(username: string, password: string): Promise<Result<AuthUser>> {
+
+    async authenticate(username: string, password: string): Promise<Result<AuthUser>> {
         return this.userRepo.findByUsername(username).then(async result => {
             const { payload } = result;
             // Narrowed to error
