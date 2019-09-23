@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import { GenericDtoMapper } from '../../core/mapper/generic-dto-mapper';
 import StudentService from './student.service';
 import { addDTOErrorToResponse } from '../../core/utils';
 import { StudentSearchRequestDto } from './student.dto';
 
-export const studentRequestHandler = async (req: Request, res: Response) => {
+export const searchStudents = async (req: Request, res: Response) => {
     // Get a validated LoginRequestDTO from express request
     // Could be handled differently... just an example using
     // discriminated unions type safety to handle validation.
