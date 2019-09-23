@@ -2,8 +2,7 @@ import React, { ReactNode, useContext } from 'react';
 import { authApi, AuthRequestDTO, AuthUserDataResponseDTO } from '../../features/auth/auth.api';
 import { useAsync } from 'react-async';
 import { FullPageSpinner } from '../../component/loading-spinner';
-
-const localStorageKey = '__bluewind_token__';
+import {getTokenStore} from "../token-store";
 
 type RegisterRequestDTO = {
     username: string;
@@ -24,13 +23,13 @@ export type AuthContextProps = {
 const AuthContext = React.createContext<AuthContextProps | null>(null);
 
 async function bootstrapUserData(): Promise<AuthContextState> {
-    const token = window.localStorage.getItem(localStorageKey);
+    const token = getTokenStore().getToken();
     console.log('BOOTSTRAP TOKEN', token);
     if (token === null) {
         return { user: null };
     }
     const userData = await authApi.getUserData(token).catch(error => {
-        window.localStorage.removeItem(localStorageKey);
+        getTokenStore().removeToken();
         authApi.logout(token);
         return null;
     });
@@ -69,14 +68,14 @@ function AuthProvider(props: { children: ReactNode }) {
         authApi
             .login(params)
             .then(({ token }) => {
-                window.localStorage.setItem(localStorageKey, token);
+                getTokenStore().setToken(token);
             })
             .then(reload);
     };
     const logout = () => {
-        const token = window.localStorage.getItem(localStorageKey);
+        const token = getTokenStore().getToken();
         if (token !== null) {
-            window.localStorage.removeItem(localStorageKey);
+            getTokenStore().removeToken();
             authApi.logout(token);
         }
         reload();
