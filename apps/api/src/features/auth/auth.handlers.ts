@@ -7,6 +7,7 @@ import { addDTOErrorToResponse } from '../../core/utils';
 import { AuthService } from './auth.service';
 import { AuthRepo } from './auth.repo';
 import { DatabaseError } from '../../core/exceptions';
+import {TokenService} from "./token.service";
 
 /**
  * Login handler just authenticate credentials
@@ -40,9 +41,11 @@ export const loginHandler = async (req: Request, res: Response) => {
     const user = payload.value;
     const validFor = 86400;
 
-    const signedToken = sign({ userId: user.id }, 'MyJWTsecretThatShouldBeSomewhereElse', {
-        expiresIn: validFor,
-    });
+    const tokenService = TokenService.createFormEnv();
 
-    return res.cookie('token', signedToken, { maxAge: validFor }).json({ success: true, token: signedToken });
+    const signed = tokenService.createToken({
+        userId: user.id
+    }, validFor);
+
+    return res.cookie('token', signed, { maxAge: validFor }).json({ success: true, token: signed });
 };
