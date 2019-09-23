@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import { LoginRequestDto } from './auth.dto';
 import { logger } from '../../logger';
 import { GenericDtoMapper } from '../../core/mapper/generic-dto-mapper';

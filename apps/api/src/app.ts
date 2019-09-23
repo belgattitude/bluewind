@@ -1,15 +1,13 @@
 import 'reflect-metadata';
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import { logger } from './logger';
 import { initConnection } from './init-connection';
 import swaggerUi from 'swagger-ui-express';
 import * as swaggerConfig from './swagger.json';
-import { loginHandler } from './features/auth/auth.handlers';
 import { env } from './env';
-import { studentRequestHandler } from './features/student/student.handler';
-import { getProfileHandler } from './features/user/user.handlers';
+import { getMainRouterCreator } from './routes';
 
 const port: number = env.DEVSERVER_PORT;
 
@@ -22,17 +20,11 @@ initConnection()
         app.use(bodyParser.json());
         app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerConfig));
 
-        // Routes, should be in a separate file (router)
+        // @TODO here we'll load the global config
+        // or use context... TBD
+        const container = {};
 
-        app.post('/auth/login', loginHandler);
-        app.get('/student/search', studentRequestHandler);
-
-        // There should be a middleware @todo jwt...
-        app.get('/profile/me', getProfileHandler);
-
-        app.get('/', (req: Request, res: Response) => {
-            res.redirect('/swagger');
-        });
+        app.use(getMainRouterCreator()(container));
 
         // Start the server
         app.listen(port, () => {
