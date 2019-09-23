@@ -1,6 +1,6 @@
 // typeguard
-import is from "@sindresorhus/is";
-import {ApiResponse} from "./api.interfaces";
+import is from '@sindresorhus/is';
+import { ApiResponse } from './api.interfaces';
 
 export function assertNever(value: never): never {
     throw new Error(`Unexpected value: ${value}`);

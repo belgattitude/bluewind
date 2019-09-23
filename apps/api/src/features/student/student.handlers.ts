@@ -24,11 +24,11 @@ export const searchStudents = async (req: Request, res: Response) => {
     const studentService = new StudentService();
 
     try {
-        const {payload} = await studentService.search(dto);
+        const { payload } = await studentService.search(dto);
         if (payload.isError) {
             return res.send({ success: false, message: payload.error.toString() });
         }
-        res.json({ success: true, data: payload.value});
+        res.json({ success: true, data: payload.value });
     } catch (error) {
         // Error handling definitely needs more love
         res.send({ success: false, message: error.toString() });

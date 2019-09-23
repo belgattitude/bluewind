@@ -2,8 +2,8 @@ import { CreateStudentDto, StudentSearchRequestDto, StudentSearchResponseDto } f
 import { Brackets, getConnection, getManager, getRepository, Repository } from 'typeorm';
 import { StudentEntity } from '../../entity/student.entity';
 import is from '@sindresorhus/is';
-import {queryFail, QueryResultMany, querySuccess} from '../../core/query-result';
-import {Result} from "../../core/result";
+import { queryFail, QueryResultMany, querySuccess } from '../../core/query-result';
+import { Result } from '../../core/result';
 
 class StudentService {
     private studentRepo: Repository<StudentEntity>;
@@ -44,7 +44,6 @@ class StudentService {
             .getManyAndCount()
             .then(([result, total]) => {
                 return Result.ok(result);
-
             })
             .catch(error => {
                 return Result.fail(`Error ${error}`);

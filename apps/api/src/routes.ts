@@ -2,7 +2,7 @@ import { loginHandler } from './features/auth/auth.handlers';
 import { searchStudents } from './features/student/student.handlers';
 import { getProfileHandler } from './features/user/user.handlers';
 import { NextFunction, Request, Response, Router } from 'express';
-import {TokenService} from "./features/auth/token.service";
+import { TokenService } from './features/auth/token.service';
 
 // Next to do make a real middleware for this
 type RequestWithToken = {
@@ -14,12 +14,12 @@ const authMiddleware = (req: RequestWithToken, res: Response, next: NextFunction
     const tokenService = TokenService.createFormEnv();
 
     if (token) {
-        const result = tokenService.verify<{userId: string}>(token);
-        const {payload} = result;
+        const result = tokenService.verify<{ userId: string }>(token);
+        const { payload } = result;
         if (payload.isError) {
             return res.status(401).json(`Authentication failure ${payload.error.message}`);
         }
-        Object.assign(req, {userId: payload.value.userId});
+        Object.assign(req, { userId: payload.value.userId });
         next();
     } else {
         res.status(401).json('Authentication failure');

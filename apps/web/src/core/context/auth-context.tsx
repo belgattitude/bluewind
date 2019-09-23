@@ -2,7 +2,7 @@ import React, { ReactNode, useContext } from 'react';
 import { authApi, AuthRequestDTO, AuthUserDataResponseDTO } from '../../features/auth/auth.api';
 import { useAsync } from 'react-async';
 import { FullPageSpinner } from '../../component/loading-spinner';
-import {getTokenStore} from "../token-store";
+import { getTokenStore } from '../token-store';
 
 type RegisterRequestDTO = {
     username: string;

@@ -1,5 +1,5 @@
-import {assertNever} from "./typeguards";
-import is from "@sindresorhus/is";
+import { assertNever } from './typeguards';
+import is from '@sindresorhus/is';
 
 const localStorageKey = '__bluewind_token__';
 let localStorageTokenStore: LocalStorageTokenStore;
@@ -13,7 +13,6 @@ interface ITokenStore {
 }
 
 class LocalStorageTokenStore implements ITokenStore {
-
     setToken(token: string): void {
         window.localStorage.setItem(localStorageKey, token);
     }
@@ -27,9 +26,7 @@ class LocalStorageTokenStore implements ITokenStore {
     }
 }
 
-
-
-export function getTokenStore(type: TokenStoreStrategy="local_storage"): ITokenStore {
+export function getTokenStore(type: TokenStoreStrategy = 'local_storage'): ITokenStore {
     switch (type) {
         case 'local_storage':
             if (!localStorageTokenStore) {

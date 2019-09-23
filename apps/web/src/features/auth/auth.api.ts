@@ -21,7 +21,7 @@ export type AuthUserDataResponseDTO = {
 const defaultApiUrl = 'http://localhost:3000';
 
 interface IAuthApi {
-    login(authRequest: AuthRequestDTO): Promise<AuthSuccessResponseDTO>
+    login(authRequest: AuthRequestDTO): Promise<AuthSuccessResponseDTO>;
 }
 
 export class AuthApi implements IAuthApi {

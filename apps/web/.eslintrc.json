@@ -35,7 +35,8 @@
     "@typescript-eslint/explicit-member-accessibility": "off",
     "sonarjs/cognitive-complexity": "error",
     "sonarjs/no-useless-catch": "error",
-    "sonarjs/no-identical-expressions": "warn"
+    "sonarjs/no-identical-expressions": "warn",
+    "sonarjs/no-small-switch": "warn"
   },
   "overrides": [
     {

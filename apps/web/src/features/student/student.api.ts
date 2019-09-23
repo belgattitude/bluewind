@@ -3,8 +3,8 @@ import snakecaseKeys from 'snakecase-keys';
 import is from '@sindresorhus/is';
 import ky from 'ky';
 import { classesListMock } from '../../mocks/datamocks';
-import {isApiResponse} from "../../core/typeguards";
-import {getTokenStore} from "../../core/token-store";
+import { isApiResponse } from '../../core/typeguards';
+import { getTokenStore } from '../../core/token-store';
 
 export interface StudentDetailDTO {
     id: number;
@@ -22,8 +22,6 @@ export interface StudentDetailDTO {
 export type StudentListDTO = StudentDetailDTO[];
 
 const defaultApiUrl = 'http://localhost:3000/api';
-
-
 
 type SearchParams = {
     query?: string;
@@ -43,7 +41,7 @@ export class StudentApi {
                         if (token !== null) {
                             options.headers.set('Authorization', token);
                         }
-                    }
+                    },
                 ],
                 afterResponse: [
                     (input, options, response) => {
