@@ -1,4 +1,4 @@
-import { Secret, sign, SignOptions, verify, VerifyOptions } from 'jsonwebtoken';
+import { sign, SignOptions, verify, VerifyOptions } from 'jsonwebtoken';
 import { Result } from '../../core/result';
 
 type TokenPayload = {
@@ -9,6 +9,11 @@ type DefaultOptions = {
     sign: SignOptions;
     verify: VerifyOptions;
 };
+
+type VerifiedToken = {
+    iat: number;
+    exp: number;
+}
 
 export class TokenService {
     private secret: string;
@@ -32,18 +37,18 @@ export class TokenService {
         });
     }
 
-    verify<T extends { [key: string]: string | number }>(token: string, options: VerifyOptions = {}): Result<T, Error> {
+    verify<T extends {[key: string]: string | number}>(token: string, options: VerifyOptions = {}): Result<VerifiedToken & {[P in keyof T]:  P}, Error> {
         try {
-            console.log('cool', this.secret);
-            // return Result.fail('Cool error');
             const verified = verify(token, this.secret, {
                 ...this.defaultOptions.verify,
                 ...options,
             });
-            if (typeof verified === 'string') {
+
+            if (typeof verified === 'string' || verified instanceof Error) {
                 return Result.fail(new Error(`Unexpected return type as string: ${verified}`));
             }
-            return Result.ok((verified as unknown) as T);
+            return Result.ok(verified as unknown as VerifiedToken & {[P in keyof T]:  P});
+
         } catch (e) {
             return Result.fail(new Error(`Error: ${e}`));
         }
