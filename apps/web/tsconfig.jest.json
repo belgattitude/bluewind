@@ -5,6 +5,7 @@
         "module": "commonjs",
         "allowJs":true,
         "checkJs": false,
+        "noImplicitAny": false,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         "importHelpers": false,
