@@ -1,5 +1,6 @@
 import { sign, SignOptions, verify, VerifyOptions } from 'jsonwebtoken';
 import { Result } from '../../core/result';
+import is from '@sindresorhus/is';
 
 type TokenPayload = {
     [key: string]: number | string;
@@ -10,7 +11,7 @@ type DefaultOptions = {
     verify: VerifyOptions;
 };
 
-type VerifiedToken = {
+type DecodedToken = {
     iat: number;
     exp: number;
 };
@@ -37,20 +38,20 @@ export class TokenService {
         });
     }
 
-    verify<T extends { [key: string]: string | number }>(
-        token: string,
-        options: VerifyOptions = {},
-    ): Result<VerifiedToken & { [P in keyof T]: P }, Error> {
+    static isDecodedToken(decoded: unknown): decoded is DecodedToken {
+        return is.plainObject(decoded) && is.number(decoded.iat) && is.number(decoded.exp);
+    }
+
+    verify<T extends {}>(token: string, options: VerifyOptions = {}): Result<DecodedToken & T, Error> {
         try {
-            const verified = verify(token, this.secret, {
+            const decoded = verify(token, this.secret, {
                 ...this.defaultOptions.verify,
                 ...options,
             });
-
-            if (typeof verified === 'string' || verified instanceof Error) {
-                return Result.fail(new Error(`Unexpected return type as string: ${verified}`));
+            if (!TokenService.isDecodedToken(decoded)) {
+                return Result.fail(new Error(`jsonwbtoken returned an unexected decoded token: ${decoded}`));
             }
-            return Result.ok((verified as unknown) as VerifiedToken & { [P in keyof T]: P });
+            return Result.ok(decoded as DecodedToken & T);
         } catch (e) {
             return Result.fail(new Error(`Error: ${e}`));
         }
