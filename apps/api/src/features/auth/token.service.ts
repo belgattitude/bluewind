@@ -38,10 +38,6 @@ export class TokenService {
         });
     }
 
-    static isDecodedToken(decoded: unknown): decoded is DecodedToken {
-        return is.plainObject(decoded) && is.number(decoded.iat) && is.number(decoded.exp);
-    }
-
     verify<T extends {}>(token: string, options: VerifyOptions = {}): Result<DecodedToken & T, Error> {
         try {
             const decoded = verify(token, this.secret, {
@@ -49,12 +45,16 @@ export class TokenService {
                 ...options,
             });
             if (!TokenService.isDecodedToken(decoded)) {
-                return Result.fail(new Error(`jsonwbtoken returned an unexected decoded token: ${decoded}`));
+                return Result.fail(new Error(`jsonwbtoken returned an unexpected decoded token: ${decoded}`));
             }
             return Result.ok(decoded as DecodedToken & T);
         } catch (e) {
             return Result.fail(new Error(`Error: ${e}`));
         }
+    }
+
+    static isDecodedToken(decoded: unknown): decoded is DecodedToken {
+        return is.plainObject(decoded) && is.number(decoded.iat) && is.number(decoded.exp);
     }
 
     static createFormEnv(): TokenService {
