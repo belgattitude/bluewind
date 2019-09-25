@@ -53,6 +53,7 @@ export function getMainRouterCreator(): (container: {}) => Router {
         apiRouter.use(authMiddleware);
         apiRouter.get('/api/profile', getProfileHandler);
         apiRouter.get('/api/student', searchStudents);
+        apiRouter.get('/api/student/:id', searchStudents);
         router.use(apiRouter);
 
         return router;
