@@ -20,7 +20,6 @@ type StudentListProps = {
     handleSearchChange?: (query: string) => void;
     handleSelected?: (studentId: number) => void;
 };
-const studentApi = new StudentApi();
 
 /*
 export const StudentList: React.FC<StudentListProps> = props => {
