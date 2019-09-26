@@ -50,6 +50,14 @@ class StudentService {
             });
     }
 
+    async find(id: number): Promise<Result<StudentEntity>> {
+        return this.studentRepo.findOneOrFail(id).then(response => {
+            return Result.ok(response);
+        }).catch(error => {
+            return Result.fail(new Error(`Cannot find student ${id}`))
+        });
+    }
+
     async save(studentDTO: CreateStudentDto): Promise<StudentEntity> {
         const student = await this.studentRepo
             .save({
