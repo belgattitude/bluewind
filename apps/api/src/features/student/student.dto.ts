@@ -1,7 +1,20 @@
+import {IsNumber, IsString, MaxLength} from "class-validator";
+import {Expose, Transform, Type} from "class-transformer";
+
 export class StudentSearchRequestDto {
-    id?: number;
-    fragment?: string;
+    @Type(() => Number)
+    @Transform(parseInt)
+    @Expose()
+    id!: number;
+    @IsString()
+    @MaxLength(3)
+    @Expose()
+    query?: string;
+    @IsNumber()
+    @Expose()
     limit?: number;
+    @IsNumber()
+    @Expose()
     offset?: number;
 }
 
