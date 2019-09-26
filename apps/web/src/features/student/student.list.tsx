@@ -43,7 +43,7 @@ export const StudentList: React.FC<StudentListProps> = props => {
     };
 
     useEffect(() => {
-        studentApi.getStudents({query: props.query || undefined}).then(response => {
+        studentApi.search({query: props.query || undefined}).then(response => {
             setStudentList(response);
         })
     }, [props.query]);
