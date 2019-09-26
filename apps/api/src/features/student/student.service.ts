@@ -2,10 +2,10 @@ import { CreateStudentDto, StudentSearchRequestDto, StudentSearchResponseDto } f
 import { Brackets, getConnection, getManager, getRepository, Repository } from 'typeorm';
 import { StudentEntity } from '../../entity/student.entity';
 import is from '@sindresorhus/is';
-import { queryFail, QueryResultMany, querySuccess } from '../../core/query-result';
 import { Result } from '../../core/result';
 
 class StudentService {
+
     private studentRepo: Repository<StudentEntity>;
 
     constructor() {
@@ -20,11 +20,11 @@ class StudentService {
                 qb.andWhere('student.id = :id', { id: params.id });
             }
 
-            if (is.string(params.fragment)) {
+            if (is.string(params.query)) {
                 qb.andWhere(
                     new Brackets(subQb => {
                         const p = {
-                            fragment: `%${params.fragment}%`,
+                            fragment: `%${params.query}%`,
                         };
                         subQb
                             .where('student.last_name LIKE :fragment', p)
