@@ -1,7 +1,7 @@
 import camelcaseKeys from 'camelcase-keys';
 import snakecaseKeys from 'snakecase-keys';
 import is from '@sindresorhus/is';
-import ky, {HTTPError} from 'ky';
+import ky from 'ky';
 import { classesListMock } from '../../mocks/datamocks';
 import { isApiResponse } from '../../core/typeguards';
 import { getTokenStore } from '../../core/token-store';
@@ -44,15 +44,15 @@ export class StudentApi {
                     },
                 ],
                 beforeRetry: [
-                    (input, options, error, retryCount) => {
-                        // here will be the refresh token code
+                    async (input, options, errors, retryCount) => {
+                        const token = await ky('https://example.com/refresh-token');
+                        options.headers.set('Authorization', `token ${token}`);
                     }
                 ],
                 afterResponse: [
                     (input, options, response) => {
                         if (response.status === 401) {
                             // This should do the trick
-
                             getTokenStore().removeToken();
                             window.location.reload();
                         }
@@ -65,7 +65,7 @@ export class StudentApi {
         });
     }
 
-    async getStudents(params: SearchParams): Promise<StudentDetailDTO[]> {
+    async search(params: SearchParams): Promise<StudentDetailDTO[]> {
         return this.api
             .get('students', {
                 searchParams: {
@@ -82,7 +82,7 @@ export class StudentApi {
 
     }
 
-    async getStudent(studentId: number): Promise<StudentDetailDTO> {
+    async get(studentId: number): Promise<StudentDetailDTO> {
         return this.api
             .get(`students/${studentId}`)
             .json()
@@ -94,7 +94,7 @@ export class StudentApi {
             });
     }
 
-    async saveStudent<T>(student: {} & T): Promise<StudentDetailDTO> {
+    async save<T>(student: {} & T): Promise<StudentDetailDTO> {
         console.log('save student', student);
 
         return this.api
