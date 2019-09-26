@@ -2,11 +2,13 @@ import { assertNever } from './typeguards';
 import is from '@sindresorhus/is';
 
 const localStorageKey = '__bluewind_token__';
+
+
 let localStorageTokenStore: LocalStorageTokenStore;
 
 type TokenStoreStrategy = 'local_storage';
 
-interface ITokenStore {
+export interface ITokenStore {
     setToken(token: string): void;
     removeToken(): void;
     getToken(): string | null;
