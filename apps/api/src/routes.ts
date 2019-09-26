@@ -4,19 +4,18 @@ import {
     deleteStudent,
     getStudent,
     searchStudents,
-    updateStudent
+    updateStudent,
 } from './features/student/student.handlers';
 import { getProfileHandler } from './features/user/user.handlers';
 import { NextFunction, Request, Response, Router } from 'express';
 import { TokenService } from './features/auth/token.service';
-import StudentService from "./features/student/student.service";
+import StudentService from './features/student/student.service';
 
 // Next to do make a real middleware for this
 type RequestWithToken = {
     token?: string;
 } & Request;
 const authMiddleware = (req: RequestWithToken, res: Response, next: NextFunction) => {
-
     const token = (req.headers.authorization || '').replace(/^bearer\ /i, '');
 
     const tokenService = TokenService.createFormEnv();
@@ -61,15 +60,14 @@ export function getMainRouterCreator(): (container: {}) => Router {
         apiRouter.use(authMiddleware);
         apiRouter.get('/api/profile', getProfileHandler);
 
-
         /**
          * API students routes
          */
         apiRouter.get('/api/students', searchStudents(new StudentService()));
         apiRouter.post('/api/students/:id', createStudent);
         apiRouter.get('/api/students/:id', getStudent);
-        apiRouter.put('/api/students/:id', updateStudent)
-        apiRouter.delete('/api/students/:id', deleteStudent)
+        apiRouter.put('/api/students/:id', updateStudent);
+        apiRouter.delete('/api/students/:id', deleteStudent);
 
         router.use(apiRouter);
 

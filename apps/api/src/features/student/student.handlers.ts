@@ -1,27 +1,21 @@
-import {NextFunction, Request, Response, Router} from 'express';
-import { GenericDtoMapper } from '../../core/mapper/generic-dto-mapper';
+import { Request, Response } from 'express';
+import { mapToDto } from '../../core/mapper/dto-mapper';
 import StudentService from './student.service';
-import { addDTOErrorToResponse } from '../../core/utils';
 import { StudentSearchRequestDto } from './student.dto';
 
-export const searchStudents = async (req: Request, res: Response): Promise<void> => {
-    // Get a validated LoginRequestDTO from express request
-    // Could be handled differently... just an example using
-    // discriminated unions type safety to handle validation.
+export const searchStudents = (studentService: StudentService) => async (
+    req: Request,
+    res: Response,
+): Promise<void> => {
 
-    const dtoOrError = await GenericDtoMapper.fromRequest(StudentSearchRequestDto, req);
-    if (dtoOrError.type === 'failure') {
-        addDTOErrorToResponse(res, dtoOrError).send();
+    const input = req.query;
+
+    const { payload: payload1 } = await mapToDto(StudentSearchRequestDto, input);
+    if (payload1.isError) {
+        res.status(400).json(payload1.error.message);
         return;
     }
-
-    const dto = dtoOrError.dto;
-
-    // Get the quote service
-    // Should be injected using di, refactor action to class and inject in constructor
-    // or use type-di...
-
-    const studentService = new StudentService();
+    const dto = payload1.value;
 
     try {
         const { payload } = await studentService.search(dto);
@@ -29,7 +23,7 @@ export const searchStudents = async (req: Request, res: Response): Promise<void>
             res.send({ success: false, message: payload.error.toString() });
             return;
         }
-        res.json({ success: true, data: payload.value });
+        res.json({ success: true, data: payload.value, dto });
     } catch (error) {
         // Error handling definitely needs more love
         res.send({ success: false, message: error.toString() });
@@ -37,8 +31,7 @@ export const searchStudents = async (req: Request, res: Response): Promise<void>
 };
 
 export const getStudent = async (req: Request, res: Response): Promise<void> => {
-
-    const studentId = parseInt(req.params.id);
+    const studentId = parseInt(req.params.id, 10);
 
     const studentService = new StudentService();
     try {
@@ -52,10 +45,10 @@ export const getStudent = async (req: Request, res: Response): Promise<void> => 
         // Error handling definitely needs more love
         res.send({ success: false, message: error.toString() });
     }
-}
+};
 
 export const updateStudent = async (req: Request, res: Response): Promise<void> => {
-    const studentId = parseInt(req.params.id);
+    const studentId = parseInt(req.params.id, 10);
     /*
     const studentService = new StudentService();
     try {
@@ -70,14 +63,8 @@ export const updateStudent = async (req: Request, res: Response): Promise<void> 
         res.send({ success: false, message: error.toString() });
     }
      */
-}
+};
 
-export const deleteStudent = async(req: Request, res: Response): Promise<void> => {
+export const deleteStudent = async (req: Request, res: Response): Promise<void> => {};
 
-
-}
-
-export const createStudent = async(req: Request, res: Response): Promise<void> => {
-
-
-}
+export const createStudent = async (req: Request, res: Response): Promise<void> => {};

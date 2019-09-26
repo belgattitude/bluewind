@@ -21,7 +21,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 type StudentPageProps = {
-    children: never
+    children: never;
 };
 
 export const StudentPage: React.FC<StudentPageProps> = () => {

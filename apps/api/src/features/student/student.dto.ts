@@ -1,20 +1,17 @@
-import {IsNumber, IsString, MaxLength} from "class-validator";
-import {Expose, Transform, Type} from "class-transformer";
+import { IsNumber, IsOptional, IsString, Max, MaxLength } from 'class-validator';
+import { Expose, Transform, Type } from 'class-transformer';
 
 export class StudentSearchRequestDto {
     @Type(() => Number)
-    @Transform(parseInt)
-    @Expose()
     id!: number;
     @IsString()
     @MaxLength(3)
-    @Expose()
+    @IsOptional()
     query?: string;
-    @IsNumber()
-    @Expose()
+    @Type(() => Number)
+    @Max(150)
     limit?: number;
-    @IsNumber()
-    @Expose()
+    @Type(() => Number)
     offset?: number;
 }
 

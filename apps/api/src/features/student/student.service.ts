@@ -5,7 +5,6 @@ import is from '@sindresorhus/is';
 import { Result } from '../../core/result';
 
 class StudentService {
-
     private studentRepo: Repository<StudentEntity>;
 
     constructor() {
@@ -51,11 +50,14 @@ class StudentService {
     }
 
     async find(id: number): Promise<Result<StudentEntity>> {
-        return this.studentRepo.findOneOrFail(id).then(response => {
-            return Result.ok(response);
-        }).catch(error => {
-            return Result.fail(new Error(`Cannot find student ${id}`))
-        });
+        return this.studentRepo
+            .findOneOrFail(id)
+            .then(response => {
+                return Result.ok(response);
+            })
+            .catch(error => {
+                return Result.fail(new Error(`Cannot find student ${id}`));
+            });
     }
 
     async save(studentDTO: CreateStudentDto): Promise<StudentEntity> {

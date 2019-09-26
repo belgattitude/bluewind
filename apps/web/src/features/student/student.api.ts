@@ -47,7 +47,7 @@ export class StudentApi {
                     async (input, options, errors, retryCount) => {
                         const token = await ky('https://example.com/refresh-token');
                         options.headers.set('Authorization', `token ${token}`);
-                    }
+                    },
                 ],
                 afterResponse: [
                     (input, options, response) => {
@@ -79,7 +79,6 @@ export class StudentApi {
                 }
                 throw new Error('Response is invalid or does not contain data');
             });
-
     }
 
     async get(studentId: number): Promise<StudentDetailDTO> {

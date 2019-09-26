@@ -1,7 +1,9 @@
-import ky from "ky";
-import {getTokenStore, ITokenStore} from "../token-store";
+import ky from 'ky';
+import { getTokenStore, ITokenStore } from '../token-store';
 
-const createApiService = (tokenStore: ITokenStore, apiUrl: string) => (onAuthenticationFailure?: () => {}): typeof ky => {
+const createApiService = (tokenStore: ITokenStore, apiUrl: string) => (
+    onAuthenticationFailure?: () => {}
+): typeof ky => {
     return ky.create({
         prefixUrl: apiUrl,
         // Debug for headers, can also transform the response
@@ -23,7 +25,7 @@ const createApiService = (tokenStore: ITokenStore, apiUrl: string) => (onAuthent
                         const refreshToken = await ky('https://example.com/refresh-token').catch();
                         options.headers.set('Authorization', `token ${token}`);
                     }
-                }
+                },
             ],
             afterResponse: [
                 (input, options, response) => {
@@ -39,13 +41,7 @@ const createApiService = (tokenStore: ITokenStore, apiUrl: string) => (onAuthent
             ],
         },
     });
-}
-
+};
 
 const defaultApiUrl = 'http://localhost:3000/api';
 export const apiService = createApiService(getTokenStore(), defaultApiUrl);
-
-
-
-
-

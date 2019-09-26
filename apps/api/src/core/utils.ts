@@ -1,7 +1,7 @@
 // Hack for now, don't look at it
 
 import { Response } from 'express';
-import { DTOValidationFailure } from './mapper/generic-dto-mapper';
+import { DTOValidationFailure } from './mapper/dto-mapper';
 
 /**
  * Add dto validation errors to response

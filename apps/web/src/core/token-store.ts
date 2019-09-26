@@ -3,7 +3,6 @@ import is from '@sindresorhus/is';
 
 const localStorageKey = '__bluewind_token__';
 
-
 let localStorageTokenStore: LocalStorageTokenStore;
 
 type TokenStoreStrategy = 'local_storage';

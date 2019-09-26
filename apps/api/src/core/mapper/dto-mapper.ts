@@ -1,7 +1,8 @@
 import { ClassType } from 'class-transformer/ClassTransformer';
 import { Request } from 'express';
 import { plainToClass } from 'class-transformer';
-import { validateOrReject, ValidationError, ValidatorOptions } from 'class-validator';
+import { validate, validateOrReject, ValidationError, ValidatorOptions } from 'class-validator';
+import { Result } from '../result';
 
 interface DTOValidationSuccess<T> {
     type: 'success';
@@ -21,11 +22,10 @@ type DTOValidationResult<T> = DTOValidationSuccess<T> | DTOValidationFailure;
  * On the fly experiment
  */
 export class DtoMapper {
-
     /**
      * @throws Error
      */
-    static extractParamsFromRequest(req: Request): {[key: string]: unknown} {
+    static extractParamsFromRequest(req: Request): { [key: string]: unknown } {
         const { method } = req;
         switch (method.toUpperCase()) {
             case 'GET':
@@ -33,11 +33,11 @@ export class DtoMapper {
             case 'POST':
             case 'PUT':
                 if (!('body' in req)) {
-                     throw new Error(`DtoMapper requires body-parser.json() middleware.`)
+                    throw new Error(`DtoMapper requires body-parser.json() middleware.`);
                 }
                 return req.body || {};
             default:
-                throw new Error(`DtoMapper only supports GET/POST/PUT for now.`)
+                throw new Error(`DtoMapper only supports GET/POST/PUT for now.`);
         }
     }
 
@@ -49,22 +49,18 @@ export class DtoMapper {
         req: Request,
         options?: ValidatorOptions,
     ): Promise<DTOValidationResult<T>> {
-
         const data = DtoMapper.extractParamsFromRequest(req);
 
-        console.log('data', data);
         const dto = plainToClass(obj, data, {
-            //strategy: "excludeAll",
-            //excludeExtraneousValues: true,
+            // excludeExtraneousValues: true, // only if you use @Expose
         });
-        console.log('dtodto', dto);
         const defaultOptions = {
             skipUndefinedProperties: true,
             skipNullProperties: false,
             skipMissingProperties: false,
-        }
+        };
         try {
-            await validateOrReject(dto, {...defaultOptions, ...options});
+            await validateOrReject(dto, { ...defaultOptions, ...options });
         } catch (errors) {
             return {
                 type: 'failure',
@@ -78,3 +74,19 @@ export class DtoMapper {
         };
     }
 }
+
+export const mapToDto = async <T>(obj: ClassType<T>, input: unknown): Promise<Result<T>> => {
+    // map to plain object
+    const dto = plainToClass(obj, input, {
+        enableImplicitConversion: true,
+    });
+    // validation based on DTO decorators
+    const errors = await validate(dto, {
+        skipNullProperties: true,
+        skipUndefinedProperties: true,
+    });
+    if (errors.length > 0) {
+        return Result.fail(`Validation failed ${JSON.stringify(errors)}`);
+    }
+    return Result.ok(dto);
+};
