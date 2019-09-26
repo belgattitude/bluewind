@@ -18,6 +18,19 @@
       "arrow-parens": false,
       "object-literal-sort-keys": false,
       "no-floating-promises": true,
+      "no-empty": [true, "allow-empty-functions"],
+      "no-shadowed-variable": [
+          true,
+          {
+              "class": true,
+              "enum": true,
+              "function": false,
+              "interface": false,
+              "namespace": true,
+              "typeAlias": false,
+              "typeParameter": false
+          }
+      ],
       "variable-name": {
           "options": [
               "ban-keywords",
