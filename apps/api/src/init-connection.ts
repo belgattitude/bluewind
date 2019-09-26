@@ -12,6 +12,5 @@ export async function initConnection(): Promise<Connection> {
     Object.assign(connectOpts, {
         entities: ['**/*.entity.js'],
     });
-    console.log('ENTITY', connectOpts);
     return createConnection(connectOpts);
 }
