@@ -1,7 +1,7 @@
 import camelcaseKeys from 'camelcase-keys';
 import snakecaseKeys from 'snakecase-keys';
 import is from '@sindresorhus/is';
-import ky from 'ky';
+import ky, {HTTPError} from 'ky';
 import { classesListMock } from '../../mocks/datamocks';
 import { isApiResponse } from '../../core/typeguards';
 import { getTokenStore } from '../../core/token-store';
@@ -43,8 +43,19 @@ export class StudentApi {
                         }
                     },
                 ],
+                beforeRetry: [
+                    (input, options, error, retryCount) => {
+                        // here will be the refresh token code
+                    }
+                ],
                 afterResponse: [
                     (input, options, response) => {
+                        if (response.status === 401) {
+                            // This should do the trick
+
+                            getTokenStore().removeToken();
+                            window.location.reload();
+                        }
                         response.headers.forEach((val, key) => {
                             console.log(key, val);
                         });
@@ -56,7 +67,7 @@ export class StudentApi {
 
     async getStudents(params: SearchParams): Promise<StudentDetailDTO[]> {
         return this.api
-            .get('student', {
+            .get('students', {
                 searchParams: {
                     query: params.query || '',
                 },
@@ -66,19 +77,18 @@ export class StudentApi {
                 if (isApiResponse(response) && response.success === true) {
                     return response.data as StudentListDTO;
                 }
-                throw new Error('Response does not contain data');
+                throw new Error('Response is invalid or does not contain data');
             });
+
     }
 
     async getStudent(studentId: number): Promise<StudentDetailDTO> {
         return this.api
-            .get(`student/${studentId}`)
+            .get(`students/${studentId}`)
             .json()
             .then(response => {
-                if (is.plainObject(response) && is.nonEmptyObject(response)) {
-                    //const data = camelcaseKeys(response);
-                    const data = response;
-                    return (data as unknown) as StudentDetailDTO;
+                if (isApiResponse(response) && response.success === true) {
+                    return response.data as StudentDetailDTO;
                 }
                 throw new Error('Response is invalid or does not contain data');
             });
@@ -88,7 +98,7 @@ export class StudentApi {
         console.log('save student', student);
 
         return this.api
-            .post(`student`, {
+            .post(`students`, {
                 json: snakecaseKeys(student),
             })
             .json()
