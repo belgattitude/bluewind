@@ -7,7 +7,7 @@ type FormValues = Partial<StudentDetailDTO>;
 
 const onSubmit = async (values: FormValues) => {
     const val = snakecaseKeys({ id: 1, ...values });
-    studentApi.saveStudent(val).then(response => {
+    studentApi.save(val).then(response => {
         console.log('returned response', response);
     });
 };
