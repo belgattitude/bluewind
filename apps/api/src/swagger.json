@@ -1,9 +1,9 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "version": "1.0.0",
-        "title": "Bluewind",
+        "title": "Bluewind API",
         "description": "Minimal api doc",
+        "version": "1.0.0",
         "license": {
             "name": "MIT",
             "url": "https://opensource.org/licenses/MIT"
@@ -22,18 +22,9 @@
     "tags": [
 
     ],
-    "consumes": [
-        "application/json"
-    ],
-    "produces": [
-        "application/json"
-    ],
     "paths": {
         "/auth/login": {
             "post": {
-                "tags": [
-                    "LoginRequest"
-                ],
                 "summary": "Login request",
                 "requestBody": {
                     "description": "Login request",
@@ -41,19 +32,20 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/definitions/LoginRequestDTO"
+                                "$ref": "#/components/schemas/LoginRequestDTO"
                             }
                         }
                     }
                 },
-                "produces": [
-                    "application/json"
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/id"
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/id"
+                                }
+                            }
                         }
                     },
                     "400": {
@@ -61,27 +53,28 @@
                     }
                 }
             }
-        },
-
+        }
     },
-    "definitions": {
-        "id": {
-            "properties": {
-                "uuid": {
-                    "type": "string"
+    "components": {
+        "schemas": {
+            "id": {
+                "properties": {
+                    "uuid": {
+                        "type": "string"
+                    }
+                }
+            },
+            "LoginRequestDTO": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
                 }
             }
-        },
-        "LoginRequestDTO": {
-            "type": "object",
-            "properties": {
-                "username": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
+        }
     }
 }
