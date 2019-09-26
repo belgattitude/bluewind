@@ -30,7 +30,7 @@ const HomePage: React.FC<Props> = props => {
     }, []);
 
     useEffect(() => {
-        studentApi.getStudents({ query: query || undefined }).then(response => {
+        studentApi.search({ query: query || undefined }).then(response => {
             setStudentList(response);
         });
     }, [query]);
