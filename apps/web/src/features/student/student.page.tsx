@@ -20,7 +20,11 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
-export const StudentPage: React.FC = () => {
+type StudentPageProps = {
+    children: never
+};
+
+export const StudentPage: React.FC<StudentPageProps> = () => {
     const [selected, setSelected] = useState<number | null>(null);
 
     const classes = useStyles();
