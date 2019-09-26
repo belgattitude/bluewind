@@ -1,5 +1,11 @@
 import { loginHandler } from './features/auth/auth.handlers';
-import { searchStudents } from './features/student/student.handlers';
+import {
+    createStudent,
+    deleteStudent,
+    getStudent,
+    searchStudents,
+    updateStudent
+} from './features/student/student.handlers';
 import { getProfileHandler } from './features/user/user.handlers';
 import { NextFunction, Request, Response, Router } from 'express';
 import { TokenService } from './features/auth/token.service';
@@ -37,7 +43,7 @@ export function getMainRouterCreator(): (container: {}) => Router {
         /**
          * Standard routes
          */
-        router.get('/status', (req, res) => {
+        router.get('/status', (req: Request, res: Response) => {
             res.status(200).json({ ack: new Date().toISOString() });
         });
 
@@ -52,11 +58,21 @@ export function getMainRouterCreator(): (container: {}) => Router {
         const apiRouter = Router();
         apiRouter.use(authMiddleware);
         apiRouter.get('/api/profile', getProfileHandler);
-        apiRouter.get('/api/student', searchStudents);
-        apiRouter.get('/api/student/:id', searchStudents);
+
+
+        /**
+         * API students routes
+         */
+        apiRouter.get('/api/students', searchStudents);
+        apiRouter.post('/api/students/:id', createStudent);
+        apiRouter.get('/api/students/:id', getStudent);
+        apiRouter.put('/api/students/:id', updateStudent)
+        apiRouter.delete('/api/students/:id', deleteStudent)
+
         router.use(apiRouter);
 
         return router;
     };
+
     return createRoutesFromContainer;
 }
