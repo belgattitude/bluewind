@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { LoginRequestDto } from './auth.dto';
 import { logger } from '../../logger';
-import { GenericDtoMapper } from '../../core/mapper/generic-dto-mapper';
+import { DtoMapper } from '../../core/mapper/dto-mapper';
 import { addDTOErrorToResponse } from '../../core/utils';
 import { AuthService } from './auth.service';
 import { AuthRepo } from './auth.repo';
@@ -14,7 +14,7 @@ import { TokenService } from './token.service';
  */
 export const loginHandler = async (req: Request, res: Response) => {
     // Validate input
-    const dtoOrError = await GenericDtoMapper.fromRequest(LoginRequestDto, req);
+    const dtoOrError = await DtoMapper.fromRequest(LoginRequestDto, req);
     if (dtoOrError.type === 'failure') {
         addDTOErrorToResponse(res, dtoOrError).send();
         return;
