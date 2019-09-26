@@ -9,13 +9,15 @@ import {
 import { getProfileHandler } from './features/user/user.handlers';
 import { NextFunction, Request, Response, Router } from 'express';
 import { TokenService } from './features/auth/token.service';
+import StudentService from "./features/student/student.service";
 
 // Next to do make a real middleware for this
 type RequestWithToken = {
     token?: string;
 } & Request;
 const authMiddleware = (req: RequestWithToken, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization;
+
+    const token = (req.headers.authorization || '').replace(/^bearer\ /i, '');
 
     const tokenService = TokenService.createFormEnv();
 
@@ -63,7 +65,7 @@ export function getMainRouterCreator(): (container: {}) => Router {
         /**
          * API students routes
          */
-        apiRouter.get('/api/students', searchStudents);
+        apiRouter.get('/api/students', searchStudents(new StudentService()));
         apiRouter.post('/api/students/:id', createStudent);
         apiRouter.get('/api/students/:id', getStudent);
         apiRouter.put('/api/students/:id', updateStudent)
