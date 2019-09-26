@@ -1,9 +1,9 @@
-import { IsNumber, IsOptional, IsString, Max, MaxLength } from 'class-validator';
-import { Expose, Transform, Type } from 'class-transformer';
+import { IsOptional, IsString, Max, MaxLength } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class StudentSearchRequestDto {
     @Type(() => Number)
-    id!: number;
+    id?: number;
     @IsString()
     @MaxLength(3)
     @IsOptional()
