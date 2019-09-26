@@ -10,7 +10,7 @@ export const StudentDetail: React.FC<StudentDetailProps> = props => {
     const [student, setStudent] = useState<StudentDetailDTO | null>(null);
 
     useEffect(() => {
-        studentApi.getStudent(props.studentId).then(response => {
+        studentApi.get(props.studentId).then(response => {
             console.log('RESPONSE STUDENT', response);
             setStudent(response);
         });
