@@ -17,9 +17,7 @@ const AuthenticatedApp: React.FC = () => {
         <div className="app">
             <DashboardLayout
                 handleLogout={() => {
-                    console.log('dispathing logout');
                     dispatch(thunkLogoutRequest());
-                    console.log('end of dispathing logout');
                 }}
             >
                 <Router>
