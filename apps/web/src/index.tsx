@@ -4,7 +4,7 @@ import './assets/sass/global.scss';
 import 'typeface-muli';
 
 import App from './app';
-import AppProviders from './core/context';
+import AppProviders from './app-providers';
 import { Provider } from 'react-redux';
 import { store } from './store';
 

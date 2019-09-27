@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './app';
-import AppProviders from './core/context';
+import AppProviders from './app-providers';
 
 it('renders without crashing', () => {
     const div = document.createElement('div');
