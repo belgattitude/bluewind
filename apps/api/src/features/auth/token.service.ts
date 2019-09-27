@@ -57,7 +57,7 @@ export class TokenService {
         return is.plainObject(decoded) && is.number(decoded.iat) && is.number(decoded.exp);
     }
 
-    static createFormEnv(): TokenService {
+    static createFromEnv(): TokenService {
         // TODO create real env
         const defaultOptions: DefaultOptions = {
             sign: {

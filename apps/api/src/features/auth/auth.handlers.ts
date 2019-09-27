@@ -40,7 +40,7 @@ export const loginHandler = async (req: Request, res: Response) => {
     const user = payload.value;
     const validFor = 86400;
 
-    const tokenService = TokenService.createFormEnv();
+    const tokenService = TokenService.createFromEnv();
 
     const signed = tokenService.createToken(
         {

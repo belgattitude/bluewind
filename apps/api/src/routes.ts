@@ -18,7 +18,7 @@ type RequestWithToken = {
 const authMiddleware = (req: RequestWithToken, res: Response, next: NextFunction): void => {
     const token = (req.headers.authorization || '').replace(/^bearer\ /i, '');
 
-    const tokenService = TokenService.createFormEnv();
+    const tokenService = TokenService.createFromEnv();
 
     type ExtraTokenValues = {
         userId: number;
