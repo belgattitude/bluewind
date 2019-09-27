@@ -94,13 +94,6 @@
 
     },
     "components": {
-        "securitySchemes": {
-          "bearerAuth": {
-              "type": "http",
-              "scheme": "bearer",
-              "bearerFormat": "JWT"
-          }
-        },
         "parameters": {
             "queryParam": {
                 "in": "query",
@@ -113,7 +106,6 @@
                 },
                 "description": "The text fragment to search for"
             },
-
             "offsetParam": {
                 "in": "query",
                 "name": "offset",
@@ -158,25 +150,14 @@
                         "required": true
                     }
                 }
-            },
-            "StudentSearchRequestDto": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "number"
-                    },
-                    "query": {
-                        "type": "string"
-                    },
-                    "limit": {
-                        "type": "number"
-                    },
-                    "offset": {
-                        "type": "number"
-                    }
-                }
             }
-
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
         }
     }
 }
