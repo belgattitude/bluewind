@@ -306,7 +306,7 @@ module.exports = merge(common, {
         }),
 
         new ManifestPlugin({
-            fileName: 'assets-manifest.json',
+            fileName: 'manifest.json',
             basePath: '',
             hash: true,
         }),
