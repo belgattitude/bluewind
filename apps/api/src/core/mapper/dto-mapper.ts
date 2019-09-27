@@ -75,7 +75,7 @@ export class DtoMapper {
     }
 }
 
-export const mapToDto = async <T>(obj: ClassType<T>, input: unknown): Promise<Result<T>> => {
+export const getValidatedDto = async <T>(obj: ClassType<T>, input: unknown): Promise<Result<T>> => {
     // map to plain object
     const dto = plainToClass(obj, input, {
         enableImplicitConversion: true,

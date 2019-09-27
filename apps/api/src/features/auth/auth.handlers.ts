@@ -51,3 +51,5 @@ export const loginHandler = async (req: Request, res: Response) => {
 
     return res.cookie('token', signed, { maxAge: validFor }).json({ success: true, token: signed });
 };
+
+export const refreshTokenHandler = async (req: Request, res: Response): Promise<void> => {};

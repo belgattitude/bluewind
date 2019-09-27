@@ -1,32 +1,28 @@
 import { Request, Response } from 'express';
-import { mapToDto } from '../../core/mapper/dto-mapper';
+import { getValidatedDto } from '../../core/mapper/dto-mapper';
 import StudentService from './student.service';
 import { StudentSearchRequestDto } from './student.dto';
+import { setHttpErrors } from '../../core/http/error-utils';
 
 export const searchStudents = (studentService: StudentService) => async (
     req: Request,
     res: Response,
 ): Promise<void> => {
-
-    const input = req.query;
-
-    const { payload: payload1 } = await mapToDto(StudentSearchRequestDto, input);
-    if (payload1.isError) {
-        res.status(400).json(payload1.error.message);
-        return;
+    // Get validated dto from query
+    const { payload: dtoRs } = await getValidatedDto(StudentSearchRequestDto, req.query);
+    if (dtoRs.isError) {
+        return setHttpErrors(dtoRs.error, res);
     }
-    const dto = payload1.value;
 
+    // Return search results
     try {
-        const { payload } = await studentService.search(dto);
+        const { payload } = await studentService.search(dtoRs.value);
         if (payload.isError) {
-            res.send({ success: false, message: payload.error.toString() });
-            return;
+            return setHttpErrors(payload.error, res);
         }
-        res.json({ success: true, data: payload.value, dto });
+        res.json({ success: true, data: payload.value, dtoRs });
     } catch (error) {
-        // Error handling definitely needs more love
-        res.send({ success: false, message: error.toString() });
+        return setHttpErrors(error, res);
     }
 };
 
@@ -37,8 +33,7 @@ export const getStudent = async (req: Request, res: Response): Promise<void> => 
     try {
         const { payload } = await studentService.find(studentId);
         if (payload.isError) {
-            res.send({ success: false, message: payload.error.toString() });
-            return;
+            return setHttpErrors(payload.error, res);
         }
         res.json({ success: true, data: payload.value });
     } catch (error) {
@@ -49,22 +44,10 @@ export const getStudent = async (req: Request, res: Response): Promise<void> => 
 
 export const updateStudent = async (req: Request, res: Response): Promise<void> => {
     const studentId = parseInt(req.params.id, 10);
-    /*
-    const studentService = new StudentService();
-    try {
-        const { payload } = await studentService.save();
-        if (payload.isError) {
-            res.send({ success: false, message: payload.error.toString() });
-            return;
-        }
-        res.json({ success: true, data: payload.value });
-    } catch (error) {
-        // Error handling definitely needs more love
-        res.send({ success: false, message: error.toString() });
-    }
-     */
 };
 
-export const deleteStudent = async (req: Request, res: Response): Promise<void> => {};
+export const deleteStudent = async (req: Request, res: Response): Promise<void> => {
+    const studentId = parseInt(req.params.id, 10);
+};
 
 export const createStudent = async (req: Request, res: Response): Promise<void> => {};

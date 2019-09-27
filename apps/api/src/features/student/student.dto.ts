@@ -9,7 +9,7 @@ export class StudentSearchRequestDto {
     @IsOptional()
     query?: string;
     @Type(() => Number)
-    @Max(150)
+    @Max(3)
     limit?: number;
     @Type(() => Number)
     offset?: number;
