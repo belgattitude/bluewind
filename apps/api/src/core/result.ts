@@ -50,6 +50,27 @@ export class Result<T, E extends ErrorType = Error> {
         } as FailPayload<E>);
     }
 
+    map<U>(mapFn: (value: T) => U): Result<U, E> {
+        return this.payload.isError ?
+            this as unknown as Result<U, E> :
+            Result.ok(mapFn(this.payload.value));
+    }
+
+    async asyncMap<U>(mapFn: (value: T) => Promise<U>): Promise<Result<U, E>> {
+        if (this.payload.isError) {
+            return Promise.resolve(this as unknown as Result<U, E>);
+        } else {
+            const newInner = await mapFn(this.payload.value)
+            return Result.ok(newInner);
+        }
+    }
+
+    mapErr<F extends ErrorType=Error>(mapFn: (error: E) => F): Result<T, F> {
+        return this.payload.isError ?
+            Result.fail(mapFn(this.payload.error)) :
+            this as unknown as Result<T, F>;
+    }
+
     getValueOrError(): E | T {
         return this.payload.isError ? this.payload.error : this.payload.value;
     }
