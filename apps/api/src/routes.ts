@@ -15,7 +15,7 @@ import StudentService from './features/student/student.service';
 type RequestWithToken = {
     token?: string;
 } & Request;
-const authMiddleware = (req: RequestWithToken, res: Response, next: NextFunction) => {
+const authMiddleware = (req: RequestWithToken, res: Response, next: NextFunction): void => {
     const token = (req.headers.authorization || '').replace(/^bearer\ /i, '');
 
     const tokenService = TokenService.createFormEnv();
@@ -28,7 +28,8 @@ const authMiddleware = (req: RequestWithToken, res: Response, next: NextFunction
         const result = tokenService.verify<ExtraTokenValues>(token);
         const { payload } = result;
         if (payload.isError) {
-            return res.status(401).json(`Authentication failure ${payload.error.message}`);
+            res.status(401).json(`Authentication failure ${payload.error.message}`);
+            return;
         }
         Object.assign(req, { userId: payload.value.userId });
         next();
