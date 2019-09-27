@@ -39,6 +39,9 @@ export class AuthApi implements IAuthApi {
                 json: authRequest,
             })
             .json()
+            .catch(reason => {
+                throw reason;
+            })
             .then(
                 (response): AuthSuccessResponseDTO => {
                     if (is.plainObject(response) && is.nonEmptyString(response.token)) {

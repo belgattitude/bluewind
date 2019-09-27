@@ -14,7 +14,8 @@ export class Result<T, E extends ErrorType = Error> {
     /**
      * Discriminated union between OkPayload | FailPayload
      */
-    readonly payload: Readonly<ResultPayload<Readonly<T>, Readonly<E>>>;
+    // readonly payload: Readonly<ResultPayload<Readonly<T>, Readonly<E>>>;
+    readonly payload: ResultPayload<T, E>;
 
     /**
      * @throws Error if runtime validation of the payload failed
@@ -30,7 +31,7 @@ export class Result<T, E extends ErrorType = Error> {
      * @param value can be anything except an instance of Error.
      * @throws Error if runtime validation of the payload failed
      */
-    static ok<U, E extends ErrorType = Error>(value: Exclude<U, Error>): Result<U, E> {
+    static ok<U, E extends ErrorType = Error>(value: U): Result<U, E> {
         return new Result({
             isError: false,
             value,
@@ -49,7 +50,28 @@ export class Result<T, E extends ErrorType = Error> {
         } as FailPayload<E>);
     }
 
-    getValueOrError(): E | T {
+    map<U>(mapFn: (value: T) => U): Result<U, E> {
+        return this.payload.isError ? ((this as unknown) as Result<U, E>) : Result.ok(mapFn(this.payload.value));
+    }
+
+    async asyncMap<U>(mapFn: (value: T) => Promise<U>): Promise<Result<U, E>> {
+        if (this.payload.isError) {
+            return Promise.resolve((this as unknown) as Result<U, E>);
+        } else {
+            try {
+                const newInner = await mapFn(this.payload.value);
+                return Result.ok(newInner);
+            } catch (e) {
+                return Result.fail(e);
+            }
+        }
+    }
+
+    mapErr<F extends ErrorType = Error>(mapFn: (error: E) => F): Result<T, F> {
+        return this.payload.isError ? Result.fail(mapFn(this.payload.error)) : ((this as unknown) as Result<T, F>);
+    }
+
+    unwrap(): T | E {
         return this.payload.isError ? this.payload.error : this.payload.value;
     }
 

@@ -15,15 +15,11 @@ export const searchStudents = (studentService: StudentService) => async (
     }
 
     // Return search results
-    try {
-        const { payload } = await studentService.search(dtoRs.value);
-        if (payload.isError) {
-            return setHttpErrors(payload.error, res);
-        }
-        res.json({ success: true, data: payload.value, dtoRs });
-    } catch (error) {
-        return setHttpErrors(error, res);
+    const { payload } = await studentService.search(dtoRs.value);
+    if (payload.isError) {
+        return setHttpErrors(payload.error, res);
     }
+    res.json({ success: true, data: payload.value, dtoRs });
 };
 
 export const getStudent = async (req: Request, res: Response): Promise<void> => {

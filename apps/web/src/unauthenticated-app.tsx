@@ -1,11 +1,15 @@
 import React, { SyntheticEvent, useState } from 'react';
-import { useAuth } from './core/context/auth-context';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from './store';
+import { thunkAuthRequestUserData } from './features/auth/auth.redux';
 
 type LoginFormProps = {
     onSubmit: (params: { username: string; password: string }) => void;
 };
 
 const LoginForm: React.FC<LoginFormProps> = props => {
+    const { isLoading, error } = useSelector((state: RootState) => state.auth);
+
     const [username, setUserName] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
@@ -39,19 +43,20 @@ const LoginForm: React.FC<LoginFormProps> = props => {
                 />
             </label>
             <input type="submit" value={'Submit'} />
+            {error}
         </form>
     );
 };
 
 const UnAuthenticatedApp: React.FC = () => {
-    const auth = useAuth();
+    const dispatch = useDispatch();
 
     return (
         <div className="unauthenticated-app">
             Unauthenticated
             <LoginForm
                 onSubmit={credentials => {
-                    auth.login(credentials);
+                    dispatch(thunkAuthRequestUserData(credentials));
                 }}
             />
         </div>

@@ -1,6 +1,11 @@
-import { configureStore } from 'redux-starter-kit';
+import { configureStore, ActionCreator, Action } from 'redux-starter-kit';
+import { ThunkAction } from 'redux-thunk';
 
-import authReducer from './features/auth/auth.ducks';
+export type AppDispatch = typeof store.dispatch;
+
+export type AppThunk = ThunkAction<void, RootState, null, Action<string>>;
+
+import authReducer from './features/auth/auth.redux';
 
 export const store = configureStore({
     reducer: {

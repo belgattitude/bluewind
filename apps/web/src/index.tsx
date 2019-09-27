@@ -5,14 +5,16 @@ import 'typeface-muli';
 
 import App from './app';
 import AppProviders from './core/context';
-import DevTools from 'react-async-devtools';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 ReactDOM.render(
     <>
-        <DevTools />
-        <AppProviders>
-            <App />
-        </AppProviders>
+        <Provider store={store}>
+            <AppProviders>
+                <App />
+            </AppProviders>
+        </Provider>
     </>,
 
     document.getElementById('root')

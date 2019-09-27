@@ -13,7 +13,7 @@ const createApiService = (tokenStore: ITokenStore, apiUrl: string) => (
                 (input, options) => {
                     const token = getTokenStore().getToken();
                     if (token !== null) {
-                        options.headers.set('Authorization', token);
+                        options.headers.set('Authorization', `Bearer ${token}`);
                     }
                 },
             ],
@@ -22,8 +22,15 @@ const createApiService = (tokenStore: ITokenStore, apiUrl: string) => (
                 async (input, options, errors, retryCount) => {
                     const token = getTokenStore().getToken();
                     if (token) {
-                        const refreshToken = await ky('https://example.com/refresh-token').catch();
-                        options.headers.set('Authorization', `token ${token}`);
+                        // Based on cookie refresh token (same domain policy !!!)
+                        const refreshedToken = await ky
+                            .get(`${apiUrl}/auth/refresh-token`)
+                            .text()
+                            .then(result => {
+                                return result;
+                            });
+                        tokenStore.setToken(refreshedToken);
+                        options.headers.set('Authorization', `Bearer ${token}`);
                     }
                 },
             ],

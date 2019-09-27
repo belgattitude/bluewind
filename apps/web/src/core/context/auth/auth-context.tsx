@@ -1,8 +1,8 @@
 import React, { ReactNode, useContext } from 'react';
-import { authApi, AuthRequestDTO, AuthUserDataResponseDTO } from '../../features/auth/auth.api';
+import { authApi, AuthRequestDTO, AuthUserDataResponseDTO } from '../../../features/auth/auth.api';
 import { useAsync } from 'react-async';
-import { FullPageSpinner } from '../../component/loading-spinner';
-import { getTokenStore } from '../token-store';
+import { FullPageSpinner } from '../../../component/loading-spinner';
+import { getTokenStore } from '../../token-store';
 
 type RegisterRequestDTO = {
     username: string;
@@ -24,7 +24,6 @@ const AuthContext = React.createContext<AuthContextProps | null>(null);
 
 async function bootstrapUserData(): Promise<AuthContextState> {
     const token = getTokenStore().getToken();
-    console.log('BOOTSTRAP TOKEN', token);
     if (token === null) {
         return { user: null };
     }
@@ -67,10 +66,14 @@ function AuthProvider(props: { children: ReactNode }) {
     const login = (params: AuthRequestDTO) => {
         authApi
             .login(params)
+
             .then(({ token }) => {
                 getTokenStore().setToken(token);
             })
-            .then(reload);
+            .then(reload)
+            .catch(reason => {
+                alert(reason);
+            });
     };
     const logout = () => {
         const token = getTokenStore().getToken();
