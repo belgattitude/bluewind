@@ -71,7 +71,7 @@ export class Result<T, E extends ErrorType = Error> {
             this as unknown as Result<T, F>;
     }
 
-    getValueOrError(): E | T {
+    unwrap(): T | E {
         return this.payload.isError ? this.payload.error : this.payload.value;
     }
 
