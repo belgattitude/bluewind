@@ -3,7 +3,7 @@ import { DatabaseError } from '../exceptions';
 import { ValidationError } from 'class-validator';
 
 export const getHttpErrors = (
-    e: Error,
+    e: Error
 ): { code: number; message: string; constraints?: ValidationError['constraints'] } => {
     if (e instanceof DatabaseError) {
         return { code: 500, message: e.message };

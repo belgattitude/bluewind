@@ -8,7 +8,9 @@ type FailPayload<E extends ErrorType = Error> = {
     isError: true;
     error: E;
 };
-type ResultPayload<T, E extends ErrorType = Error> = OkPayload<T> | FailPayload<E>;
+type ResultPayload<T, E extends ErrorType = Error> =
+    | OkPayload<T>
+    | FailPayload<E>;
 
 export class Result<T, E extends ErrorType = Error> {
     /**
@@ -43,7 +45,9 @@ export class Result<T, E extends ErrorType = Error> {
      * @param error - An Error object or string (Error object is recommended to keep trace)
      * @throws Error if runtime validation of the payload failed
      */
-    static fail<U extends unknown = unknown, E extends ErrorType = Error>(error: E | string): Result<U, E> {
+    static fail<U extends unknown = unknown, E extends ErrorType = Error>(
+        error: E | string
+    ): Result<U, E> {
         return new Result({
             isError: true,
             error: typeof error === 'string' ? new Error(error) : error,
@@ -51,7 +55,9 @@ export class Result<T, E extends ErrorType = Error> {
     }
 
     map<U>(mapFn: (value: T) => U): Result<U, E> {
-        return this.payload.isError ? ((this as unknown) as Result<U, E>) : Result.ok(mapFn(this.payload.value));
+        return this.payload.isError
+            ? ((this as unknown) as Result<U, E>)
+            : Result.ok(mapFn(this.payload.value));
     }
 
     async asyncMap<U>(mapFn: (value: T) => Promise<U>): Promise<Result<U, E>> {
@@ -68,7 +74,9 @@ export class Result<T, E extends ErrorType = Error> {
     }
 
     mapErr<F extends ErrorType = Error>(mapFn: (error: E) => F): Result<T, F> {
-        return this.payload.isError ? Result.fail(mapFn(this.payload.error)) : ((this as unknown) as Result<T, F>);
+        return this.payload.isError
+            ? Result.fail(mapFn(this.payload.error))
+            : ((this as unknown) as Result<T, F>);
     }
 
     unwrap(): T | E {
@@ -97,10 +105,14 @@ export class Result<T, E extends ErrorType = Error> {
         }
         if (payload.isError) {
             if (!('error' in payload)) {
-                throw new Error(`${msg}: Failure payload require a valid error.`);
+                throw new Error(
+                    `${msg}: Failure payload require a valid error.`
+                );
             }
             if (!(payload.error instanceof Error)) {
-                throw new Error(`${msg}: Failure payload error must be an instance of Error.`);
+                throw new Error(
+                    `${msg}: Failure payload error must be an instance of Error.`
+                );
             }
         }
         if (!payload.isError) {
@@ -108,7 +120,9 @@ export class Result<T, E extends ErrorType = Error> {
                 throw new Error(`${msg}: Success payload requires a value.`);
             }
             if (payload.value instanceof Error) {
-                throw new Error(`${msg}: Success payload value cannot be an instance of Error.`);
+                throw new Error(
+                    `${msg}: Success payload value cannot be an instance of Error.`
+                );
             }
         }
     }

@@ -2,7 +2,7 @@ import { CreateStudentDto, StudentSearchRequestDto, StudentSearchResponseDto } f
 import { Brackets, getConnection, getManager, getRepository, Repository } from 'typeorm';
 import { StudentEntity } from '../../entity/student.entity';
 import is from '@sindresorhus/is';
-import {Result} from '@bluewind/error-flow';
+import { Result } from '@bluewind/error-flow';
 
 class StudentService {
     private studentRepo: Repository<StudentEntity>;
@@ -29,7 +29,7 @@ class StudentService {
                             .where('student.last_name LIKE :fragment', p)
                             .orWhere('student.first_name LIKE :fragment', p)
                             .orWhere('student.email LIKE :fragment', p);
-                    }),
+                    })
                 );
             }
             if ('limit' in params) {

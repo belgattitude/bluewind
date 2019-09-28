@@ -1,5 +1,5 @@
 import { sign, SignOptions, verify, VerifyOptions } from 'jsonwebtoken';
-import {Result} from '@bluewind/error-flow';
+import { Result } from '@bluewind/error-flow';
 import is from '@sindresorhus/is';
 
 type TokenPayload = {

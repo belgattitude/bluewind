@@ -46,7 +46,7 @@ export const loginHandler = async (req: Request, res: Response) => {
         {
             userId: user.id,
         },
-        validFor,
+        validFor
     );
 
     return res.cookie('token', signed, { maxAge: validFor }).json({ success: true, token: signed });

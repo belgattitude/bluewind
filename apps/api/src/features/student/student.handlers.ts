@@ -6,7 +6,7 @@ import { setHttpErrors } from '../../core/http/error-utils';
 
 export const searchStudents = (studentService: StudentService) => async (
     req: Request,
-    res: Response,
+    res: Response
 ): Promise<void> => {
     // Get validated dto from query
     const { payload: dtoRs } = await getValidatedDto(StudentSearchRequestDto, req.query);

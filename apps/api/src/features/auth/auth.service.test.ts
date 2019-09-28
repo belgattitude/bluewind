@@ -1,6 +1,6 @@
 import { AuthService } from './auth.service';
 import { AuthUser } from './interface';
-import {Result} from '@bluewind/error-flow';
+import { Result } from '@bluewind/error-flow';
 import { IAuthRepo } from './interface';
 import { ActiveStatus } from '../../entity/user.entity';
 import { hashSync } from 'bcryptjs';
@@ -42,7 +42,7 @@ describe('AuthService tests', () => {
                             return Result.fail(`User ${username} cannot be found`);
                     }
                 },
-            }),
+            })
         );
 
         // Act

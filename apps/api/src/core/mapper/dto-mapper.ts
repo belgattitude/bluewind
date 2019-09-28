@@ -2,7 +2,7 @@ import { ClassType } from 'class-transformer/ClassTransformer';
 import { Request } from 'express';
 import { plainToClass } from 'class-transformer';
 import { validate, validateOrReject, ValidationError, ValidatorOptions } from 'class-validator';
-import {Result} from '@bluewind/error-flow';
+import { Result } from '@bluewind/error-flow';
 
 interface DTOValidationSuccess<T> {
     type: 'success';
@@ -47,7 +47,7 @@ export class DtoMapper {
     static async fromRequest<T>(
         obj: ClassType<T>,
         req: Request,
-        options?: ValidatorOptions,
+        options?: ValidatorOptions
     ): Promise<DTOValidationResult<T>> {
         const data = DtoMapper.extractParamsFromRequest(req);
 

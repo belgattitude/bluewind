@@ -15,7 +15,8 @@
     "force-clean": "rimraf --no-glob dist",
     "build": "tsdx build",
     "test": "tsdx test --env=jsdom",
-    "lint": "tsdx lint src"
+    "lint": "tsdx lint src",
+    "format": "prettier --write \"./src/**/*.{ts,tsx,scss,js,json}\""
   },
   "prettier": {
     "printWidth": 80,
