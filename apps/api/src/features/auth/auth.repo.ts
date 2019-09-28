@@ -1,5 +1,5 @@
 import { AuthUser, AuthRole, IAuthRepo } from './interface';
-import {Result} from "@bluewind/error-flow";
+import {Result} from '@bluewind/error-flow';
 import { DatabaseError, RecordNotFoundError } from '../../core/exceptions';
 import { Connection, getConnection } from 'typeorm';
 import { UserEntity } from '../../entity/user.entity';
