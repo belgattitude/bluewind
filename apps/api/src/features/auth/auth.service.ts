@@ -1,5 +1,5 @@
 import { IAuthRepo } from './interface';
-import { Result } from '../../core/result';
+import {Result} from "@bluewind/error-flow";
 import { AuthUser } from './interface';
 import { assertNever } from '../../core/typeguards';
 import { compare as bcryptCompare } from 'bcryptjs';

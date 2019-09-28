@@ -1,4 +1,4 @@
-import { Result } from './result';
+import { Result } from '../src/result';
 
 describe('Result tests', () => {
     type User = {
@@ -39,7 +39,7 @@ describe('Result tests', () => {
                 return r.toLowerCase().split(' ');
             })
             .mapErr(e => {
-                throw new Error('This cannot happen');
+                throw new Error(`This cannot happen: ${e.message}`);
             })
             .unwrap();
         // Assert
@@ -54,7 +54,7 @@ describe('Result tests', () => {
         // Act
         const result = fail
             .map<string>(r => {
-                throw new Error('This cannot happen');
+                throw new Error(`This cannot happen: ${r}`);
             })
             .mapErr(e => {
                 if (e instanceof ExampleError) {
@@ -64,7 +64,7 @@ describe('Result tests', () => {
                 return e;
             })
             .map<string>(r => {
-                throw new Error('This cannot happen too');
+                throw new Error(`This cannot happen too:  ${r}`);
             })
             .unwrap();
 

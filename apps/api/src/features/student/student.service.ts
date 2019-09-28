@@ -2,7 +2,8 @@ import { CreateStudentDto, StudentSearchRequestDto, StudentSearchResponseDto } f
 import { Brackets, getConnection, getManager, getRepository, Repository } from 'typeorm';
 import { StudentEntity } from '../../entity/student.entity';
 import is from '@sindresorhus/is';
-import { Result } from '../../core/result';
+import {Result} from "@bluewind/error-flow";
+
 
 class StudentService {
     private studentRepo: Repository<StudentEntity>;

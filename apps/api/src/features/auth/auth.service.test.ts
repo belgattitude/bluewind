@@ -1,8 +1,8 @@
 import { AuthService } from './auth.service';
 import { AuthUser } from './interface';
-import { Result } from '../../core/result';
+import {Result} from "@bluewind/error-flow";
 import { IAuthRepo } from './interface';
-import { ActiveStatus, AuthStatuses } from '../../entity/user.entity';
+import { ActiveStatus } from '../../entity/user.entity';
 import { hashSync } from 'bcryptjs';
 
 describe('AuthService tests', () => {

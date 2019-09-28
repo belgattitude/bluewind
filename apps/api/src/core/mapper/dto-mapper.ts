@@ -2,7 +2,8 @@ import { ClassType } from 'class-transformer/ClassTransformer';
 import { Request } from 'express';
 import { plainToClass } from 'class-transformer';
 import { validate, validateOrReject, ValidationError, ValidatorOptions } from 'class-validator';
-import { Result } from '../result';
+import {Result} from "@bluewind/error-flow";
+
 
 interface DTOValidationSuccess<T> {
     type: 'success';

@@ -7,7 +7,7 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production BABEL_ENV=production webpack --mode production --config webpack.production.js",
     "start": "cross-env NODE_ENV=development webpack-dev-server --mode development --hot --config webpack.development.js",
-    "clean": "rimraf build dist",
+    "clean": "rimraf --no-glob  build dist",
     "typecheck": "tsc -p . --noEmit",
     "es-check": "es-check es5 './dist/**/*.js' -v ",
     "format": "prettier --write \"./src/**/*.{ts,tsx,scss,js,json}\"",
@@ -43,6 +43,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.6.0",
     "@babel/runtime-corejs3": "^7.6.2",
+    "@bluewind/error-flow": "*",
     "@fortawesome/fontawesome-free": "^5.11.2",
     "@gfx/zopfli": "^1.0.14",
     "@hot-loader/react-dom": "^16.9.0",

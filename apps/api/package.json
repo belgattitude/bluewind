@@ -10,7 +10,7 @@
         "db:seed-demo": "ts-node -r tsconfig-paths/register ./scripts/db-seed-example-data.ts",
         "start:dev": "concurrently --handle-input \"wait-on dist/app.js && nodemon\" \"tsc -w -p tsconfig.build.json\" ",
         "start:debug": "nodemon --config nodemon-debug.json",
-        "clean": "rimraf dist",
+        "clean": "rimraf --no-glob dist",
         "typecheck": "tsc -p . --noEmit",
         "format": "prettier --write \"src/**/*.ts\"",
         "lint": "tslint -p tsconfig.json -c tslint.json",
@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "@sindresorhus/is": "^1.0.0",
+        "@bluewind/error-flow": "*",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.19.0",
         "class-transformer": "^0.2.3",

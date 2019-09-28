@@ -1,4 +1,4 @@
-import { Result } from '../../core/result';
+import {Result} from "@bluewind/error-flow";
 import { UserProfile } from './interface';
 import { UserRepo } from './user.repo';
 
