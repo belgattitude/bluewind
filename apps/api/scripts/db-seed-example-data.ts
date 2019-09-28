@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import {Connection, createConnection, Entity} from 'typeorm';
+import {Connection, createConnection} from 'typeorm';
 import {UserEntity} from '../src/entity/user.entity';
 import { hashSync} from 'bcryptjs';
 import {StudentEntity} from "../src/entity/student.entity";
