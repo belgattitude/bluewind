@@ -7,7 +7,7 @@
     "private": true,
     "scripts": {
         "db:install": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js schema:sync",
-        "db:seed-demo": "ts-node -r tsconfig-paths/register ./scripts/db-seed-example-data.ts",
+        "db:seed-demo": "ts-node -r tsconfig-paths/register ./scripts/db-seed-demo.ts",
         "start:dev": "concurrently --handle-input \"wait-on dist/app.js && nodemon\" \"tsc -w -p tsconfig.build.json\" ",
         "start:debug": "nodemon --config nodemon-debug.json",
         "clean": "rimraf --no-glob dist",
