@@ -1,7 +1,7 @@
 import StudentService from './student.service';
 import { StudentSearchRequestDto, StudentSearchResponseDto } from './student.dto';
 
-describe('StudentService ', async () => {
+describe('StudentService ',  () => {
     test('should reply to search', async () => {
         const student = new StudentService();
         const request: StudentSearchRequestDto = {
