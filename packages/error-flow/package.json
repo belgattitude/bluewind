@@ -16,18 +16,24 @@
     "build": "tsdx build",
     "test": "tsdx test --env=jsdom",
     "lint": "tsdx lint src",
-    "format": "prettier --write \"./src/**/*.{ts,tsx,scss,js,json}\""
+    "format": "prettier --write \"./src/**/*.{ts,tsx,css,scss,js,json}\"",
+    "precommit": "lint-staged"
   },
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
+  "lint-staged": {
+    "*.{css,scss,json}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
+    "lint-staged": "^9.4.0",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.1",
     "react": "^16.9.0",

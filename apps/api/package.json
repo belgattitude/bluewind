@@ -19,7 +19,18 @@
         "test": "jest -c jest.unit.config.js && jest -c jest.integration.config.js",
         "test:unit": "jest -c jest.unit.config.js",
         "test:integration": "jest -c jest.integration.config.js",
-        "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
+        "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+        "precommit": "lint-staged"
+    },
+    "lint-staged": {
+        "*.{json,css,scss}": [
+            "prettier --write",
+            "git add"
+        ],
+        "*.{js,jsx,ts,tsx}": [
+            "eslint --fix",
+            "git add"
+        ]
     },
     "dependencies": {
         "@sindresorhus/is": "^1.0.0",
