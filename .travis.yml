@@ -22,6 +22,10 @@ jobs:
       script:
             - yarn lint
             #- yarn typecheck
+    - stage: Packages
+      script:
+          - yarn lerna run --scope @bluewind/web test
+          - yarn lerna run --scope @bluewind/error-flow build
     - stage: Web
       script:
           - yarn lerna run --scope @bluewind/web test
