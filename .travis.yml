@@ -20,19 +20,19 @@ jobs:
   allow_failures:
     - stage: Lint
   include:
-    - stage: "@bluewind/[*]"
+    - stage: "@bluewind/packages (all)"
       script:
           - yarn lerna run --scope "@bluewind/*" test --stream
           - yarn lerna run --scope "@bluewind/*" build --stream
-    - stage: "@bluewind-app/web"
+    - stage: "bluewind-web"
       script:
-          - yarn lerna run --scope @bluewind-app/web test
-          - yarn lerna run --scope @bluewind-app/web build
-          - yarn lerna run --scope @bluewind-app/web es-check
-    - stage: "@bluewind-app/api"
+          - yarn lerna run --scope bluewind-web test
+          - yarn lerna run --scope bluewind-web build
+          - yarn lerna run --scope bluewind-web es-check
+    - stage: "bluewind-api"
       script:
-          - yarn lerna run --scope @bluewind-app/api test
-          - yarn lerna run --scope @bluewind-app/api build
+          - yarn lerna run --scope bluewind-api test
+          - yarn lerna run --scope bluewind-api build
     - stage: CodeStyle
       script:
           - yarn lint

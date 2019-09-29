@@ -21,9 +21,12 @@ jobs:
       run: |
         yarn install
         yarn bootstrap
-        yarn build:packages
         yarn typecheck
-        yarn test
-        yarn lerna run build
+        yarn build:packages
+        yarn lerna run --scope bluewind-web test
+        yarn lerna run --scope bluewind-web build
+        yarn lerna run --scope bluewind-web es-check
+        yarn lerna run --scope bluewind-api test
+        yarn lerna run --scope bluewind-api build
       env:
         CI: true

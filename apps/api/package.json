@@ -1,5 +1,5 @@
 {
-    "name": "@bluewind-app/api",
+    "name": "bluewind-api",
     "version": "0.0.1",
     "description": "Classroom application backend",
     "author": "Vanvelthem Sébastien",
