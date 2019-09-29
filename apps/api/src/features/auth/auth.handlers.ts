@@ -1,12 +1,12 @@
 import { Request, Response, Router } from 'express';
 import { LoginRequestDto } from './auth.dto';
 import { logger } from '../../logger';
-import { DtoMapper } from '../../core/mapper/dto-mapper';
-import { addDTOErrorToResponse } from '../../core/utils';
+import { getValidatedDto} from '../../core/mapper/dto-mapper';
 import { AuthService } from './auth.service';
 import { AuthRepo } from './auth.repo';
 import { DatabaseError } from '../../core/exceptions';
 import { TokenService } from './token.service';
+import {setHttpErrors} from "../../core/http/error-utils";
 
 /**
  * Login handler just authenticate credentials
@@ -14,18 +14,19 @@ import { TokenService } from './token.service';
  */
 export const loginHandler = async (req: Request, res: Response) => {
     // Validate input
-    const dtoOrError = await DtoMapper.fromRequest(LoginRequestDto, req);
-    if (dtoOrError.type === 'failure') {
-        addDTOErrorToResponse(res, dtoOrError).send();
-        return;
+
+    const { payload: dtoRs } = await getValidatedDto(LoginRequestDto, req.body);
+    if (dtoRs.isError) {
+        return setHttpErrors(dtoRs.error, res);
     }
+
+    const {username, password} = dtoRs.value;
 
     // Authentication
 
-    const dto = dtoOrError.dto;
     const authService = new AuthService(AuthRepo.fromConnection());
 
-    const result = await authService.authenticate(dto.username, dto.password);
+    const result = await authService.authenticate(username, password);
 
     const { payload } = result;
 
