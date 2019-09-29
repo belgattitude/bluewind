@@ -8,6 +8,8 @@ cache:
     - node_modules
     - apps/api/node_modules
     - apps/web/node_modules
+    - packages/*/node_modules
+    - packages/*/dist
 
 before_install:
   - npm install -g codecov
@@ -18,22 +20,21 @@ jobs:
   allow_failures:
     - stage: Lint
   include:
-    - stage: CodeStyle
+    - stage: "@bluewind/packages"
       script:
-            - yarn lint
-            #- yarn typecheck
-    - stage: Packages
-      script:
-          - yarn lerna run --scope @bluewind/web test
+          - yarn lerna run --scope @bluewind/error-flow test
           - yarn lerna run --scope @bluewind/error-flow build
-    - stage: Web
+    - stage: "@bluewind-app/web"
       script:
           - yarn lerna run --scope @bluewind/web test
           - yarn lerna run --scope @bluewind/web build
           - yarn lerna run --scope @bluewind/web es-check
-    - stage: Api
+    - stage: "@bluewind-app/api"
       script:
           - yarn lerna run --scope @bluewind/api test
           - yarn lerna run --scope @bluewind/api build
+    - stage: CodeStyle
+      script:
+          - yarn lint
 
 
