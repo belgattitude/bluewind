@@ -2,6 +2,14 @@
 
 .env
 
+# tsdx related
+# Specific for tsdx
+
+.rts2_cache_cjs
+.rts2_cache_esm
+.rts2_cache_umd
+
+
 # compiled output
 /dist
 /node_modules
