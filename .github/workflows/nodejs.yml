@@ -20,9 +20,10 @@ jobs:
     - name: yarn bootstrap, install, build, and test
       run: |
         yarn install
-        yarn lerna run bootstrap
-        yarn lerna run typecheck
-        yarn lerna run test
+        yarn bootstrap
+        yarn build:package
+        yarn typecheck
+        yarn test
         yarn lerna run build
       env:
         CI: true

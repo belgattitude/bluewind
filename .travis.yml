@@ -8,8 +8,8 @@ cache:
     - node_modules
     - apps/api/node_modules
     - apps/web/node_modules
-    - packages/*/node_modules
-    - packages/*/dist
+    - packages/error-flow/node_modules
+    - packages/error-flow/dist
 
 before_install:
   - npm install -g codecov
