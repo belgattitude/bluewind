@@ -1,4 +1,4 @@
-# @bluewind/api
+# bluewind/api
 
 
 ## Install
@@ -21,10 +21,10 @@ $ vi .env
 $ yarn db:install   
 ```
 
-### Seed the [example data](./scripts/db-seed-example-data.ts)
+### Seed the [demo data](./scripts/db-see-demo.ts)
 
 ```bash
-$ yarn db:seed-example-data
+$ yarn db:seed-demo
 ```    
 
 ### Run the tests

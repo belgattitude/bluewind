@@ -3,19 +3,15 @@
 [![Build Status](https://travis-ci.org/belgattitude/bluewind.svg?branch=master)](https://travis-ci.org/belgattitude/bluewind) [![Greenkeeper badge](https://badges.greenkeeper.io/belgattitude/bluewind.svg)](https://greenkeeper.io/)
 
  
-## Develop
+## Install
 
 ```bash
 $ yarn install
+$ yarn lerna bootstrap  # Lerna bootrap
+$ yarn build:packages   # Build deps packages
 ```
 
-### Lerna
-
-```bash
-$ yarn run bootstrap
-```
-
-### Env
+### Set env
 
 Backend 
 
@@ -26,10 +22,16 @@ $ cp ./apps/api/.env.template ./apps/api/.env
 Frontend
 
 ```bash
-$ cp ./apps/web/.env.template ./apps/api/.env
+$ cp ./apps/web/.env.template ./apps/web/.env
 ```
 
 And configure those files
+
+### Seed demo data
+
+```bash
+$ yarn lerna run --scope bluewind-api db:seed-demo --stream
+```
 
 ### Start
 
@@ -40,10 +42,10 @@ $ yarn start:dev
 ### Build
 
 ```bash
-$ lerna run build
+$ yarn lerna run build
 ```
 
-### Commands
+### Useful commands
 
 ```bash
 $ yarn typecheck

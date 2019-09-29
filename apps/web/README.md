@@ -1,4 +1,4 @@
-# @bluewind/web
+# bluewind-web
 
 > WIP  
 
