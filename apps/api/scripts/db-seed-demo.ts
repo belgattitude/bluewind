@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import {Connection, createConnection} from 'typeorm';
 import {UserEntity} from '../src/entity/user.entity';
-import { hashSync} from 'bcryptjs';
 import {StudentEntity} from "../src/entity/student.entity";
+import {HashService} from "../src/core/infra/hash-service";
 
 createConnection().then(async connection => {
     await seedUserData(connection);
@@ -12,6 +12,7 @@ createConnection().then(async connection => {
 
 
 async function seedUserData(connection: Connection) {
+    const hashService = new HashService();
     const users = [
         {username: 'admin', password: 'demo', first_name: 'Tom', last_name: 'Sayer', email: 'admin@bluewind.com'},
         {username: 'test', password: 'demo', first_name: 'Bill', last_name: 'Pilou', email: 'test@bluewind.com'}
@@ -27,7 +28,7 @@ async function seedUserData(connection: Connection) {
         } else {
             const newUser = new UserEntity();
             Object.assign(newUser, {username, ...userData})
-            newUser.password = hashSync(password, 10);
+            newUser.password = await hashService.hashPassword(password);
             await connection.manager.save(newUser).catch(error => {
                 console.error(error);
             });

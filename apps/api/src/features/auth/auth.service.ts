@@ -2,7 +2,7 @@ import { IAuthRepo } from './interface';
 import { Result } from '@bluewind/error-flow';
 import { AuthUser } from './interface';
 import { assertNever } from '../../core/typeguards';
-import { compare as bcryptCompare } from 'bcryptjs';
+import { HashService } from '../../core/infra/hash-service';
 
 export class AuthService {
     constructor(private userRepo: IAuthRepo) {
@@ -11,6 +11,8 @@ export class AuthService {
 
     async authenticate(username: string, password: string): Promise<Result<AuthUser>> {
         return this.userRepo.findByUsername(username).then(async result => {
+            const hashService = new HashService();
+
             const { payload } = result;
             // Narrowed to error
             if (payload.isError) {
@@ -20,7 +22,7 @@ export class AuthService {
             // Narrowed to User
             const user = payload.value;
 
-            if (!(await bcryptCompare(password, user.password))) {
+            if (!(await hashService.comparePasswords(password, user.password))) {
                 return Result.fail<AuthUser>(`Passwords does not match`);
             }
 
