@@ -1,5 +1,5 @@
 {
-  "name": "bluewind-monorepo",
+  "name": "@bluewind/monorepo",
   "private": true,
   "author": "Vanvelthem Sébastien",
   "license": "MIT",

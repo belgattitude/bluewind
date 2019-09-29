@@ -15,7 +15,8 @@
     "force-clean": "rimraf --no-glob dist",
     "build": "tsdx build",
     "test": "tsdx test --env=jsdom",
-    "lint": "tsdx lint src",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "format": "prettier --write \"./src/**/*.{ts,tsx,css,scss,js,json}\"",
     "precommit": "lint-staged"
   },
@@ -30,9 +31,16 @@
     ]
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.3.1",
+    "@typescript-eslint/parser": "2.3.1",
     "@types/jest": "^24.0.18",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
+    "eslint": "^6.5.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-import": "2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-sonarjs": "^0.4.0",
     "lint-staged": "^9.4.0",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.1",
