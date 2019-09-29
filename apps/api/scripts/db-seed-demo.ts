@@ -4,13 +4,6 @@ import {UserEntity} from '../src/entity/user.entity';
 import {StudentEntity} from "../src/entity/student.entity";
 import {HashService} from "../src/core/infra/hash-service";
 
-createConnection().then(async connection => {
-    await seedUserData(connection);
-    await seedStudentData(connection);
-    connection.close();
-}).catch(error => console.log(error));
-
-
 async function seedUserData(connection: Connection) {
     const hashService = new HashService();
     const users = [
@@ -61,3 +54,10 @@ async function seedStudentData(connection: Connection) {
         }
     }));
 }
+
+
+createConnection().then(async connection => {
+    await seedUserData(connection);
+    await seedStudentData(connection);
+    connection.close();
+}).catch(error => console.log(error));

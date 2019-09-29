@@ -39,7 +39,7 @@ const authMiddleware = (req: RequestWithToken, res: Response, next: NextFunction
 };
 
 export function getMainRouterCreator(): (container: {}) => Router {
-    const createRoutesFromContainer = (container: {}): Router => {
+    return (container: {}): Router => {
         const router = Router();
 
         /**
@@ -75,5 +75,4 @@ export function getMainRouterCreator(): (container: {}) => Router {
         return router;
     };
 
-    return createRoutesFromContainer;
 }

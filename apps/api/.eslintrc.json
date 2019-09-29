@@ -1,58 +1,57 @@
 {
-  "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
-    "plugin:sonarjs/recommended"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "./tsconfig.eslint.json"
-  },
-  "plugins": [
-    "sonarjs",
-    "@typescript-eslint",
-    "prettier"
-  ],
-  "rules": {
-    "no-angle-bracket-type-assertion": "off",
-    "no-throw-literal": "error",
-    "camelcase": "off",
-    "@typescript-eslint/camelcase": ["error", { "properties": "never", "ignoreDestructuring": true }],
-    "@typescript-eslint/no-use-before-define": "warn",
-    "@typescript-eslint/interface-name-prefix": "warn",
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-unused-vars": "off",
-    "@typescript-eslint/explicit-member-accessibility": "off",
-    "@typescript-eslint/promise-function-async": [
-      "error",
-      {
-          "allowedPromiseNames": ["Thenable"],
-          "checkArrowFunctions": true,
-          "checkFunctionDeclarations": true,
-          "checkFunctionExpressions": true,
-          "checkMethodDeclarations": true
-      }
-    ],
-    "@typescript-eslint/await-thenable": "error",
-    "sonarjs/cognitive-complexity": "error",
-    "sonarjs/no-useless-catch": "error",
-    "sonarjs/no-identical-expressions": "warn",
-    "sonarjs/no-small-switch": "off",
-    "sonarjs/prefer-immediate-return": "warn"
-  },
-  "overrides": [
-    {
-      "files": ["jest.*.ts"],
-      "rules": {
-        "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-var-requires": "off"
-      }
+    "extends": ["plugin:@typescript-eslint/recommended", "prettier/@typescript-eslint", "plugin:sonarjs/recommended"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": "./tsconfig.eslint.json"
     },
-    {
-      "files": ["routes.ts"],
-      "rules": {
-          "sonarjs/no-duplicate-string": "off"
-      }
-    }
-  ]
+    "plugins": ["sonarjs", "@typescript-eslint", "prettier"],
+    "rules": {
+        "no-angle-bracket-type-assertion": "off",
+        "no-throw-literal": "error",
+        "camelcase": "off",
+        "@typescript-eslint/camelcase": ["error", { "properties": "never", "ignoreDestructuring": true }],
+        "@typescript-eslint/no-use-before-define": "warn",
+        "@typescript-eslint/interface-name-prefix": "warn",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/explicit-member-accessibility": "off",
+        "@typescript-eslint/promise-function-async": [
+            "error",
+            {
+                "allowedPromiseNames": ["Thenable"],
+                "checkArrowFunctions": true,
+                "checkFunctionDeclarations": true,
+                "checkFunctionExpressions": true,
+                "checkMethodDeclarations": true
+            }
+        ],
+        "@typescript-eslint/await-thenable": "error",
+        "sonarjs/cognitive-complexity": "error",
+        "sonarjs/no-useless-catch": "error",
+        "sonarjs/no-identical-expressions": "warn",
+        "sonarjs/no-small-switch": "off",
+        "sonarjs/prefer-immediate-return": "warn"
+    },
+    "overrides": [
+        {
+            "files": ["jest.*.ts"],
+            "rules": {
+                "@typescript-eslint/no-explicit-any": "off",
+                "@typescript-eslint/no-var-requires": "off"
+            }
+        },
+        {
+            "files": ["*.test.ts", "*.ispec.ts"],
+            "rules": {
+                "@typescript-eslint/no-explicit-any": "off",
+                "@typescript-eslint/no-var-requires": "off"
+            }
+        },
+        {
+            "files": ["routes.ts"],
+            "rules": {
+                "sonarjs/no-duplicate-string": "off"
+            }
+        }
+    ]
 }

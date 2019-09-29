@@ -32,7 +32,7 @@ beforeAll(async () => {
     await seedUserData(connection);
     await seedStudentData(connection);
     await getRepository(StudentEntity).find().then((result) => {
-        console.log('result', result);
+        //console.log('result', result);
     });
 });
 
