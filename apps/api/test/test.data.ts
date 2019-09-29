@@ -9,7 +9,8 @@ export async function seedUserData(connection: Connection) {
         {username: 'test', password: 'demo', first_name: 'Bill', last_name: 'Pilou', email: 'test@bluewind.com'},
     ];
 
-    await Promise.all(users.map(async ({username, password, email}) => {
+    await Promise.all(users.map(async (userData) => {
+        const { username } = userData;
         const user = await connection.manager.findOne(UserEntity, {
             where: {username},
         });
@@ -17,13 +18,11 @@ export async function seedUserData(connection: Connection) {
             console.warn(`Skipped: user ${username} already exists in db.`);
         } else {
             const newUser = new UserEntity();
-            newUser.username = username;
-            newUser.password = hashSync(password, 10);
-            newUser.email    = email;
+            Object.assign(newUser, userData);
+            newUser.password = hashSync(userData.password, 10);
             await connection.manager.save(newUser).catch(error => {
                 console.error(error);
             });
-            // console.debug(`Saved user '${username}' with id: ${newUser.id}`);
         }
     }));
 }
@@ -34,22 +33,18 @@ export async function seedStudentData(connection: Connection) {
         {first_name: 'Marie', last_name: 'Currie', email: 'marie@example.com'},
     ];
 
-    await Promise.all(students.map(async ({first_name, last_name, email}) => {
-        const user = await connection.manager.findOne(StudentEntity, {
+    await Promise.all(students.map(async (studentData) => {
+        const { email } = studentData;
+        const student = await connection.manager.findOne(StudentEntity, {
             where: {email},
         });
-        if (user) {
-            console.warn(`Skipped: user ${email} already exists in db.`);
+        if (student) {
+            console.warn(`Skipped: student ${email} already exists in db.`);
         } else {
-            const newStudent = new StudentEntity();
-            newStudent.first_name = first_name;
-            newStudent.last_name = last_name;
-            newStudent.email    = email;
-
-            await connection.manager.save(newStudent).catch(error => {
-                console.error(error);
+            const newStudent = connection.manager.create(StudentEntity, studentData);
+            await connection.manager.save(newStudent).catch(e => {
+                console.error(e);
             });
-            // console.debug(`Saved user '${firstName} ${lastName}' with id: ${newStudent.id}`);
         }
     }));
 }
