@@ -1,12 +1,12 @@
 import { Request, Response, Router } from 'express';
 import { LoginRequestDto } from './auth.dto';
 import { logger } from '../../logger';
-import { getValidatedDto} from '../../core/mapper/dto-mapper';
+import { getValidatedDto } from '../../core/mapper/dto-mapper';
 import { AuthService } from './auth.service';
 import { AuthRepo } from './auth.repo';
 import { DatabaseError } from '../../core/exceptions';
 import { TokenService } from './token.service';
-import {setHttpErrors} from "../../core/http/error-utils";
+import { setHttpErrors } from '../../core/http/error-utils';
 
 /**
  * Login handler just authenticate credentials
@@ -20,7 +20,7 @@ export const loginHandler = async (req: Request, res: Response) => {
         return setHttpErrors(dtoRs.error, res);
     }
 
-    const {username, password} = dtoRs.value;
+    const { username, password } = dtoRs.value;
 
     // Authentication
 

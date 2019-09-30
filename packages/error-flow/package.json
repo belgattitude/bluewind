@@ -21,10 +21,6 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.{css,scss,json}": [
-      "prettier --write",
-      "git add"
-    ],
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
       "git add"

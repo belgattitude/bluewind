@@ -74,5 +74,4 @@ export function getMainRouterCreator(): (container: {}) => Router {
 
         return router;
     };
-
 }

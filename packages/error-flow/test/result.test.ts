@@ -1,4 +1,4 @@
-import { Result } from '../src/result';
+import { Result } from '../src';
 
 describe('Result tests', () => {
     type User = {

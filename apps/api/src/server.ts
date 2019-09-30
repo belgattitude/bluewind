@@ -2,18 +2,17 @@ import 'reflect-metadata';
 import { logger } from './logger';
 import { initConnection } from './init-connection';
 import { env } from './env';
-import express from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
-import swaggerUi from "swagger-ui-express";
-import * as swaggerConfig from "./swagger.json";
-import {getMainRouterCreator} from "./routes";
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import swaggerUi from 'swagger-ui-express';
+import * as swaggerConfig from './swagger.json';
+import { getMainRouterCreator } from './routes';
 
 const port: number = env.DEVSERVER_PORT;
 
 initConnection()
     .then(async connection => {
-
         const app: express.Application = express();
 
         // Middleware registration
@@ -26,7 +25,6 @@ initConnection()
         const container = {};
 
         app.use(getMainRouterCreator()(container));
-
 
         // Start the server
         app.listen(port, () => {

@@ -8,7 +8,10 @@ import { Result } from '@bluewind/error-flow';
  * @param dtoClass
  * @param inputData the plainObject
  */
-export const getValidatedDto = async <T>(dtoClass: ClassType<T>, inputData: {[key:string]: unknown}): Promise<Result<T>> => {
+export const getValidatedDto = async <T>(
+    dtoClass: ClassType<T>,
+    inputData: { [key: string]: unknown }
+): Promise<Result<T>> => {
     // map to plain object
     const dto = plainToClass(dtoClass, inputData, {
         enableImplicitConversion: true,

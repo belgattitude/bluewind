@@ -61,7 +61,7 @@ class StudentService {
     }
 
     async save(studentDTO: CreateStudentDto): Promise<StudentEntity> {
-        const student = await this.studentRepo
+        return await this.studentRepo
             .save({
                 last_name: studentDTO.last_name,
                 first_name: studentDTO.first_name,
@@ -70,8 +70,6 @@ class StudentService {
             .then(entity => {
                 return entity;
             });
-
-        return student;
     }
 }
 
