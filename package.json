@@ -31,7 +31,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lerna run --concurrency 1 --stream precommit",
-      "post-commit": "git update-index --again",
+      "post-commit": "git diff --name-only HEAD^ | xargs git add",
       "pre-push": "lerna run typecheck && lerna run test:unit"
     }
   }
