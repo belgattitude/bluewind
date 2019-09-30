@@ -21,8 +21,8 @@ jobs:
       run: |
         yarn install
         yarn bootstrap
-        yarn typecheck
         yarn build:packages
+        yarn typecheck
         yarn lerna run --scope bluewind-web test
         yarn lerna run --scope bluewind-web build
         yarn lerna run --scope bluewind-web es-check
