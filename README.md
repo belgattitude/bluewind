@@ -2,6 +2,13 @@
 
 [![Build Status](https://travis-ci.org/belgattitude/bluewind.svg?branch=master)](https://travis-ci.org/belgattitude/bluewind) [![Greenkeeper badge](https://badges.greenkeeper.io/belgattitude/bluewind.svg)](https://greenkeeper.io/)
 
+At this point, it's more a spare-time playground than anything else. 
+The ultimate goal is to provide a simple PWA to manage yoga classes, students...
+
+If you're curious, check the [api](./apps/api), [frontend](./apps/web) or more 
+interestingly the lerna enabled packages directory, notably [error-flow](./packages/error-flow),
+my personal take on a better error handling in typescript.  
+
  
 ## Install
 
