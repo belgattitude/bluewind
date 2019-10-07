@@ -23,7 +23,7 @@
     "typecheck": "lerna run typecheck --parallel --stream"
   },
   "devDependencies": {
-    "husky": "^3.0.7",
+    "husky": "^3.0.8",
     "lerna": "^3.16.4",
     "stmux": "^1.7.1",
     "rimraf": "^3.0.0"
