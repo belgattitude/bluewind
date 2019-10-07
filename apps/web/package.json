@@ -176,7 +176,7 @@
     "ky": "^0.14.0",
     "loglevel": "^1.6.4",
     "react": "^16.10.1",
-    "react-async": "^8.0.0",
+    "react-async": "^9.0.0",
     "react-dom": "^16.10.1",
     "react-error-boundary": "^1.2.5",
     "react-final-form": "^6.3.0",
