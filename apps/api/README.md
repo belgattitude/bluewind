@@ -29,15 +29,15 @@ $ yarn db:seed-demo
 
 ### Run the tests
 
-    ```bash
-   $ npm run test
-    ```
+```bash
+$ npm run test
+```
       
 ### Start the server in dev mode
 
-    ```bash
-    $ npm run start:dev
-    ```
+```bash
+$ npm run start:dev
+```
 
 ### Point your browser to `http://localhost:3000`
 
