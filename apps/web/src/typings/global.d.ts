@@ -32,9 +32,3 @@ declare module '*.json' {
     const value: string;
     export default value;
 }
-
-// types/mdx.d.ts
-declare module '*.mdx' {
-    let MDXComponent: (props: unknown) => JSX.Element;
-    export default MDXComponent;
-}

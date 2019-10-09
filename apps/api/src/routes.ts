@@ -1,4 +1,4 @@
-import { loginHandler } from './features/auth/auth.handlers';
+import { loginHandler, refreshTokenHandler } from './features/auth/auth.handlers';
 import {
     createStudent,
     deleteStudent,
@@ -7,36 +7,10 @@ import {
     updateStudent,
 } from './features/student/student.handlers';
 import { getProfileHandler } from './features/user/user.handlers';
-import { NextFunction, Request, Response, Router } from 'express';
-import { TokenService } from './features/auth/token.service';
+import { Request, Response, Router } from 'express';
+
 import StudentService from './features/student/student.service';
-
-// Next to do make a real middleware for this
-type RequestWithToken = {
-    token?: string;
-} & Request;
-const authMiddleware = (req: RequestWithToken, res: Response, next: NextFunction): void => {
-    const token = (req.headers.authorization || '').replace(/^bearer\ /i, '');
-
-    const tokenService = TokenService.createFromEnv();
-
-    type ExtraTokenValues = {
-        userId: number;
-    };
-
-    if (token) {
-        const result = tokenService.verify<ExtraTokenValues>(token);
-        const { payload } = result;
-        if (payload.isError) {
-            res.status(401).json(`Authentication failure ${payload.error.message}`);
-            return;
-        }
-        Object.assign(req, { userId: payload.value.userId });
-        next();
-    } else {
-        res.status(401).json('Authentication failure');
-    }
-};
+import { authMiddleware } from './features/auth/auth.middleware';
 
 export function getMainRouterCreator(): (container: {}) => Router {
     return (container: {}): Router => {
@@ -53,6 +27,7 @@ export function getMainRouterCreator(): (container: {}) => Router {
          * Authentication related routes
          */
         router.post('/auth/login', loginHandler);
+        router.get('/auth/refresh-token', refreshTokenHandler);
 
         /**
          * API related routes (/api)

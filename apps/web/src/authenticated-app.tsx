@@ -9,18 +9,13 @@ import DashboardLayout from './component/dashboard/dashboard-layout';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { RootState, store } from './store';
 import { thunkLogoutRequest } from './features/auth/auth.redux';
+import { Layout } from './component/layout/layout';
 
 const AuthenticatedApp: React.FC = () => {
-    const dispatch = useDispatch();
-
     return (
         <div className="app">
-            <DashboardLayout
-                handleLogout={() => {
-                    dispatch(thunkLogoutRequest());
-                }}
-            >
-                <Router>
+            <Router>
+                <Layout>
                     <Switch>
                         <Route path="/" exact component={HomePage} />
                         <Route path="/student/:id" component={ProfilePage} />
@@ -28,8 +23,8 @@ const AuthenticatedApp: React.FC = () => {
                         <Route path="/classes" component={ClassesPage} />
                         <PrivateRoute path="/private" component={ProfilePage} />
                     </Switch>
-                </Router>
-            </DashboardLayout>
+                </Layout>
+            </Router>
         </div>
     );
 };

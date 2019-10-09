@@ -17,13 +17,12 @@ export const loginHandler = async (req: Request, res: Response) => {
 
     const { payload: dtoRs } = await getValidatedDto(LoginRequestDto, req.body);
     if (dtoRs.isError) {
-        return setHttpErrors(dtoRs.error, res);
+        return setHttpErrors(dtoRs.error, res, 401);
     }
 
     const { username, password } = dtoRs.value;
 
     // Authentication
-
     const authService = new AuthService(AuthRepo.fromConnection());
 
     const result = await authService.authenticate(username, password);
@@ -34,7 +33,7 @@ export const loginHandler = async (req: Request, res: Response) => {
         if (payload.error instanceof DatabaseError) {
             return res.status(500).send(payload.error.message);
         }
-        return res.status(401).send(payload.error.message);
+        return res.status(401).send({ message: payload.error.message });
     }
 
     // Return

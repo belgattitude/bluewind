@@ -1,5 +1,4 @@
 import { assertNever } from './typeguards';
-import is from '@sindresorhus/is';
 
 const localStorageKey = '__bluewind_token__';
 

@@ -11,5 +11,4 @@ export class StudentDetailDTO extends autoImplement<IStudentDetailDTO>() {
         super();
     }
 }
-
 */

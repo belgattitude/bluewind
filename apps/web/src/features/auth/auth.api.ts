@@ -1,5 +1,6 @@
 import ky from 'ky';
 import is from '@sindresorhus/is';
+import { getTokenStore } from '../../core/token-store';
 
 export type AuthRequestDTO = {
     username: string;
@@ -10,6 +11,12 @@ export type AuthRequestDTO = {
 export type AuthSuccessResponseDTO = {
     token: string;
 };
+
+export type AuthFailureResponseDTO = {
+    message: string;
+};
+
+export type AuthResponseDTO = AuthSuccessResponseDTO | AuthFailureResponseDTO;
 
 export type AuthUserDataResponseDTO = {
     username: string;
@@ -30,6 +37,7 @@ export class AuthApi implements IAuthApi {
     constructor(apiUrl: string = defaultApiUrl) {
         this.api = ky.create({
             prefixUrl: apiUrl,
+            throwHttpErrors: false,
         });
     }
 
@@ -40,23 +48,46 @@ export class AuthApi implements IAuthApi {
             })
             .json()
             .catch(reason => {
-                throw reason;
+                throw new Error(`Error: could not connect: ${reason}`);
             })
-            .then(
-                (response): AuthSuccessResponseDTO => {
-                    if (is.plainObject(response) && is.nonEmptyString(response.token)) {
-                        return {
-                            token: response.token,
-                        };
-                    } else {
-                        throw new Error(`Response did not respond with a valid token`);
-                    }
-                    throw new Error(`Invalid response`);
+            .then(response => {
+                if (is.plainObject(response) && is.nonEmptyString(response.token)) {
+                    return {
+                        token: response.token,
+                    };
+                } else if (is.plainObject(response) && is.nonEmptyString(response.message)) {
+                    throw new Error(`Invalid credentials`);
                 }
-            );
+                throw new Error(`Invalid response`);
+            });
     }
 
-    async getUserData(token: string): Promise<AuthUserDataResponseDTO> {
+    async getUserData(token: string): Promise<any> {
+        return this.api
+            .get('api/profile', {
+                hooks: {
+                    beforeRequest: [
+                        (input, options) => {
+                            const token = getTokenStore().getToken();
+                            if (token) {
+                                options.headers.set('Authorization', `Bearer ${token}`);
+                            }
+                        },
+                    ],
+                },
+            })
+            .json()
+            .catch(reason => {
+                throw new Error(`Error: could not connect: ${reason}`);
+            })
+            .then(response => {
+                if (is.plainObject(response) && is.plainObject(response.value)) {
+                    return response.value;
+                }
+                throw new Error(`Invalid response`);
+            });
+
+        /*
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve({
@@ -67,6 +98,7 @@ export class AuthApi implements IAuthApi {
                 });
             }, 2000);
         });
+         */
     }
 
     async logout(token: string): Promise<boolean> {

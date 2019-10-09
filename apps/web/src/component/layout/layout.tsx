@@ -11,9 +11,10 @@ type LayoutProps = {
     headerTitle: string;
     footerText: string;
     children: ReactNode;
+    handleLogout?: () => void;
 };
 
-class Layout extends Component<LayoutProps, {}> {
+export class Layout extends Component<LayoutProps, {}> {
     static defaultProps = defaultProps;
 
     render() {
@@ -22,11 +23,8 @@ class Layout extends Component<LayoutProps, {}> {
             <div className="layout-ctn">
                 <Header title={p.headerTitle} />
                 <main>{children}</main>
-
                 <Footer text={p.footerText} />
             </div>
         );
     }
 }
-
-export default Layout;

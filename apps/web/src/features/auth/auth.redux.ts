@@ -3,7 +3,6 @@ import { authApi, AuthRequestDTO, AuthUserDataResponseDTO } from './auth.api';
 import { AppThunk } from '../../store';
 import { getTokenStore } from '../../core/token-store';
 import { AuthContextState } from '../../core/context/auth/auth-context';
-import { HTTPError } from 'ky';
 
 type AuthState = {
     logged: boolean;
@@ -49,6 +48,19 @@ const authSlice = createSlice({
 export const { getAuthStart, getAuthFailure, getAuthSuccess, getAuthLogout } = authSlice.actions;
 export default authSlice.reducer;
 
+export const thunkLogoutRequest = (): AppThunk => async dispatch => {
+    try {
+        const token = getTokenStore().getToken();
+        getTokenStore().removeToken();
+        if (token) {
+            const authResult = await authApi.logout(token);
+        }
+    } finally {
+        dispatch(getAuthLogout());
+    }
+};
+
+
 export const thunkAuthRequestUserData = (loginRequestDto: AuthRequestDTO): AppThunk => async dispatch => {
     try {
         dispatch(getAuthStart());
@@ -69,17 +81,6 @@ export const thunkAuthRequestUserData = (loginRequestDto: AuthRequestDTO): AppTh
     }
 };
 
-export const thunkLogoutRequest = (): AppThunk => async dispatch => {
-    try {
-        const token = getTokenStore().getToken();
-        getTokenStore().removeToken();
-        if (token) {
-            const authResult = await authApi.logout(token);
-        }
-    } finally {
-        dispatch(getAuthLogout());
-    }
-};
 
 async function bootstrapUserData(): Promise<AuthContextState> {
     const token = getTokenStore().getToken();

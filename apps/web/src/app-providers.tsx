@@ -1,9 +1,15 @@
 import React from 'react';
 import { store } from './store';
-import { Provider } from 'react-redux';
+import { Provider as ReduxProvider } from 'react-redux';
+import { ThemeProvider } from 'emotion-theming';
+import { styledSystemTheme } from './component/ui/theme';
 
 function AppProviders(props: any) {
-    return <Provider store={store}>{props.children};</Provider>;
+    return (
+        <ReduxProvider store={store}>
+            <ThemeProvider theme={styledSystemTheme}>{props.children}</ThemeProvider>
+        </ReduxProvider>
+    );
 }
 
 export default AppProviders;

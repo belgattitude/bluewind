@@ -1,5 +1,9 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, NavLink } from 'react-router-dom';
+import useRouter from 'use-react-router';
+import { thunkLogoutRequest } from '../../features/auth/auth.redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 type HeaderProps = {
     title: string;
@@ -7,10 +11,13 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = props => {
     // To add redux / context or whatever
-    const logged = false;
+    const { logged } = useSelector((state: RootState) => state.auth);
+    const dispatch = useDispatch();
+
+    const { history } = useRouter();
 
     const handleLogout = (e: unknown) => {
-        // do the thing
+        dispatch(thunkLogoutRequest());
     };
 
     return (
@@ -18,15 +25,11 @@ const Header: React.FC<HeaderProps> = props => {
             <div className="header-text">{props.title}</div>
             <nav>
                 <li>
-                    <NavLink to={'/'}>Home</NavLink>
+                    <a onClick={() => history.push('/')}>Home</a>
                 </li>
                 <li>
-                    <NavLink to={'/students'}>Student</NavLink>
+                    <a onClick={() => history.push('/students')}>Students</a>
                 </li>
-                <li>
-                    <NavLink to={'/classes'}>Classes</NavLink>
-                </li>
-
                 <li>
                     {logged ? (
                         <a href="#" onClick={handleLogout}>

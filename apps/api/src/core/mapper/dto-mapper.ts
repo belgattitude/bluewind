@@ -1,7 +1,8 @@
 import { ClassType } from 'class-transformer/ClassTransformer';
 import { plainToClass } from 'class-transformer';
-import { validate } from 'class-validator';
+import { validate, ValidationError } from 'class-validator';
 import { Result } from '@bluewind/error-flow';
+import { DTOValidationError } from '../exceptions';
 
 /**
  * A very basic generic mapper relying on class-validator and class-transformer
@@ -22,7 +23,7 @@ export const getValidatedDto = async <T>(
         skipUndefinedProperties: true,
     });
     if (errors.length > 0) {
-        return Result.fail(`Validation failed ${JSON.stringify(errors)}`);
+        return Result.fail(new DTOValidationError('Validation failed', errors));
     }
     return Result.ok(dto);
 };
