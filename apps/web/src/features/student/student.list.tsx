@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StudentDetailDTO } from './student.api';
 import { useKeyPress } from '../../core/hooks/use-key-press';
+import styled from "@emotion/styled";
 
 type StudentListProps = {
     students: StudentDetailDTO[];
@@ -8,9 +9,10 @@ type StudentListProps = {
     handleDelete?: (studentId: number) => void;
     handleSearchChange?: (query: string) => void;
     handleSelected?: (studentId: number) => void;
+    className?: string;
 };
 
-export const StudentList: React.FC<StudentListProps> = props => {
+const UnstyledStudentList: React.FC<StudentListProps> = props => {
     const { students } = props;
     const [cursor, setCursor] = useState<number>(0);
     const downPress = useKeyPress('ArrowDown');
@@ -30,13 +32,14 @@ export const StudentList: React.FC<StudentListProps> = props => {
     }, [upPress, students.length]);
 
     return (
-        <div className="result-list">
+        <div className={props.className}>
             <ul>
                 {(students || []).map((student, i) => {
+                    const cls = (i === cursor) ? 'item__active': 'item';
                     return (
                         <React.Fragment key={student.id}>
                             <li
-                                className={`item ${i === cursor ? 'active' : ''}`}
+                                className={cls}
                                 role={'button'}
                                 onPointerDown={e => {
                                     setCursor(i);
@@ -49,7 +52,7 @@ export const StudentList: React.FC<StudentListProps> = props => {
                                 </div>
                                 <div>Right</div>
                             </li>
-                            <li className="divider"></li>
+                            <li className="divider" />
                         </React.Fragment>
                     );
                 })}
@@ -57,3 +60,68 @@ export const StudentList: React.FC<StudentListProps> = props => {
         </div>
     );
 };
+
+// Clean up this mess !!!
+export const StudentList = styled(UnstyledStudentList)`
+    ul {
+        margin: 0;
+        padding: 0;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        position: relative;      
+        list-style: none;
+        background-color: white;
+        
+        li {        
+            padding-left: 16px;
+            padding-right: 16px;
+            text-decoration: none;
+            display: flex;
+            
+            &.item, &.item__active {                
+                align-items: flex-start;
+                width: 100%;
+                position: relative;
+                box-sizing: border-box;
+                text-align: left;
+                padding-top: 8px;
+                padding-bottom: 8px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                border: 1px solid white;
+                div {
+                    padding: 5px;
+                    &:first-child {
+                        border: 1px solid blue;
+                        border-radius: 100%;
+                        width: 30px;
+                        overflow: hidden;
+                        margin-right: 5px;
+                    }
+                    &:nth-child(2) {
+                        flex-grow: 1;
+                    }
+                    &:last-child {
+                        overflow: hidden;
+                        max-width: 30px;
+                    }
+                }
+                
+            }
+            &.item__active {
+                //border: 1px solid blue;
+                background-color: rgba(0,0,200, 0.1);
+            }
+
+            &.divider {
+                border: none;
+                height: 1px;
+                margin: 0;
+                flex-shrink: 0;
+                background-color: rgba(0, 0, 0, 0.12);
+            }
+        }
+    }
+
+`

@@ -69,7 +69,7 @@ export const LoginForm = styled(UnstyledLoginForm)`
         display: flex;
         flex-direction: column;
         label {
-            padding: 5px 0px;
+            padding: 5px 0;
         }
         input {
             flex-grow: 1;
