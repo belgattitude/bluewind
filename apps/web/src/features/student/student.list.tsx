@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StudentDetailDTO } from './student.api';
 import { useKeyPress } from '../../core/hooks/use-key-press';
 

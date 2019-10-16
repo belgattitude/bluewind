@@ -60,7 +60,6 @@ export const thunkLogoutRequest = (): AppThunk => async dispatch => {
     }
 };
 
-
 export const thunkAuthRequestUserData = (loginRequestDto: AuthRequestDTO): AppThunk => async dispatch => {
     try {
         dispatch(getAuthStart());
@@ -80,7 +79,6 @@ export const thunkAuthRequestUserData = (loginRequestDto: AuthRequestDTO): AppTh
         dispatch(getAuthFailure(msg));
     }
 };
-
 
 async function bootstrapUserData(): Promise<AuthContextState> {
     const token = getTokenStore().getToken();

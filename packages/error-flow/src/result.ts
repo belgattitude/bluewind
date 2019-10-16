@@ -15,7 +15,7 @@ export class Result<T, E extends ErrorType = Error> {
     /**
      * Discriminated union between OkPayload | FailPayload
      */
-    readonly payload: Readonly<ResultPayload<Readonly<T>, Readonly<E>>>;
+    readonly payload: Readonly<ResultPayload<T, E>>;
 
     /**
      * @throws Error if runtime validation of the payload failed

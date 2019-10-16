@@ -1,7 +1,8 @@
 import React from 'react';
 import './username.page.scss';
+import styled from '@emotion/styled';
 
-export const LoginPage: React.FC = () => {
+const UnstyledLoginPage: React.FC = () => {
     const logged = true;
     return (
         <>
@@ -22,3 +23,5 @@ export const LoginPage: React.FC = () => {
         </>
     );
 };
+
+export const LoginPage = styled(UnstyledLoginPage)``;

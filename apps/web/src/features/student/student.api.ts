@@ -5,6 +5,7 @@ import ky from 'ky';
 import { classesListMock } from '../../mocks/datamocks';
 import { isApiResponse } from '../../core/typeguards';
 import { getTokenStore } from '../../core/token-store';
+import { Result } from '@bluewind/error-flow';
 
 export interface StudentDetailDTO {
     id: number;
@@ -65,9 +66,10 @@ export class StudentApi {
         });
     }
 
-    async search(params: SearchParams): Promise<StudentDetailDTO[]> {
+    async search(params: SearchParams, signal?: AbortSignal): Promise<Result<StudentDetailDTO[]>> {
         return this.api
             .get('students', {
+                signal: signal,
                 searchParams: {
                     query: params.query || '',
                 },
@@ -75,9 +77,9 @@ export class StudentApi {
             .json()
             .then(response => {
                 if (isApiResponse(response) && response.success === true) {
-                    return response.data as StudentListDTO;
+                    return Result.ok(response.data as StudentDetailDTO[]);
                 }
-                throw new Error('Response is invalid or does not contain data');
+                return Result.fail(new Error('Response is invalid or does not contain data'));
             });
     }
 

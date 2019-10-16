@@ -16,6 +16,9 @@ type ButtonProps = BorderRadiusProps & ButtonStyleProps & SpaceProps & FontSizeP
 export const Button = styled.button<ButtonProps>`
     border: 0;
     outline: 0; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     &:hover {
       filter: contrast(150%);
       cursor: pointer;

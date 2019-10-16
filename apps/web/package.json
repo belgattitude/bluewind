@@ -163,6 +163,7 @@
     "@emotion/core": "^10.0.21",
     "@emotion/styled": "^10.0.17",
     "@sindresorhus/is": "^1.2.0",
+    "abort-controller": "^3.0.0",
     "camelcase-keys": "^6.0.1",
     "core-js": "3",
     "date-fns": "^2.5.0",
