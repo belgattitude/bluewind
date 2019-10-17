@@ -5,7 +5,7 @@ export class StudentSearchRequestDto {
     @Type(() => Number)
     id?: number;
     @IsString()
-    @MaxLength(3)
+    @MaxLength(30)
     @IsOptional()
     query?: string;
     @Type(() => Number)

@@ -1,10 +1,10 @@
 import React from 'react';
-import useRouter from 'use-react-router';
 import { thunkLogoutRequest } from '../../features/auth/auth.redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import styled from '@emotion/styled';
 import { Button } from '../ui/button';
+import { useHistory, useLocation } from 'react-router';
 
 type HeaderProps = {
     title: string;
@@ -19,7 +19,8 @@ const UnstyledHeader: React.FC<HeaderProps> = props => {
     const { logged, username } = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch();
 
-    const { history, location } = useRouter();
+    const location = useLocation();
+    const history = useHistory();
 
     const handleLogout = (e: unknown) => {
         dispatch(thunkLogoutRequest());

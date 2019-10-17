@@ -1,5 +1,6 @@
 module.exports = {
     "presets": [
+        ["@emotion/babel-preset-css-prop"],
         [
             "@babel/preset-env",
             {
@@ -9,17 +10,17 @@ module.exports = {
                 "debug": true
             }
         ],
-        "@babel/react",
-        "@emotion/babel-preset-css-prop"
+        "@babel/react"
     ],
     "env": {
         "production": {
             "plugins": [
-                "emotion"
+                //"emotion"
             ]
         },
         "development": {
             "presets": [
+                ["@emotion/babel-preset-css-prop"],
                 [
                     "@babel/preset-env",
                     {
@@ -28,12 +29,15 @@ module.exports = {
                 ]
             ],
             "plugins": [
+                /*
                 [
                     "emotion",
                     {
                         "sourceMap": true
                     }
                 ],
+
+                 */
                 "react-hot-loader/babel"
             ]
         },
@@ -61,6 +65,7 @@ module.exports = {
         }
     },
     "plugins": [
+        /*
         [
             "emotion",
             {
@@ -71,7 +76,7 @@ module.exports = {
                 "cssPropOptimization": true
             }
         ],
-
+        */
         /*
         ["@babel/plugin-transform-runtime",
             {

@@ -45,9 +45,20 @@ export class StudentApi {
                     },
                 ],
                 beforeRetry: [
+                    // Let's attempt to refresh the token
                     async (input, options, errors, retryCount) => {
-                        const token = await ky('https://example.com/refresh-token');
-                        options.headers.set('Authorization', `token ${token}`);
+                        const token = getTokenStore().getToken();
+                        if (token) {
+                            // Based on cookie refresh token (same domain policy !!!)
+                            const refreshedToken = await ky
+                                .get(`${apiUrl}/auth/refresh-token`)
+                                .text()
+                                .then(result => {
+                                    return result;
+                                });
+                            getTokenStore().setToken(refreshedToken);
+                            options.headers.set('Authorization', `Bearer ${token}`);
+                        }
                     },
                 ],
                 afterResponse: [

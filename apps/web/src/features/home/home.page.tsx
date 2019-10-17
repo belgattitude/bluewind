@@ -1,10 +1,83 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { SearchProvider, useSearch } from './test';
+import { useDebouncedCallback } from 'use-debounce';
+import { TextField } from '../../component/ui/form';
+import { Button } from '../../component/ui/button';
+import { css } from '@emotion/core';
+import { backgroundColor } from 'styled-system';
 
 type Props = {};
 
+const TestList: React.FC<{}> = props => {
+    const search = useSearch();
+    if (search.loading) {
+        return <div>Loading...</div>;
+    }
+    return (
+        <div>
+            {search.data.map(student => (
+                <div key={student.id}>
+                    {student.first_name} {student.last_name}
+                </div>
+            ))}
+        </div>
+    );
+};
+
+const TestQuery: React.FC<{}> = props => {
+    const search = useSearch();
+    const [debouncedCallback] = useDebouncedCallback(query => {
+        search.search(query);
+    }, 150);
+    return (
+        <div>
+            <TextField
+                placeholder={'Type something'}
+                onChange={e => {
+                    debouncedCallback(e.currentTarget.value);
+                }}
+            />
+            <Button
+                style={{
+                    backgroundColor: 'white',
+                    color: 'grey',
+                }}
+                size={'medium'}
+                onClick={() => {
+                    search.reload();
+                }}
+            >
+                Reload
+            </Button>
+        </div>
+    );
+};
+
 const UnstyledHomePage: React.FC<Props> = props => {
-    return <div>This is still happenning... but needs more time</div>;
+    return (
+        <div>
+            Few tests to see how we can make this generic with context and hooks performance wise.
+            <hr />
+            <SearchProvider>
+                <div>
+                    <TestQuery />
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                    }}
+                >
+                    <TestList />
+                    <TestList />
+                    <TestList />
+                    <TestList />
+                </div>
+            </SearchProvider>
+        </div>
+    );
 };
 
 export const HomePage = styled(UnstyledHomePage)``;

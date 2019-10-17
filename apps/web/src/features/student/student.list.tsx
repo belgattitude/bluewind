@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StudentDetailDTO } from './student.api';
 import { useKeyPress } from '../../core/hooks/use-key-press';
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 type StudentListProps = {
     students: StudentDetailDTO[];
@@ -35,7 +35,7 @@ const UnstyledStudentList: React.FC<StudentListProps> = props => {
         <div className={props.className}>
             <ul>
                 {(students || []).map((student, i) => {
-                    const cls = (i === cursor) ? 'item__active': 'item';
+                    const cls = i === cursor ? 'item__active' : 'item';
                     return (
                         <React.Fragment key={student.id}>
                             <li
@@ -68,17 +68,18 @@ export const StudentList = styled(UnstyledStudentList)`
         padding: 0;
         padding-top: 8px;
         padding-bottom: 8px;
-        position: relative;      
+        position: relative;
         list-style: none;
         background-color: white;
-        
-        li {        
+
+        li {
             padding-left: 16px;
             padding-right: 16px;
             text-decoration: none;
             display: flex;
-            
-            &.item, &.item__active {                
+
+            &.item,
+            &.item__active {
                 align-items: flex-start;
                 width: 100%;
                 position: relative;
@@ -92,26 +93,25 @@ export const StudentList = styled(UnstyledStudentList)`
                 border: 1px solid white;
                 div {
                     padding: 5px;
-                    &:first-child {
+                    &:first-of-type {
                         border: 1px solid blue;
                         border-radius: 100%;
                         width: 30px;
                         overflow: hidden;
                         margin-right: 5px;
                     }
-                    &:nth-child(2) {
+                    &:nth-of-type(2) {
                         flex-grow: 1;
                     }
-                    &:last-child {
+                    &:last-of-type {
                         overflow: hidden;
                         max-width: 30px;
                     }
                 }
-                
             }
             &.item__active {
                 //border: 1px solid blue;
-                background-color: rgba(0,0,200, 0.1);
+                background-color: rgba(0, 0, 200, 0.1);
             }
 
             &.divider {
@@ -123,5 +123,4 @@ export const StudentList = styled(UnstyledStudentList)`
             }
         }
     }
-
-`
+`;

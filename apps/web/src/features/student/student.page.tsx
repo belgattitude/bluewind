@@ -23,14 +23,14 @@ const UnstyledStudentPage: React.FC<Props> = props => {
     const [query, setQuery] = useState<string | null>(null);
     const [isError, setIsError] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
+    const [studentList, setStudentList] = useState<StudentDetailDTO[]>([]);
+
     const searchRef = useRef<HTMLInputElement>(null);
 
     const { timeout = defaultsProps.timeout } = props;
     const [debouncedCallback] = useDebouncedCallback(query => {
         setQuery(query);
     }, timeout);
-
-    const [studentList, setStudentList] = useState<StudentDetailDTO[]>([]);
 
     useEffect(() => {
         if (searchRef && searchRef.current) {

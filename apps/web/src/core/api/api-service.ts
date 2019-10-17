@@ -20,7 +20,7 @@ const createApiService = (tokenStore: ITokenStore, apiUrl: string) => (
             beforeRetry: [
                 // Let's attempt to refresh the token
                 async (input, options, errors, retryCount) => {
-                    const token = getTokenStore().getToken();
+                    const token = tokenStore.getToken();
                     if (token) {
                         // Based on cookie refresh token (same domain policy !!!)
                         const refreshedToken = await ky
