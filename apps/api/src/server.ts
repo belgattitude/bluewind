@@ -4,6 +4,7 @@ import { initConnection } from './init-connection';
 import { env } from './env';
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import * as swaggerConfig from './swagger.json';
@@ -15,8 +16,15 @@ initConnection()
     .then(async connection => {
         const app: express.Application = express();
 
+        app.disable('x-powered-by');
+
         // Middleware registration
-        app.use(cors());
+        app.use(cors({
+            credentials: true,
+            // @todo relaxed for now...
+            origin: true
+        }));
+        app.use(cookieParser());
         app.use(bodyParser.json());
         app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerConfig));
 

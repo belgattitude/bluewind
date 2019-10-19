@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { DatabaseError } from '../../core/exceptions';
 import { UserService } from './user.service';
 import { UserRepo } from './user.repo';
-import { isSafeId } from '../../core/typeguards';
+import { assertIsSafeId } from '../../core/typeguards';
 
 /**
  * Return user profile data
@@ -14,7 +14,7 @@ type RequestWithUser = {
 
 export const getProfileHandler = async (req: RequestWithUser, res: Response) => {
     const { userId } = req;
-    if (!isSafeId(userId)) {
+    if (!assertIsSafeId(userId)) {
         return res.status(401).json({ userId: req.userId });
     }
 

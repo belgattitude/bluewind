@@ -38,7 +38,7 @@ module.exports = {
                 ],
 
                  */
-                "react-hot-loader/babel"
+                //"react-hot-loader/babel"
             ]
         },
         "test": {

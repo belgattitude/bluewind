@@ -30,7 +30,7 @@ export class TokenService {
      * @param expiresIn expressed in seconds or a string describing a time span [zeit/ms](https://github.com/zeit/ms.js)
      * @param options
      */
-    createToken(payload: TokenPayload, expiresIn: string | number, options: SignOptions = {}): string {
+    createToken(payload: TokenPayload, expiresIn?: string | number, options: SignOptions = {}): string {
         return sign(payload, this.secret, {
             ...this.defaultOptions.sign,
             ...options,
@@ -45,7 +45,7 @@ export class TokenService {
                 ...options,
             });
             if (!TokenService.isDecodedToken(decoded)) {
-                return Result.fail(new Error(`jsonwbtoken returned an unexpected decoded token: ${decoded}`));
+                return Result.fail(new Error(`jsonwebtoken returned an unexpected value: ${decoded}`));
             }
             return Result.ok(decoded as DecodedToken & T);
         } catch (e) {
@@ -57,18 +57,36 @@ export class TokenService {
         return is.plainObject(decoded) && is.number(decoded.iat) && is.number(decoded.exp);
     }
 
-    static createFromEnv(): TokenService {
-        // TODO create real env
-        const defaultOptions: DefaultOptions = {
-            sign: {
-                algorithm: 'HS256',
-                expiresIn: 60,
-            },
-            verify: {
-                algorithms: ['HS256'],
-            },
-        };
+}
 
-        return new TokenService('mySuperSecretJWTKeyForSigningThatImGOnnaPutInEnvLAter', defaultOptions);
-    }
+
+export const createRefreshTokenService = (): TokenService => {
+
+    const defaultOptions: DefaultOptions = {
+        sign: {
+            algorithm: 'HS384',
+            expiresIn: 86400,
+        },
+        verify: {
+            algorithms: ['HS384'],
+        },
+    };
+    return new TokenService('myEVENbetterSuperSecretJWTKeyForGENERATINGrefreshTokenImGOnnaPutInEnvLAter', defaultOptions);
+}
+
+export const createTokenService = (): TokenService => {
+
+    const defaultOptions: DefaultOptions = {
+        sign: {
+            algorithm: 'HS256',
+            expiresIn: 60,
+        },
+        verify: {
+            algorithms: ['HS256'],
+        },
+    };
+
+    return new TokenService('mySuperSecretJWTKeyForSigningThatImGOnnaPutInEnvLAter', defaultOptions);
+
+
 }

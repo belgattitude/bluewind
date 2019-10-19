@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from 'express';
-import { TokenService } from './token.service';
+import {createTokenService} from './token.service';
 
 type RequestWithToken = {
     token?: string;
@@ -8,7 +8,7 @@ type RequestWithToken = {
 export const authMiddleware = (req: RequestWithToken, res: Response, next: NextFunction): void => {
     const token = (req.headers.authorization || '').replace(/^bearer\ /i, '');
 
-    const tokenService = TokenService.createFromEnv();
+    const tokenService = createTokenService();
 
     type ExtraTokenValues = {
         userId: number;

@@ -1,54 +1,79 @@
 import ky from 'ky';
 import { getTokenStore, ITokenStore } from '../token-store';
+import { IRefreshTokenService, RefreshTokenService } from './refresh-token-service';
+import { Result } from '@bluewind/error-flow';
+import ownKeys = Reflect.ownKeys;
 
-const createApiService = (tokenStore: ITokenStore, apiUrl: string) => (
-    onAuthenticationFailure?: () => {}
-): typeof ky => {
-    return ky.create({
-        prefixUrl: apiUrl,
-        // Debug for headers, can also transform the response
-        hooks: {
-            beforeRequest: [
-                // Set the token if any
-                (input, options) => {
-                    const token = getTokenStore().getToken();
-                    if (token !== null) {
-                        options.headers.set('Authorization', `Bearer ${token}`);
-                    }
-                },
-            ],
-            beforeRetry: [
-                // Let's attempt to refresh the token
-                async (input, options, errors, retryCount) => {
-                    const token = tokenStore.getToken();
-                    if (token) {
-                        // Based on cookie refresh token (same domain policy !!!)
-                        const refreshedToken = await ky
-                            .get(`${apiUrl}/auth/refresh-token`)
-                            .text()
-                            .then(result => {
-                                return result;
-                            });
-                        tokenStore.setToken(refreshedToken);
-                        options.headers.set('Authorization', `Bearer ${token}`);
-                    }
-                },
-            ],
-            afterResponse: [
-                (input, options, response) => {
-                    if (response.status === 401) {
-                        // This should do the trick
-                        getTokenStore().removeToken();
-                        window.location.reload();
-                    }
-                    response.headers.forEach((val, key) => {
-                        console.log(key, val);
-                    });
-                },
-            ],
+export interface IApiService {
+    createKy(): typeof ky;
+}
+
+type ApiServiceProps = {
+    serverUrl: string;
+    refreshTokenService: IRefreshTokenService;
+    tokenStore: ITokenStore;
+    onAuthFailure: (response: Response) => void;
+};
+
+export class ApiService implements IApiService {
+    private props: ApiServiceProps;
+
+    constructor(props: ApiServiceProps) {
+        this.props = props;
+    }
+
+    createKy(): typeof ky {
+        return ky.create({
+            prefixUrl: this.props.serverUrl,
+            hooks: {
+                beforeRequest: [
+                    (input, options): void => {
+                        const token = this.props.tokenStore.getToken();
+                        if (token !== null) {
+                            options.headers.set('Authorization', `Bearer ${token}`);
+                        }
+                    },
+                ],
+                afterResponse: [
+                    async (input, options, response) => {
+                        const { status } = response;
+                        if (status === 401 || status === 403) {
+                            // attempt a refreshing token
+                            const { refreshTokenService, tokenStore } = this.props;
+                            const { payload } = await refreshTokenService.getAccessToken();
+                            if (!payload.isError) {
+                                const newToken = payload.value;
+                                options.headers.set('Authorization', `Bearer ${newToken}`);
+                                tokenStore.setToken(newToken);
+                                // retry with the same
+                                return ky(input, options);
+                            } else {
+                                // remove the token
+                                tokenStore.removeToken();
+                                this.props.onAuthFailure(response);
+                            }
+                        }
+                        return response;
+                    },
+                ],
+            },
+        });
+    }
+}
+
+export const createDefaultApiService = () => {
+    const serverUrl = 'http://localhost:3000';
+    const tokenStore = getTokenStore();
+    const refreshTokenService = new RefreshTokenService({
+        tokenStore: tokenStore,
+        refreshTokenUrl: `${serverUrl}/auth/refresh-token`,
+    });
+    return new ApiService({
+        serverUrl,
+        refreshTokenService: refreshTokenService,
+        tokenStore: tokenStore,
+        onAuthFailure: () => {
+            window.location.reload();
         },
     });
 };
-
-const defaultApiUrl = 'http://localhost:3000/api';
-export const apiService = createApiService(getTokenStore(), defaultApiUrl);

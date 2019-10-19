@@ -60,12 +60,12 @@ const UnstyledStudentList: React.FC<StudentListProps> = props => {
         </div>
     );
 };
-
 // Clean up this mess !!!
 export const StudentList = styled(UnstyledStudentList)`
     ul {
         margin: 0;
         padding: 0;
+
         padding-top: 8px;
         padding-bottom: 8px;
         position: relative;

@@ -1,8 +1,8 @@
 import React, { ReactNode, useCallback, useContext, useEffect, useLayoutEffect, useReducer, useState } from 'react';
 import { useAsync } from 'react-async';
-import { StudentApi, StudentDetailDTO } from '../student/student.api';
+import { getStudentApi, StudentDetailDTO } from '../student/student.api';
 
-const studentApi = new StudentApi();
+const studentApi = getStudentApi();
 
 export type AuthContextState = {
     query: string | null;

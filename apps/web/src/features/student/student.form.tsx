@@ -1,19 +1,21 @@
-import React from 'react';
-import { Form as FinalForm, Field as FinalField, FieldRenderProps } from 'react-final-form';
-import { StudentDetailDTO, studentApi } from './student.api';
+import React, { ComponentClass } from 'react';
+import { Form, Field, FieldRenderProps } from 'react-final-form';
+import { StudentDetailDTO, getStudentApi } from './student.api';
 import snakecaseKeys from 'snakecase-keys';
 import { TextField } from '../../component/ui/form';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { Button } from '../../component/ui/button';
 
-type FormValues = Partial<StudentDetailDTO>;
+type FormValues = Partial<StudentDetailDTO> & { username?: string };
 
 const onSubmit = async (values: FormValues) => {
     const val = snakecaseKeys({ id: 1, ...values });
-    studentApi.save(val).then(response => {
-        console.log('returned response', response);
-    });
+    getStudentApi()
+        .save(val)
+        .then(response => {
+            console.log('returned response', response);
+        });
 };
 
 type Props = {
@@ -22,44 +24,81 @@ type Props = {
     className?: string;
 };
 
-const TextFieldWrapper: React.FC<FieldRenderProps<any, any>> = ({
+const TextFieldWrapper: React.FC<FieldRenderProps<string, HTMLElement>> = ({
     input: { name, onChange, value, ...restInput },
     meta,
     ...rest
 }) => {
     const showError = ((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) && meta.touched;
-
-    return <TextField {...rest} name={name} css={css``} onChange={onChange} value={value} />;
+    console.log('onchange', onChange);
+    return (
+        <>
+            <TextField
+                {...rest}
+                onChange={e => {
+                    console.log('changed');
+                    onChange(e);
+                }}
+                name={name}
+                css={css``}
+                value={value}
+            />
+            {showError && <div>{meta.error}</div>}
+        </>
+    );
 };
 
 export const UnstyledStudentForm: React.FC<Props> = props => {
     const initialValues = props.data;
+
+    const validate = (values: FormValues) => {
+        const errors: Partial<FormValues> = {};
+        if (!values.username) {
+            errors.username = 'Required';
+        }
+
+        if (!!values.first_name) {
+            errors.first_name = 'Required';
+        }
+        if (!values.last_name) {
+            errors.last_name = 'Required';
+        }
+        return errors;
+    };
+
     return (
         <div className={props.className}>
-            <FinalForm
-                onSubmit={onSubmit}
+            <Form
                 initialValues={initialValues}
+                keepDirtyOnReinitialize={false}
+                validate={validate}
+                onSubmit={onSubmit}
                 render={({ handleSubmit, form, pristine, submitting, values }) => (
                     <form onSubmit={handleSubmit}>
+                        <Field name="username">
+                            {({ input, meta }) => (
+                                <div>
+                                    <label htmlFor="username">Username</label>
+                                    <TextField name="username" {...input} type="text" placeholder="Username" />
+                                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                                </div>
+                            )}
+                        </Field>
                         <div>
                             <label htmlFor="first_name">First Name</label>
-                            <FinalField<string>
-                                name="first_name"
-                                component={TextFieldWrapper}
-                                placeholder="First Name"
-                            />
+                            <Field<string> name="first_name" component={TextFieldWrapper} placeholder="First Name" />
                         </div>
                         <div>
                             <label htmlFor="last_name">Last Name</label>
-                            <FinalField<string> name="last_name" component={TextFieldWrapper} placeholder="Last Name" />
+                            <Field<string> name="last_name" component={TextFieldWrapper} placeholder="Last Name" />
                         </div>
                         <div>
                             <label htmlFor="email">Email</label>
-                            <FinalField<number> name="email" component={TextFieldWrapper} placeholder="Email" />
+                            <Field<string> name="email" component={TextFieldWrapper} placeholder="Email" />
                         </div>
                         <div>
                             <label htmlFor="sex">Sex</label>
-                            <FinalField<number> name="sex" component={TextFieldWrapper} placeholder="Gender" />
+                            <Field<string> name="sex" component={TextFieldWrapper} placeholder="Gender" />
                         </div>
                         <div className="buttons">
                             <Button variant="reset" m={[1]} onClick={form.reset} disabled={submitting || pristine}>
@@ -101,9 +140,8 @@ export const StudentForm = styled(UnstyledStudentForm)`
             label {
                 flex: 1 0;
             }
-
             input {
-                flex: 1 1 0%;
+                flex: 1 1 0;
             }
         }
     }

@@ -7,7 +7,7 @@ import { isApiResponse } from '../../core/typeguards';
 import { Result } from '@bluewind/error-flow';
 import { createDefaultApiService, IApiService } from '../../core/api/api-service';
 
-export interface StudentDetailDTO {
+export interface UserDetailDTO {
     id: number;
     first_name: string;
     last_name: string;
@@ -20,65 +20,47 @@ export interface StudentDetailDTO {
     pastClasses: typeof classesListMock;
 }
 
-export type StudentListDTO = StudentDetailDTO[];
+export type UserListDTO = UserDetailDTO[];
 
 type SearchParams = {
     query?: string;
 };
 
-export class StudentApi {
+export class UserApi {
     private api: typeof ky;
 
     constructor(apiService: IApiService) {
         this.api = apiService.createKy();
     }
 
-    async search(params: SearchParams, signal?: AbortSignal): Promise<Result<StudentDetailDTO[]>> {
+    async getProfile(token: string): Promise<UserDetailDTO> {
         return this.api
-            .get('api/students', {
-                signal: signal,
-                //credentials: "include",
-                searchParams: {
-                    query: params.query || '',
-                },
-            })
+            .get(`api/profile/${UserId}`)
             .json()
             .then(response => {
                 if (isApiResponse(response) && response.success === true) {
-                    return Result.ok(response.data as StudentDetailDTO[]);
-                }
-                return Result.fail(new Error('Response is invalid or does not contain data'));
-            });
-    }
-
-    async get(studentId: number): Promise<StudentDetailDTO> {
-        return this.api
-            .get(`api/students/${studentId}`)
-            .json()
-            .then(response => {
-                if (isApiResponse(response) && response.success === true) {
-                    return response.data as StudentDetailDTO;
+                    return response.data as UserDetailDTO;
                 }
                 throw new Error('Response is invalid or does not contain data');
             });
     }
 
-    async save<T>(student: {} & T): Promise<StudentDetailDTO> {
-        console.log('save student', student);
+    async save<T>(User: {} & T): Promise<UserDetailDTO> {
+        console.log('save User', User);
 
         return this.api
-            .post(`api/students`, {
-                json: snakecaseKeys(student),
+            .post(`api/Users`, {
+                json: snakecaseKeys(User),
             })
             .json()
             .then(response => {
                 if (is.plainObject(response)) {
                     const data = camelcaseKeys(response, { deep: true });
-                    return (data as unknown) as StudentDetailDTO;
+                    return (data as unknown) as UserDetailDTO;
                 }
                 throw new Error(`Invalid response`);
             });
     }
 }
 
-export const getStudentApi = () => new StudentApi(createDefaultApiService());
+export const getUserApi = () => new UserApi(createDefaultApiService());

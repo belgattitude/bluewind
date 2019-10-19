@@ -1,6 +1,7 @@
 import ky from 'ky';
 import is from '@sindresorhus/is';
 import { getTokenStore } from '../../core/token-store';
+import { createDefaultApiService } from '../../core/api/api-service';
 
 export type AuthRequestDTO = {
     username: string;
@@ -38,6 +39,7 @@ export class AuthApi implements IAuthApi {
         this.api = ky.create({
             prefixUrl: apiUrl,
             throwHttpErrors: false,
+            credentials: 'include',
         });
     }
 
@@ -56,26 +58,17 @@ export class AuthApi implements IAuthApi {
                         token: response.token,
                     };
                 } else if (is.plainObject(response) && is.nonEmptyString(response.message)) {
-                    throw new Error(`Invalid credentials`);
+                    throw new Error(`Invalid credentials ${response.message}`);
                 }
                 throw new Error(`Invalid response`);
             });
     }
 
     async getUserData(token: string): Promise<any> {
-        return this.api
-            .get('api/profile', {
-                hooks: {
-                    beforeRequest: [
-                        (input, options) => {
-                            const token = getTokenStore().getToken();
-                            if (token) {
-                                options.headers.set('Authorization', `Bearer ${token}`);
-                            }
-                        },
-                    ],
-                },
-            })
+        const api = createDefaultApiService().createKy();
+
+        return api
+            .get('api/profile')
             .json()
             .catch(reason => {
                 throw new Error(`Error: could not connect: ${reason}`);
@@ -86,19 +79,6 @@ export class AuthApi implements IAuthApi {
                 }
                 throw new Error(`Invalid response`);
             });
-
-        /*
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve({
-                    username: 'belgattitude',
-                    firstName: 'Sébastien',
-                    lastName: 'Vanvelthem',
-                    email: 'belgattitude@gmail.com',
-                });
-            }, 2000);
-        });
-         */
     }
 
     async logout(token: string): Promise<boolean> {
