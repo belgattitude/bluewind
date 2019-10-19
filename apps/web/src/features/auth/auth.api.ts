@@ -66,7 +66,6 @@ export class AuthApi implements IAuthApi {
 
     async getUserData(token: string): Promise<any> {
         const api = createDefaultApiService().createKy();
-
         return api
             .get('api/profile')
             .json()
