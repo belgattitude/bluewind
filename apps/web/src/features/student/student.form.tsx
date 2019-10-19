@@ -1,6 +1,6 @@
 import React, { ComponentClass } from 'react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
-import { StudentDetailDTO, getStudentApi } from './student.api';
+import { StudentDetailDTO, getDefaultStudentApi } from './student.api';
 import snakecaseKeys from 'snakecase-keys';
 import { TextField } from '../../component/ui/form';
 import { css } from '@emotion/core';
@@ -11,7 +11,7 @@ type FormValues = Partial<StudentDetailDTO> & { username?: string };
 
 const onSubmit = async (values: FormValues) => {
     const val = snakecaseKeys({ id: 1, ...values });
-    getStudentApi()
+    getDefaultStudentApi()
         .save(val)
         .then(response => {
             console.log('returned response', response);

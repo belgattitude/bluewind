@@ -81,4 +81,4 @@ export class StudentApi {
     }
 }
 
-export const getStudentApi = () => new StudentApi(createDefaultApiService());
+export const getDefaultStudentApi = () => new StudentApi(createDefaultApiService());

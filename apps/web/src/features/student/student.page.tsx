@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StudentList } from './student.list';
 import { StudentDetail } from './student.detail';
-import { getStudentApi, StudentApi, StudentDetailDTO, StudentListDTO } from './student.api';
+import { getDefaultStudentApi, StudentApi, StudentDetailDTO, StudentListDTO } from './student.api';
 import { useDebouncedCallback } from 'use-debounce';
 import styled from '@emotion/styled';
 import { TextField } from '../../component/ui/form';
@@ -16,7 +16,7 @@ type Props = {
     className?: string;
 };
 
-const studentApi = getStudentApi();
+const studentApi = getDefaultStudentApi();
 
 const UnstyledStudentPage: React.FC<Props> = props => {
     const [studentId, setStudentId] = useState<number | null>(null);
