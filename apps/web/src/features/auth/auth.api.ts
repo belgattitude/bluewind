@@ -65,7 +65,9 @@ export class AuthApi implements IAuthApi {
     }
 
     async getUserData(token: string): Promise<any> {
-        const api = createDefaultApiService().createKy();
+        const api = createDefaultApiService().createKy({
+            forceToken: token,
+        });
         return api
             .get('api/profile')
             .json()
@@ -81,6 +83,7 @@ export class AuthApi implements IAuthApi {
     }
 
     async logout(token: string): Promise<boolean> {
+        // @todo make it real baby ;)
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(true);

@@ -22,14 +22,15 @@ export class ApiService implements IApiService {
         this.props = props;
     }
 
-    createKy(): typeof ky {
+    createKy(options?: { forceToken?: string }): typeof ky {
+        const { forceToken } = options || {};
         return ky.create({
             prefixUrl: this.props.serverUrl,
             hooks: {
                 beforeRequest: [
                     (input, options): void => {
-                        const token = this.props.tokenStore.getToken();
-                        if (token !== null) {
+                        const token = forceToken || this.props.tokenStore.getToken();
+                        if (token) {
                             options.headers.set('Authorization', `Bearer ${token}`);
                         }
                     },

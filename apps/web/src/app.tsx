@@ -11,21 +11,6 @@ const loadAuthenticatedApp = () => import('./authenticated-app');
 const AuthenticatedApp = React.lazy(loadAuthenticatedApp);
 const UnauthenticatedApp = React.lazy(() => import('./unauthenticated-app'));
 
-/*
-const App: React.FC = () => {
-    const user = useUser();
-
-
-
-    return (
-        <ErrorBoundary onError={ErrorHandler} FallbackComponent={FallbackComponent}>
-            <React.Suspense fallback={<div>Loading...</div>}>
-                {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
-            </React.Suspense>
-        </ErrorBoundary>
-    );
-};
- */
 
 const App: React.FC = () => {
     const { logged } = useSelector((state: RootState) => state.auth);
