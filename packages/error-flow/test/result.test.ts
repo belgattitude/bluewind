@@ -13,6 +13,11 @@ describe('Result tests', () => {
         }
     }
 
+    test('Result.isError() must be true on error, false on success.', () => {
+        expect(Result.ok<User>({ username: 'Jest' }).isError()).toBeFalsy();
+        expect(Result.fail(new Error('Error')).isError()).toBeTruthy();
+    });
+
     test('Payload.isError must be true on error, false on success.', () => {
         expect(Result.ok<User>({ username: 'Jest' }).payload.isError).toBeFalsy();
         expect(Result.fail(new Error('Error')).payload.isError).toBeTruthy();
