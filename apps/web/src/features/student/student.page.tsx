@@ -5,6 +5,8 @@ import { getDefaultStudentApi, StudentApi, StudentDetailDTO, StudentListDTO } fr
 import { useDebouncedCallback } from 'use-debounce';
 import styled from '@emotion/styled';
 import { TextField } from '../../component/ui/form';
+import {Result} from "@bluewind/error-flow";
+import {createSearchContext} from "../../core/context/search-context";
 
 const defaultsProps = {
     timeout: 150,
@@ -16,78 +18,77 @@ type Props = {
     className?: string;
 };
 
-const studentApi = getDefaultStudentApi();
+const dataProvider = (): (params: any, signal: AbortSignal) => Promise<Result<StudentDetailDTO[], Error>> => {
+    const studentApi = getDefaultStudentApi();
+    return (params: any, signal: AbortSignal) => { return studentApi.search(params, signal) };
+}
+const {SearchProvider, useSearch} =
+    createSearchContext<StudentDetailDTO>({
+        dataProvider
+    });
 
-const UnstyledStudentPage: React.FC<Props> = props => {
-    const [studentId, setStudentId] = useState<number | null>(null);
-    const [query, setQuery] = useState<string | null>(null);
-    const [isError, setIsError] = useState<boolean>(false);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [studentList, setStudentList] = useState<StudentDetailDTO[]>([]);
 
+const SearchBox: React.FC = props => {
+    const search = useSearch();
+    const timeout = 150;
     const searchRef = useRef<HTMLInputElement>(null);
-
-    const { timeout = defaultsProps.timeout } = props;
     const [debouncedCallback] = useDebouncedCallback(query => {
-        setQuery(query);
+        search.search(query);
     }, timeout);
-
     useEffect(() => {
         if (searchRef && searchRef.current) {
             searchRef.current.focus();
         }
     }, []);
+    return (
+        <div className={'test-search'}>
+            <TextField
+                type="search"
+                ref={searchRef}
+                onKeyPress={e => {
+                    if (e.key === 'Enter') {
+                        console.log('selected');
+                    }
+                }}
+                onChange={e => {
+                    debouncedCallback(e.currentTarget.value);
+                }}
+            />
+        </div>
+    )
+}
 
-    useEffect(() => {
-        let mounted = true;
-        const abortController = new AbortController();
-        const fetchData = async () => {
-            setIsError(false);
-            setLoading(true);
-            const { payload } = await studentApi.search({ query: query || undefined }, abortController.signal);
-            if (mounted) {
-                if (payload.isError) {
-                    setIsError(true);
-                } else {
-                    setStudentList(payload.value);
-                }
-                setLoading(false);
-            }
-        };
-        fetchData();
-        return () => {
-            abortController.abort();
-            mounted = false;
-        };
-    }, [query]);
+const List: React.FC = props => {
+    const search = useSearch();
+    const [studentId, setStudentId] = useState<number | null>(null);
+    return (
+        <div className="test-list">
+                <StudentList
+                    loading={search.loading}
+                    students={search.data}
+                    handleSelected={(studentId: number) => {
+                        setStudentId(studentId);
+                    }}
+                />
+        </div>
+
+    );
+}
+
+const UnstyledStudentPage: React.FC<Props> = props => {
+
+    const [studentId, setStudentId] = useState<number | null>(null);
+    const { timeout = defaultsProps.timeout } = props;
 
     return (
         <div className={props.className}>
-            <div className={'test-search'}>
-                <TextField
-                    type="search"
-                    ref={searchRef}
-                    onKeyPress={e => {
-                        if (e.key === 'Enter') {
-                            console.log('selected');
-                        }
-                    }}
-                    onChange={e => {
-                        debouncedCallback(e.currentTarget.value);
-                    }}
-                />
-            </div>
-            <div className="result-wrapper">
-                <div className="test-list">
-                    <StudentList
-                        students={studentList}
-                        handleSelected={(studentId: number) => {
-                            setStudentId(studentId);
-                        }}
-                    />
+            <SearchProvider>
+                <SearchBox />
+                <div className="result-wrapper">
+                    <List />
+                    <div className="test-detail">{studentId && <StudentDetail studentId={studentId} />}</div>
                 </div>
-                <div className="test-detail">{studentId && <StudentDetail studentId={studentId} />}</div>
-            </div>
+            </SearchProvider>
         </div>
     );
 };

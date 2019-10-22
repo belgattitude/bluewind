@@ -7,7 +7,5 @@ export function assertNever(value: never): never {
 }
 
 export function isApiResponse(response: unknown): response is ApiResponse {
-    console.log('response', response);
-    console.log('response', is.plainObject(response) && response.success !== undefined && response.data !== undefined);
     return is.plainObject(response) && response.success !== undefined && response.data !== undefined;
 }

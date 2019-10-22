@@ -25,21 +25,21 @@ const SearchProvider = (props: { children: ReactNode }) => {
     const [studentList, setStudentList] = useState<StudentDetailDTO[]>([]);
     const [force, forceUpdate] = useReducer(x => x + 1, 0);
 
-    console.log('render');
-
     useEffect(() => {
         let mounted = true;
         const abortController = new AbortController();
-        const fetchData = async () => {
+        const fetchData = async (signal: AbortSignal) => {
             console.log('running effect');
             setError(null);
             setLoading(true);
-            //const { payload } = await studentApi.search({ query: query || undefined }, abortController.signal);
+            const { payload } = await studentApi.search({ query: query || undefined }, signal);
+            /*
             const { payload } = await new Promise(resolve => {
                 setTimeout(() => {
-                    resolve(studentApi.search({ query: query || undefined }, abortController.signal));
+                    resolve(studentApi.search({ query: query || undefined }, signal));
                 }, 1000);
             });
+            */
 
             if (mounted) {
                 if (payload.isError) {
@@ -50,13 +50,13 @@ const SearchProvider = (props: { children: ReactNode }) => {
                 setLoading(false);
             }
         };
-        fetchData();
+        fetchData(abortController.signal);
         return () => {
-            console.log('aborting');
             abortController.abort();
+            console.log('Aborting', query, loading, abortController.signal);
             mounted = false;
         };
-    }, [query, force]);
+    }, [query, force, loading]);
 
     // Dispatch methods
     const search = (query: string) => {
