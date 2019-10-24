@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from 'express';
-import {createTokenService} from './token.service';
+import { createTokenService } from './token.service';
 
 type RequestWithToken = {
     token?: string;

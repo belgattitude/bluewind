@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 type StudentListProps = {
     students: StudentDetailDTO[];
-    loading: boolean;
+    loading: boolean | null;
     handleEdit?: (studentId: number) => void;
     handleDelete?: (studentId: number) => void;
     handleSearchChange?: (query: string) => void;

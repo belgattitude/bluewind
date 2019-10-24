@@ -1,12 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StudentList } from './student.list';
 import { StudentDetail } from './student.detail';
-import { getDefaultStudentApi, StudentApi, StudentDetailDTO, StudentListDTO } from './student.api';
 import { useDebouncedCallback } from 'use-debounce';
 import styled from '@emotion/styled';
 import { TextField } from '../../component/ui/form';
-import {Result} from "@bluewind/error-flow";
-import {createSearchContext} from "../../core/context/search-context";
+import { StudentSearchProvider, useStudentSearch } from './student.search';
 
 const defaultsProps = {
     timeout: 150,
@@ -18,18 +16,8 @@ type Props = {
     className?: string;
 };
 
-const dataProvider = (): (params: any, signal: AbortSignal) => Promise<Result<StudentDetailDTO[], Error>> => {
-    const studentApi = getDefaultStudentApi();
-    return (params: any, signal: AbortSignal) => { return studentApi.search(params, signal) };
-}
-const {SearchProvider, useSearch} =
-    createSearchContext<StudentDetailDTO>({
-        dataProvider
-    });
-
-
 const SearchBox: React.FC = props => {
-    const search = useSearch();
+    const search = useStudentSearch();
     const timeout = 150;
     const searchRef = useRef<HTMLInputElement>(null);
     const [debouncedCallback] = useDebouncedCallback(query => {
@@ -55,40 +43,33 @@ const SearchBox: React.FC = props => {
                 }}
             />
         </div>
-    )
-}
+    );
+};
 
-const List: React.FC = props => {
-    const search = useSearch();
-    const [studentId, setStudentId] = useState<number | null>(null);
+const List: React.FC<{
+    handleSelected: (studentId: number) => void;
+}> = props => {
+    const search = useStudentSearch();
     return (
         <div className="test-list">
-                <StudentList
-                    loading={search.loading}
-                    students={search.data}
-                    handleSelected={(studentId: number) => {
-                        setStudentId(studentId);
-                    }}
-                />
+            <StudentList loading={search.loading} students={search.data} handleSelected={props.handleSelected} />
         </div>
-
     );
-}
+};
 
 const UnstyledStudentPage: React.FC<Props> = props => {
-
     const [studentId, setStudentId] = useState<number | null>(null);
     const { timeout = defaultsProps.timeout } = props;
 
     return (
         <div className={props.className}>
-            <SearchProvider>
+            <StudentSearchProvider>
                 <SearchBox />
                 <div className="result-wrapper">
-                    <List />
+                    <List handleSelected={studentId => setStudentId(studentId)} />
                     <div className="test-detail">{studentId && <StudentDetail studentId={studentId} />}</div>
                 </div>
-            </SearchProvider>
+            </StudentSearchProvider>
         </div>
     );
 };

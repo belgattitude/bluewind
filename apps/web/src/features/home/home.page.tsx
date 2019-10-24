@@ -4,20 +4,21 @@ import styled from '@emotion/styled';
 import { useDebouncedCallback } from 'use-debounce';
 import { TextField } from '../../component/ui/form';
 import { Button } from '../../component/ui/button';
-import {getDefaultStudentApi, StudentDetailDTO} from "../student/student.api";
-import {Result} from "@bluewind/error-flow";
-import {createSearchContext} from "../../core/context/search-context";
+import { getDefaultStudentApi, StudentDetailDTO } from '../student/student.api';
+import { Result } from '@bluewind/error-flow';
+import { createSearchContext } from '../../core/context/search-context';
 
 type Props = {};
 
-const dataProvider = (): (params: any, signal: AbortSignal) => Promise<Result<StudentDetailDTO[], Error>> => {
+const dataProvider = (): ((params: any, signal: AbortSignal) => Promise<Result<StudentDetailDTO[], Error>>) => {
     const studentApi = getDefaultStudentApi();
-    return (params: any, signal: AbortSignal) => { return studentApi.search(params, signal) };
-}
-const {SearchProvider, useSearch} =
-    createSearchContext<StudentDetailDTO>({
-        dataProvider
-    });
+    return (params: any, signal: AbortSignal) => {
+        return studentApi.search(params, signal);
+    };
+};
+const { SearchProvider, useSearch } = createSearchContext<StudentDetailDTO>({
+    dataProvider,
+});
 
 const TestList: React.FC<{}> = props => {
     const search = useSearch();

@@ -56,12 +56,9 @@ export class TokenService {
     static isDecodedToken(decoded: unknown): decoded is DecodedToken {
         return is.plainObject(decoded) && is.number(decoded.iat) && is.number(decoded.exp);
     }
-
 }
 
-
 export const createRefreshTokenService = (): TokenService => {
-
     const defaultOptions: DefaultOptions = {
         sign: {
             algorithm: 'HS384',
@@ -71,11 +68,13 @@ export const createRefreshTokenService = (): TokenService => {
             algorithms: ['HS384'],
         },
     };
-    return new TokenService('myEVENbetterSuperSecretJWTKeyForGENERATINGrefreshTokenImGOnnaPutInEnvLAter', defaultOptions);
-}
+    return new TokenService(
+        'myEVENbetterSuperSecretJWTKeyForGENERATINGrefreshTokenImGOnnaPutInEnvLAter',
+        defaultOptions
+    );
+};
 
 export const createTokenService = (): TokenService => {
-
     const defaultOptions: DefaultOptions = {
         sign: {
             algorithm: 'HS256',
@@ -87,6 +86,4 @@ export const createTokenService = (): TokenService => {
     };
 
     return new TokenService('mySuperSecretJWTKeyForSigningThatImGOnnaPutInEnvLAter', defaultOptions);
-
-
-}
+};

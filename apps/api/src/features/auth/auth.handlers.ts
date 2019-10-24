@@ -1,20 +1,19 @@
-import {CookieOptions, Request, Response, Router} from 'express';
+import { CookieOptions, Request, Response, Router } from 'express';
 import { LoginRequestDto } from './auth.dto';
 import { logger } from '../../logger';
 import { getValidatedDto } from '../../core/mapper/dto-mapper';
 import { AuthService } from './auth.service';
 import { AuthRepo } from './auth.repo';
 import { DatabaseError } from '../../core/exceptions';
-import {createRefreshTokenService, createTokenService} from './token.service';
+import { createRefreshTokenService, createTokenService } from './token.service';
 import { setHttpErrors } from '../../core/http/error-utils';
-import is from "@sindresorhus/is";
+import is from '@sindresorhus/is';
 
 /**
  * Login handler just authenticate credentials
  * and generate a JWT token on success
  */
 export const loginHandler = async (req: Request, res: Response): Promise<void> => {
-
     // Validate input
 
     const { payload: dtoRs } = await getValidatedDto(LoginRequestDto, req.body);
@@ -39,7 +38,6 @@ export const loginHandler = async (req: Request, res: Response): Promise<void> =
         res.status(401).send({ message: payload.error.message });
         return;
     }
-
 
     const user = payload.value;
 
@@ -70,25 +68,23 @@ export const loginHandler = async (req: Request, res: Response): Promise<void> =
         httpOnly: true,
         // @todo when env is done
         //secure: true,
-    }
+    };
 
-    res.cookie('refresh-token', refreshToken, cookieOptions)
-        .json({ success: true, token: token });
+    res.cookie('refresh-token', refreshToken, cookieOptions).json({ success: true, token: token });
 };
 
 export const refreshTokenHandler = async (req: Request, res: Response): Promise<void> => {
-
     const refreshToken = req.cookies['refresh-token'] || '';
     if (refreshToken === '') {
         res.status(401).send({ message: 'Refresh token is required' });
     }
-    const {payload} = createRefreshTokenService().verify<{userId: number}>(refreshToken);
+    const { payload } = createRefreshTokenService().verify<{ userId: number }>(refreshToken);
     if (payload.isError) {
         res.status(401).send({ message: `Error ${payload.error.message}` });
         return;
     }
 
-    const {userId} = payload.value;
+    const { userId } = payload.value;
 
     // Here we can check a lot -> db, token revocation list...
     // let's make it simple for now.
@@ -109,5 +105,4 @@ export const refreshTokenHandler = async (req: Request, res: Response): Promise<
     );
 
     res.json({ success: true, token: token });
-
 };

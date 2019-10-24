@@ -11,7 +11,6 @@ const loadAuthenticatedApp = () => import('./authenticated-app');
 const AuthenticatedApp = React.lazy(loadAuthenticatedApp);
 const UnauthenticatedApp = React.lazy(() => import('./unauthenticated-app'));
 
-
 const App: React.FC = () => {
     const { logged } = useSelector((state: RootState) => state.auth);
 

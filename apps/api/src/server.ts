@@ -19,11 +19,13 @@ initConnection()
         app.disable('x-powered-by');
 
         // Middleware registration
-        app.use(cors({
-            credentials: true,
-            // @todo relaxed for now...
-            origin: true
-        }));
+        app.use(
+            cors({
+                credentials: true,
+                // @todo relaxed for now...
+                origin: true,
+            })
+        );
         app.use(cookieParser());
         app.use(bodyParser.json());
         app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerConfig));

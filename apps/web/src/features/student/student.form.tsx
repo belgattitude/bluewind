@@ -56,8 +56,7 @@ export const UnstyledStudentForm: React.FC<Props> = props => {
         if (!values.username) {
             errors.username = 'Required';
         }
-
-        if (!!values.first_name) {
+        if (!values.first_name) {
             errors.first_name = 'Required';
         }
         if (!values.last_name) {
