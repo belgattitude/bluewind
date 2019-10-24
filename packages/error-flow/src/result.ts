@@ -31,7 +31,7 @@ export class Result<T, E extends ErrorType = Error> {
      * @param value can be anything except an instance of Error.
      * @throws Error if runtime validation of the payload failed
      */
-    static ok<U, E extends ErrorType = Error>(value: Exclude<U, Error>): Result<U, E> {
+    static ok<U, E extends ErrorType = Error>(value: U): Result<U, E> {
         return new Result({
             isError: false,
             value,
@@ -75,7 +75,7 @@ export class Result<T, E extends ErrorType = Error> {
         return this.payload.isError ? this.payload.error : this.payload.value;
     }
 
-    map<U>(mapFn: (value: T) => Exclude<U, Error>): Result<U, E> {
+    map<U>(mapFn: (value: T) => U): Result<U, E> {
         if (this.payload.isError) {
             return (this as unknown) as Result<U, E>;
         }
@@ -86,7 +86,7 @@ export class Result<T, E extends ErrorType = Error> {
         return Result.ok(newValue);
     }
 
-    async asyncMap<U>(mapFn: (value: T) => Promise<Exclude<U, Error>>): Promise<Result<U, E>> {
+    async asyncMap<U>(mapFn: (value: T) => Promise<U>): Promise<Result<U, E>> {
         if (this.payload.isError) {
             return Promise.resolve((this as unknown) as Result<U, E>);
         } else {
