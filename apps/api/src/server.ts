@@ -22,7 +22,14 @@ initConnection()
         app.use(
             cors({
                 credentials: true,
-                // @todo relaxed for now...
+                // all methods (actually by default)
+                methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+                preflightContinue: false,
+                // Max age allows to cache preflight
+                // should be set if backend is not on the
+                // same domain to avoid unecessary OPTIONS preflight
+                //maxAge: 1000,
+                // @todo relaxed for now... means all domains.
                 origin: true,
             })
         );

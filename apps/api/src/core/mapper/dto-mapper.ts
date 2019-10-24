@@ -9,8 +9,8 @@ import { DTOValidationError } from '../exceptions';
  * @param dtoClass
  * @param inputData the plainObject
  */
-export const getValidatedDto = async <T>(
-    dtoClass: ClassType<T>,
+export const getValidatedDto = async <T extends {}>(
+    dtoClass: ClassType<Exclude<T, Error>>,
     inputData: { [key: string]: unknown }
 ): Promise<Result<T>> => {
     // map to plain object
