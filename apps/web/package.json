@@ -107,7 +107,7 @@
     "eslint-plugin-react-hooks": "^2.2.0",
     "eslint-plugin-sonarjs": "^0.4.0",
     "file-loader": "^4.2.0",
-    "fork-ts-checker-webpack-plugin": "^1.6.0",
+    "fork-ts-checker-webpack-plugin": "^2.0.0",
     "html-loader": "^0.5.5",
     "html-minifier": "^4.0.0",
     "html-webpack-harddisk-plugin": "^1.0.1",
