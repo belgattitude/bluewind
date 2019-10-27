@@ -58,7 +58,7 @@
     "@fortawesome/fontawesome-free": "^5.11.2",
     "@gfx/zopfli": "^1.0.14",
     "@hot-loader/react-dom": "^16.10.2",
-    "@types/dotenv": "^6.1.1",
+    "@types/dotenv": "^8.2.0",
     "@types/dotenv-webpack": "^1.7.0",
     "@types/enzyme": "^3.10.3",
     "@types/enzyme-adapter-react-16": "^1.0.5",
