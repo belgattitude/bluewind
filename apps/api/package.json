@@ -44,7 +44,7 @@
         "envalid": "^5.0.0",
         "express": "^4.17.1",
         "jsonwebtoken": "^8.5.1",
-        "mysql2": "^1.7.0",
+        "mysql2": "^2.0.0",
         "reflect-metadata": "^0.1.13",
         "swagger-ui-express": "^4.1.2",
         "ts-money": "^0.4.6",
