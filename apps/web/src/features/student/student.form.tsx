@@ -1,5 +1,5 @@
 import React, { ComponentClass } from 'react';
-import { Form, Field, FieldRenderProps } from 'react-final-form';
+import { Form, Field, FieldRenderProps, FormSpy } from 'react-final-form';
 import { StudentDetailDTO, getDefaultStudentApi } from './student.api';
 import snakecaseKeys from 'snakecase-keys';
 import { TextField } from '../../component/ui/form';
@@ -25,12 +25,12 @@ type Props = {
 };
 
 const TextFieldWrapper: React.FC<FieldRenderProps<string, HTMLElement>> = ({
-    input: { name, onChange, value, ...restInput },
+    input: { name, onChange, onBlur, value, ...restInput },
     meta,
     ...rest
 }) => {
     const showError = ((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) && meta.touched;
-    console.log('onchange', onChange);
+    // {meta.error && meta.touched && <span>{meta.error}</span>}
     return (
         <>
             <TextField
@@ -38,6 +38,9 @@ const TextFieldWrapper: React.FC<FieldRenderProps<string, HTMLElement>> = ({
                 onChange={e => {
                     console.log('changed');
                     onChange(e);
+                }}
+                onBlur={e => {
+                    onBlur(e);
                 }}
                 name={name}
                 css={css``}
@@ -50,7 +53,6 @@ const TextFieldWrapper: React.FC<FieldRenderProps<string, HTMLElement>> = ({
 
 export const UnstyledStudentForm: React.FC<Props> = props => {
     const initialValues = props.data;
-
     const validate = (values: FormValues) => {
         const errors: Partial<FormValues> = {};
         if (!values.username) {
@@ -69,20 +71,12 @@ export const UnstyledStudentForm: React.FC<Props> = props => {
         <div className={props.className}>
             <Form
                 initialValues={initialValues}
-                keepDirtyOnReinitialize={false}
+                subscription={{ submitting: true, pristine: true }}
+                //keepDirtyOnReinitialize={false}
                 validate={validate}
                 onSubmit={onSubmit}
                 render={({ handleSubmit, form, pristine, submitting, values }) => (
                     <form onSubmit={handleSubmit}>
-                        <Field name="username">
-                            {({ input, meta }) => (
-                                <div>
-                                    <label htmlFor="username">Username</label>
-                                    <TextField name="username" {...input} type="text" placeholder="Username" />
-                                    {meta.error && meta.touched && <span>{meta.error}</span>}
-                                </div>
-                            )}
-                        </Field>
                         <div>
                             <label htmlFor="first_name">First Name</label>
                             <Field<string> name="first_name" component={TextFieldWrapper} placeholder="First Name" />
@@ -122,7 +116,13 @@ export const UnstyledStudentForm: React.FC<Props> = props => {
                             <div>more...</div>
                         </div>
 
-                        <pre>{JSON.stringify(values, undefined, 2)}</pre>
+                        {values ? (
+                            <pre>{JSON.stringify(values, undefined, 2)}</pre>
+                        ) : (
+                            <FormSpy subscription={{ values: true }}>
+                                {({ values }) => <pre>{JSON.stringify(values, undefined, 2)}</pre>}
+                            </FormSpy>
+                        )}
                     </form>
                 )}
             />

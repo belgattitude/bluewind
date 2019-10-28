@@ -33,21 +33,32 @@ export class StudentApi {
         this.api = apiService.createKy();
     }
 
-    async search(params: SearchParams, signal?: AbortSignal): Promise<Result<StudentDetailDTO[]>> {
+    async search(params: SearchParams, props: { signal?: AbortSignal }): Promise<Result<StudentDetailDTO[]>> {
         return this.api
             .get('api/students', {
-                signal: signal,
+                signal: props.signal,
                 //credentials: "include",
                 searchParams: {
                     query: params.query || '',
                 },
             })
             .json()
+
             .then(response => {
                 if (isApiResponse(response) && response.success === true) {
                     return Result.ok(response.data as StudentDetailDTO[]);
                 }
-                return Result.fail(new Error('Response is invalid or does not contain data'));
+                return Result.fail<StudentDetailDTO[]>(new Error('Response is invalid or does not contain data'));
+            })
+            .catch(e => {
+                if (e.name === 'AbortError') {
+                    return new Promise(resolve => {
+                        setTimeout(() => {
+                            resolve(Result.fail(new Error(`WARNING Aborted ${e.name}`)));
+                        }, 100);
+                    });
+                }
+                throw e;
             });
     }
 

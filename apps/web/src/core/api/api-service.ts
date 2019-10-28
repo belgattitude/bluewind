@@ -3,6 +3,8 @@ import { getTokenStore, ITokenStore } from '../token-store';
 import { IRefreshTokenService, RefreshTokenService } from './refresh-token-service';
 import { Result } from '@bluewind/error-flow';
 import ownKeys = Reflect.ownKeys;
+import { isApiResponse } from '../typeguards';
+import { StudentDetailDTO } from '../../features/student/student.api';
 
 export interface IApiService {
     createKy(): typeof ky;
@@ -22,6 +24,35 @@ export class ApiService implements IApiService {
         this.props = props;
     }
 
+    get<T>(url: string, params: { [ky: string]: any }, signal?: AbortSignal): Promise<Result<T>> {
+        const ky = this.createKy();
+        return ky
+            .get(url, {
+                signal: signal,
+                //credentials: "include",
+                searchParams: {
+                    query: params.query || '',
+                },
+            })
+            .json()
+            .then(response => {
+                if (isApiResponse(response) && response.success === true) {
+                    return Result.ok(response.data as T);
+                }
+                return Result.fail<T>(new Error('Response is invalid or does not contain data'));
+            })
+            .catch(e => {
+                if (signal && e.name === 'AbortError') {
+                    return new Promise(resolve => {
+                        setTimeout(() => {
+                            resolve(Result.fail(new Error(`WARNING Aborted ${e.name}`)));
+                        }, 100);
+                    });
+                }
+                return Result.fail(new Error(`${e.name}: ${e.message}`));
+            });
+    }
+
     createKy(options?: { forceToken?: string }): typeof ky {
         const { forceToken } = options || {};
         return ky.create({
@@ -35,6 +66,7 @@ export class ApiService implements IApiService {
                         }
                     },
                 ],
+
                 afterResponse: [
                     async (input, options, response) => {
                         const { status } = response;

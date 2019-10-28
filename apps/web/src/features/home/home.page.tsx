@@ -6,14 +6,17 @@ import { TextField } from '../../component/ui/form';
 import { Button } from '../../component/ui/button';
 import { getDefaultStudentApi, StudentDetailDTO } from '../student/student.api';
 import { Result } from '@bluewind/error-flow';
-import { createSearchContext } from '../../core/context/search-context';
+import { createSearchContext, DataProviderFactory } from '../../core/context/search-context';
 
 type Props = {};
 
-const dataProvider = (): ((params: any, signal: AbortSignal) => Promise<Result<StudentDetailDTO[], Error>>) => {
+const dataProvider: DataProviderFactory<StudentDetailDTO> = (): ((
+    params: any,
+    props: { signal: AbortSignal }
+) => Promise<Result<StudentDetailDTO[], Error>>) => {
     const studentApi = getDefaultStudentApi();
-    return (params: any, signal: AbortSignal) => {
-        return studentApi.search(params, signal);
+    return (params: any, props: { signal: AbortSignal }) => {
+        return studentApi.search(params, { signal: props.signal });
     };
 };
 const { SearchProvider, useSearch } = createSearchContext<StudentDetailDTO>({

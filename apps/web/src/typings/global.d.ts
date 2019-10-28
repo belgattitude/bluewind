@@ -3,6 +3,13 @@ declare interface ServiceWorkerConfig {
     onUpdate: (registration: ServiceWorkerRegistration) => void;
 }
 
+declare interface Window {
+    initialReduxState: any;
+    AbortController: AbortController;
+    __REDUX_DEVTOOLS_EXTENSION__: any;
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
+}
+
 declare module '*.md' {
     const value: string;
     export default value;

@@ -1,7 +1,7 @@
 /**
  * Experiment - attempt to create a generic search factory providing hook and relying on context
  */
-import React, { ReactNode, useCallback, useContext, useEffect, useReducer, useState } from 'react';
+import React, { ReactNode, RefObject, useCallback, useContext, useEffect, useReducer, useRef, useState } from 'react';
 import { Result } from '@bluewind/error-flow';
 
 export type SearchContextState = {
@@ -20,13 +20,13 @@ type SearchParams = {
     query?: string;
 };
 
-type DataProviderFactory<T> = () => (params: any, signal: AbortSignal) => Promise<Result<T[], Error>>;
+export type DataProviderFactory<T> = () => (params: any, props: { signal: AbortSignal }) => Promise<Result<T[], Error>>;
 
-type CreateSearchContext<T> = {
+export type SearchContextParams<T> = {
     dataProvider: DataProviderFactory<T>;
 };
 
-function createSearchContext<T extends object>(params: { dataProvider: DataProviderFactory<T> }) {
+function createSearchContext<T extends object>(params: SearchContextParams<T>) {
     const { dataProvider } = params;
     const promiseFn = dataProvider();
 
@@ -39,6 +39,8 @@ function createSearchContext<T extends object>(params: { dataProvider: DataProvi
         const [loading, setLoading] = useState<boolean | null>(null);
         const [data, setData] = useState<T[]>([]);
         const [force, forceUpdate] = useReducer(x => x + 1, 0);
+
+        //const abortTimer = useRef<ReturnType<typeof setTimeout> | null>();
 
         /**
         React.useLayoutEffect(() => {
@@ -54,7 +56,16 @@ function createSearchContext<T extends object>(params: { dataProvider: DataProvi
             const fetchData = async () => {
                 setError(null);
                 setLoading(true);
-                const { payload } = await promiseFn({ query: query || undefined }, abortController.signal);
+                const { signal } = abortController;
+                signal.addEventListener('abort', a => {
+                    console.log('aborted', loading, a);
+                });
+                const { payload } = await promiseFn(
+                    { query: query || undefined },
+                    {
+                        signal,
+                    }
+                );
                 /*
                 const { payload } = await new Promise(resolve => {
                     setTimeout(() => {
@@ -62,7 +73,6 @@ function createSearchContext<T extends object>(params: { dataProvider: DataProvi
                     }, 1000);
                 });
                  */
-
                 if (mounted) {
                     if (payload.isError) {
                         setError(payload.error.message);
@@ -78,10 +88,10 @@ function createSearchContext<T extends object>(params: { dataProvider: DataProvi
                 // If using 'if (loading)'
                 // 'react-hooks/exhaustive-deps'
                 // will add 'loading' to the effect dependencies.
-                //
-                //if (loading) {
-                console.log('Aborting');
+                // Aborting should be a no-op
                 abortController.abort();
+                //}
+
                 //}
                 mounted = false;
             };

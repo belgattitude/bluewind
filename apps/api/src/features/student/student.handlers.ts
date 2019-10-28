@@ -17,13 +17,13 @@ export const searchStudents = (studentService: StudentService) => async (
     // Return search results
     const { payload } = await studentService.search(dtoRs.value);
 
-    /**
+/*
     const { payload } = await new Promise(resolve => {
         setTimeout(() => {
             resolve(studentService.search(dtoRs.value));
-        }, 1000);
+        }, 2000);
     });
-    */
+*/
 
     if (payload.isError) {
         return setHttpErrors(payload.error, res);

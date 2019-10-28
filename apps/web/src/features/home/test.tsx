@@ -32,7 +32,7 @@ const SearchProvider = (props: { children: ReactNode }) => {
             console.log('running effect');
             setError(null);
             setLoading(true);
-            const { payload } = await studentApi.search({ query: query || undefined }, signal);
+            const { payload } = await studentApi.search({ query: query || undefined }, { signal });
             /*
             const { payload } = await new Promise(resolve => {
                 setTimeout(() => {
