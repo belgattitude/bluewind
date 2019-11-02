@@ -142,7 +142,7 @@
     "ts-node": "^8.4.1",
     "tslib": "^1.10.0",
     "typeface-muli": "0.0.71",
-    "typesafe-actions": "^4.4.2",
+    "typesafe-actions": "^5.1.0",
     "typescript": "^3.6.4",
     "url-loader": "^2.2.0",
     "utility-types": "^3.8.0",
