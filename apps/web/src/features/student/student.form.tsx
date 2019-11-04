@@ -1,7 +1,6 @@
-import React, { ComponentClass } from 'react';
+import React from 'react';
 import { Form, Field, FieldRenderProps, FormSpy } from 'react-final-form';
 import { StudentDetailDTO, getDefaultStudentApi } from './student.api';
-import snakecaseKeys from 'snakecase-keys';
 import { TextField } from '../../component/ui/form';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
@@ -10,11 +9,12 @@ import { Button } from '../../component/ui/button';
 type FormValues = Partial<StudentDetailDTO> & { username?: string };
 
 const onSubmit = async (values: FormValues) => {
-    const val = snakecaseKeys({ id: 1, ...values });
-    getDefaultStudentApi()
-        .save(val)
+    console.log('ONSUBMIT', values);
+    const val = { ...values };
+    await getDefaultStudentApi()
+        .save(val as any)
         .then(response => {
-            console.log('returned response', response);
+            console.log('subimitted form', response);
         });
 };
 
@@ -73,7 +73,7 @@ export const UnstyledStudentForm: React.FC<Props> = props => {
                 initialValues={initialValues}
                 subscription={{ submitting: true, pristine: true }}
                 //keepDirtyOnReinitialize={false}
-                validate={validate}
+                //validate={validate}
                 onSubmit={onSubmit}
                 render={({ handleSubmit, form, pristine, submitting, values }) => (
                     <form onSubmit={handleSubmit}>
@@ -97,9 +97,9 @@ export const UnstyledStudentForm: React.FC<Props> = props => {
                             <Button variant="reset" m={[1]} onClick={form.reset} disabled={submitting || pristine}>
                                 Reset
                             </Button>
-                            <Button type="submit" m={[1]} disabled={submitting || pristine}>
-                                Save
-                            </Button>
+                            <button type="submit" disabled={submitting || pristine}>
+                                Submit
+                            </button>
                         </div>
                         <h1>Abonnements</h1>
                         <div>

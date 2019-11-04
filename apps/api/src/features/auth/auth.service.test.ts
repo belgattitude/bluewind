@@ -56,9 +56,9 @@ describe('AuthService tests', () => {
         const resLocked = await auth('locked', password);
 
         // Assert
-        await expect((resDbError.payload as any).error.message).toEqual(`Could not connect to database`);
-        await expect((resWrongPwd.payload as any).error.message).toEqual(`Passwords does not match`);
-        await expect((resOk.payload as any).value).toEqual(foundUser);
-        await expect((resLocked.payload as any).error.message).toEqual(`Account locked`);
+        expect((resDbError.payload as any).error.message).toEqual(`Could not connect to database`);
+        expect((resWrongPwd.payload as any).error.message).toEqual(`Passwords does not match`);
+        expect((resOk.payload as any).value).toEqual(foundUser);
+        expect((resLocked.payload as any).error.message).toEqual(`Account locked`);
     });
 });

@@ -4,7 +4,13 @@ import { StudentEntity } from '../../entity/student.entity';
 import is from '@sindresorhus/is';
 import { Result } from '@bluewind/error-flow';
 
-class StudentService {
+export interface IStudentService {
+    search(params: StudentSearchRequestDto): Promise<Result<StudentEntity[]>>;
+    find(id: number): Promise<Result<StudentEntity>>;
+    save(studentDTO: CreateStudentDto): Promise<StudentEntity>;
+}
+
+class StudentService implements IStudentService {
     private studentRepo: Repository<StudentEntity>;
 
     constructor() {

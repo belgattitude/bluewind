@@ -1,58 +1,85 @@
-import { Request, Response } from 'express';
 import { getValidatedDto } from '../../core/mapper/dto-mapper';
-import StudentService from './student.service';
+import { IStudentService } from './student.service';
 import { StudentSearchRequestDto } from './student.dto';
-import { setHttpErrors } from '../../core/http/error-utils';
+import { setHttpErrors } from '../../core/infra/http/error-utils';
+import { ExpressHandler } from '../../core/infra/http/express-handler';
+import {injectable, inject} from "tsyringe";
 
-export const searchStudents = (studentService: StudentService) => async (
-    req: Request,
-    res: Response
-): Promise<void> => {
-    // Get validated dto from query
-    const { payload: dtoRs } = await getValidatedDto(StudentSearchRequestDto, req.query);
-    if (dtoRs.isError) {
-        return setHttpErrors(dtoRs.error, res);
+@injectable()
+export class SearchStudentsHandler extends ExpressHandler {
+    constructor(@inject("IStudentService") private studentService: IStudentService) {
+        super();
     }
+    async executeImpl(): Promise<void> {
+        const { req, res } = this;
+        const { payload: dtoRs } = await getValidatedDto(StudentSearchRequestDto, req.query);
+        if (dtoRs.isError) {
+            return setHttpErrors(dtoRs.error, res);
+        }
+        // Return search results
+        const { payload } = await this.studentService.search(dtoRs.value);
 
-    // Return search results
-    const { payload } = await studentService.search(dtoRs.value);
-
-/*
-    const { payload } = await new Promise(resolve => {
-        setTimeout(() => {
-            resolve(studentService.search(dtoRs.value));
-        }, 2000);
-    });
-*/
-
-    if (payload.isError) {
-        return setHttpErrors(payload.error, res);
+        /*
+        const { payload } = await new Promise(resolve => {
+            setTimeout(() => {
+                resolve(studentService.search(dtoRs.value));
+            }, 2000);
+        });
+        */
+        if (payload.isError) {
+            return setHttpErrors(payload.error, res);
+        }
+        res.json({ success: true, data: payload.value, dtoRs });
     }
-    res.json({ success: true, data: payload.value, dtoRs });
-};
+}
 
-export const getStudent = async (req: Request, res: Response): Promise<void> => {
-    const studentId = parseInt(req.params.id, 10);
-
-    const studentService = new StudentService();
-    try {
-        const { payload } = await studentService.find(studentId);
+@injectable()
+export class GetStudentHandler extends ExpressHandler {
+    constructor(@inject("IStudentService") private studentService: IStudentService) {
+        super();
+    }
+    async executeImpl(): Promise<void> {
+        const { req, res } = this;
+        const studentId = parseInt(req.params.id, 10);
+        const { payload } = await this.studentService.find(studentId);
         if (payload.isError) {
             return setHttpErrors(payload.error, res);
         }
         res.json({ success: true, data: payload.value });
-    } catch (error) {
-        // Error handling definitely needs more love
-        res.send({ success: false, message: error.toString() });
     }
-};
+}
 
-export const updateStudent = async (req: Request, res: Response): Promise<void> => {
-    const studentId = parseInt(req.params.id, 10);
-};
+@injectable()
+export class UpdateStudentHandler extends ExpressHandler {
+    constructor(@inject("IStudentService") private studentService: IStudentService) {
+        super();
+    }
+    async executeImpl(): Promise<void> {
+        const { req, res } = this;
+        const studentId = parseInt(req.params.id, 10);
+        res.send({ success: false, message: 'Not implemented' });
+    }
+}
 
-export const deleteStudent = async (req: Request, res: Response): Promise<void> => {
-    const studentId = parseInt(req.params.id, 10);
-};
+@injectable()
+export class DeleteStudentHandler extends ExpressHandler {
+    constructor(@inject("IStudentService") private studentService: IStudentService) {
+        super();
+    }
+    async executeImpl(): Promise<void> {
+        const { req, res } = this;
+        const studentId = parseInt(req.params.id, 10);
+        res.send({ success: false, message: 'Not implemented' });
+    }
+}
 
-export const createStudent = async (req: Request, res: Response): Promise<void> => {};
+@injectable()
+export class CreateStudentHandler extends ExpressHandler {
+    constructor(@inject("IStudentService") private studentService: IStudentService) {
+        super();
+    }
+    async executeImpl(): Promise<void> {
+        const { req, res } = this;
+        res.send({ success: false, message: 'Not implemented' });
+    }
+}

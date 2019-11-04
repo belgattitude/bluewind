@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { DatabaseError, DTOValidationError } from '../exceptions';
 import { ValidationError } from 'class-validator';
+import { DatabaseError, DTOValidationError } from '../../exceptions';
 
 export const getHttpErrors = (
     e: Error | DTOValidationError | DatabaseError

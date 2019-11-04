@@ -74,11 +74,10 @@ export class StudentApi {
             });
     }
 
-    async save<T>(student: {} & T): Promise<StudentDetailDTO> {
+    async save<T>(student: { id: number } & T): Promise<StudentDetailDTO> {
         console.log('save student', student);
-
         return this.api
-            .post(`api/students`, {
+            .put(`api/students/${student.id}`, {
                 json: snakecaseKeys(student),
             })
             .json()

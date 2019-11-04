@@ -9,8 +9,19 @@ import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import * as swaggerConfig from './swagger.json';
 import { getMainRouterCreator } from './routes';
+import {getDefaultContainer} from "./container";
 
 const port: number = env.DEVSERVER_PORT;
+
+process.on('uncaughtException', e => {
+    console.error(e);
+    process.exit(1);
+});
+
+process.on('unhandledRejection', e => {
+    console.error(e);
+    process.exit(1);
+});
 
 initConnection()
     .then(async connection => {
@@ -23,7 +34,7 @@ initConnection()
             cors({
                 credentials: true,
                 // all methods (actually by default)
-                methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+                methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
                 preflightContinue: false,
                 // Max age allows to cache preflight
                 // should be set if backend is not on the
@@ -37,9 +48,7 @@ initConnection()
         app.use(bodyParser.json());
         app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerConfig));
 
-        // @TODO here we'll load the global config
-        // or use context... TBD
-        const container = {};
+        const container = getDefaultContainer();
 
         app.use(getMainRouterCreator()(container));
 
@@ -49,6 +58,7 @@ initConnection()
         });
     })
     .catch(error => {
-        logger.error(`Could not start the server on port ${port}`);
-        console.error(error);
+        const msg = `Could not start the server on port ${port}`;
+        logger.error(msg);
+        throw new Error(msg);
     });

@@ -1,19 +1,20 @@
 import { loginHandler, refreshTokenHandler } from './features/auth/auth.handlers';
 import {
-    createStudent,
-    deleteStudent,
-    getStudent,
-    searchStudents,
-    updateStudent,
+    CreateStudentHandler,
+    DeleteStudentHandler,
+    GetStudentHandler,
+    SearchStudentsHandler,
+    UpdateStudentHandler,
 } from './features/student/student.handlers';
 import { getProfileHandler } from './features/user/user.handlers';
 import { Request, Response, Router } from 'express';
 
-import StudentService from './features/student/student.service';
+import StudentService, {IStudentService} from './features/student/student.service';
 import { authMiddleware } from './features/auth/auth.middleware';
+import DependencyContainer from "tsyringe/dist/typings/types/dependency-container";
 
-export function getMainRouterCreator(): (container: {}) => Router {
-    return (container: {}): Router => {
+export function getMainRouterCreator(): (container: DependencyContainer) => Router {
+    return (container: DependencyContainer): Router => {
         const router = Router();
 
         /**
@@ -39,11 +40,11 @@ export function getMainRouterCreator(): (container: {}) => Router {
         /**
          * API students routes
          */
-        apiRouter.get('/api/students', searchStudents(new StudentService()));
-        apiRouter.post('/api/students/:id', createStudent);
-        apiRouter.get('/api/students/:id', getStudent);
-        apiRouter.put('/api/students/:id', updateStudent);
-        apiRouter.delete('/api/students/:id', deleteStudent);
+        apiRouter.get('/api/students', container.resolve(SearchStudentsHandler).execute);
+        apiRouter.post('/api/students', container.resolve(CreateStudentHandler).execute);
+        apiRouter.put('/api/students/:id', container.resolve(UpdateStudentHandler).execute);
+        apiRouter.get('/api/students/:id', container.resolve(GetStudentHandler).execute);
+        apiRouter.delete('/api/students/:id', container.resolve(DeleteStudentHandler).execute);
 
         router.use(apiRouter);
 
