@@ -5,11 +5,10 @@ import {
     GetStudentHandler,
     SearchStudentsHandler,
     UpdateStudentHandler,
-} from './features/student/student.handlers';
+} from './features/student';
 import { getProfileHandler } from './features/user/user.handlers';
 import { Request, Response, Router } from 'express';
 
-import StudentService, {IStudentService} from './features/student/student.service';
 import { authMiddleware } from './features/auth/auth.middleware';
 import DependencyContainer from "tsyringe/dist/typings/types/dependency-container";
 

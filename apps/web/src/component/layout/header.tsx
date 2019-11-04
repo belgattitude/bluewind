@@ -16,7 +16,7 @@ const routes = [{ path: '/', label: 'Home' }, { path: '/students', label: 'Stude
 const UnstyledHeader: React.FC<HeaderProps> = props => {
     const { className } = props;
 
-    const { logged, username } = useSelector((state: RootState) => state.auth);
+    const { userId } = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch();
 
     const location = useLocation();
@@ -40,9 +40,9 @@ const UnstyledHeader: React.FC<HeaderProps> = props => {
                 })}
             </div>
             <div className="header-user">
-                {logged ? (
+                {userId !== null ? (
                     <Button size={'medium'} onClick={handleLogout}>
-                        Logout {username}
+                        Logout {userId}
                     </Button>
                 ) : (
                     <Button size={'medium'} onClick={() => history.push('/logout')}>

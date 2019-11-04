@@ -2,9 +2,7 @@ import ky from 'ky';
 import { getTokenStore, ITokenStore } from '../token-store';
 import { IRefreshTokenService, RefreshTokenService } from './refresh-token-service';
 import { Result } from '@bluewind/error-flow';
-import ownKeys = Reflect.ownKeys;
 import { isApiResponse } from '../typeguards';
-import { StudentDetailDTO } from '../../features/student/student.api';
 
 export interface IApiService {
     createKy(): typeof ky;
@@ -31,7 +29,7 @@ export class ApiService implements IApiService {
                 signal: signal,
                 //credentials: "include",
                 searchParams: {
-                    query: params.query || '',
+                    ...params,
                 },
             })
             .json()
@@ -43,11 +41,7 @@ export class ApiService implements IApiService {
             })
             .catch(e => {
                 if (signal && e.name === 'AbortError') {
-                    return new Promise(resolve => {
-                        setTimeout(() => {
-                            resolve(Result.fail(new Error(`WARNING Aborted ${e.name}`)));
-                        }, 100);
-                    });
+                    return Result.fail(new Error(`ABORTED`));
                 }
                 return Result.fail(new Error(`${e.name}: ${e.message}`));
             });

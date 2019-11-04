@@ -12,7 +12,7 @@ const AuthenticatedApp = React.lazy(loadAuthenticatedApp);
 const UnauthenticatedApp = React.lazy(() => import('./unauthenticated-app'));
 
 const App: React.FC = () => {
-    const { logged } = useSelector((state: RootState) => state.auth);
+    const { userId } = useSelector((state: RootState) => state.auth);
 
     // pre-load the authenticated side in the background while the user's
     // filling out the username form.
@@ -23,7 +23,7 @@ const App: React.FC = () => {
     return (
         <ErrorBoundary onError={ErrorHandler} FallbackComponent={FallbackComponent}>
             <React.Suspense fallback={<div>Loading...</div>}>
-                {logged ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+                {userId !== null ? <AuthenticatedApp /> : <UnauthenticatedApp />}
             </React.Suspense>
         </ErrorBoundary>
     );

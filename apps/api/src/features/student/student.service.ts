@@ -1,11 +1,12 @@
-import { CreateStudentDto, StudentSearchRequestDto, StudentSearchResponseDto } from './student.dto';
-import { Brackets, getConnection, getManager, getRepository, Repository } from 'typeorm';
+import { SearchStudentDto } from './search-students/search-student.dto';
+import { CreateStudentDto } from './create-student/create-student.dto';
+import { Brackets, getConnection, Repository } from 'typeorm';
 import { StudentEntity } from '../../entity/student.entity';
 import is from '@sindresorhus/is';
 import { Result } from '@bluewind/error-flow';
 
 export interface IStudentService {
-    search(params: StudentSearchRequestDto): Promise<Result<StudentEntity[]>>;
+    search(params: SearchStudentDto): Promise<Result<StudentEntity[]>>;
     find(id: number): Promise<Result<StudentEntity>>;
     save(studentDTO: CreateStudentDto): Promise<StudentEntity>;
 }
@@ -17,7 +18,7 @@ class StudentService implements IStudentService {
         this.studentRepo = getConnection().getRepository(StudentEntity);
     }
 
-    async search(params: StudentSearchRequestDto): Promise<Result<StudentEntity[]>> {
+    async search(params: SearchStudentDto): Promise<Result<StudentEntity[]>> {
         const qb = this.studentRepo.createQueryBuilder('student');
         qb.where('1=1');
         if (params) {

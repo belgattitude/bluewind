@@ -1,10 +1,10 @@
 import StudentService from './student.service';
-import { StudentSearchRequestDto, StudentSearchResponseDto } from './student.dto';
+import { SearchStudentDto } from './search-students/search-student.dto';
 
 describe('StudentService ', () => {
     test('should reply to search', async () => {
         const student = new StudentService();
-        const request: StudentSearchRequestDto = {
+        const request: SearchStudentDto = {
             limit: 1,
         };
 

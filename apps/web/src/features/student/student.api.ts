@@ -20,8 +20,6 @@ export interface StudentDetailDTO {
     pastClasses: typeof classesListMock;
 }
 
-export type StudentListDTO = StudentDetailDTO[];
-
 type SearchParams = {
     query?: string;
 };

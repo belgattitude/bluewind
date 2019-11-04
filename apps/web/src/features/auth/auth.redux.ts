@@ -1,63 +1,69 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
-import { authApi, AuthRequestDTO, AuthUserDataResponseDTO } from './auth.api';
+import { authApi, AuthRequestDTO } from './auth.api';
 import { AppThunk } from '../../store';
 import { getTokenStore } from '../../core/token-store';
 import { AuthContextState } from '../../core/context/auth/auth-context';
 
-type AuthState = {
-    logged: boolean;
+export type AuthState = {
     isLoading: boolean;
-    username: string | null;
+    userId: number | null;
     error: string | null;
 };
 
 const initialAuthState: AuthState = {
-    logged: false,
     isLoading: false,
-    username: null,
     error: null,
+    userId: null,
 };
 
 const authSlice = createSlice({
     name: 'auth',
     initialState: initialAuthState,
     reducers: {
-        getAuthStart: state => {
-            state.isLoading = true;
-        },
-        getAuthSuccess(state, { payload }: PayloadAction<AuthUserDataResponseDTO>) {
-            state.isLoading = false;
-            state.logged = true;
-            state.error = null;
-            state.username = payload.username;
-        },
-        getAuthFailure: (state, action: PayloadAction<string>) => {
-            state.isLoading = false;
-            state.error = action.payload;
-        },
-        getAuthLogout: state => {
-            state.logged = false;
-            state.username = null;
-            state.isLoading = false;
-        },
+        getAuthStart: state => ({
+            isLoading: true,
+            error: null,
+            userId: null,
+        }),
+        getAuthSuccess: (state, action: PayloadAction<{ userId: number }>) => ({
+            isLoading: false,
+            userId: action.payload.userId,
+            error: null,
+        }),
+        getAuthFailure: (state, action: PayloadAction<string>) => ({
+            isLoading: false,
+            userId: null,
+            error: action.payload,
+        }),
+        getAuthLogout: state => ({
+            userId: null,
+            isLoading: false,
+            error: null,
+        }),
     },
 });
 
 // Action creators
 
 export const { getAuthStart, getAuthFailure, getAuthSuccess, getAuthLogout } = authSlice.actions;
-export default authSlice.reducer;
+export const authReducer = authSlice.reducer;
 
-export const thunkLogoutRequest = (): AppThunk => async dispatch => {
-    try {
-        const token = getTokenStore().getToken();
-        getTokenStore().removeToken();
-        if (token) {
-            const authResult = await authApi.logout(token);
-        }
-    } finally {
-        dispatch(getAuthLogout());
-    }
+// Thunks
+
+/**
+ * Authenticate user thunk
+ */
+export const authenticateThunk = (loginRequestDto: AuthRequestDTO): AppThunk => async dispatch => {
+    dispatch(getAuthStart());
+    authApi
+        .login(loginRequestDto)
+        .then(response => {
+            const { token } = response;
+            dispatch(getAuthSuccess({ userId: 1 }));
+        })
+        .catch(e => {
+            dispatch(getAuthFailure(e));
+        });
 };
 
 export const thunkAuthRequestUserData = (loginRequestDto: AuthRequestDTO): AppThunk => async dispatch => {
@@ -77,6 +83,18 @@ export const thunkAuthRequestUserData = (loginRequestDto: AuthRequestDTO): AppTh
     } catch (err) {
         const msg = err instanceof Error ? err.message : err;
         dispatch(getAuthFailure(msg));
+    }
+};
+
+export const thunkLogoutRequest = (): AppThunk => async dispatch => {
+    try {
+        const token = getTokenStore().getToken();
+        getTokenStore().removeToken();
+        if (token) {
+            const authResult = await authApi.logout(token);
+        }
+    } finally {
+        dispatch(getAuthLogout());
     }
 };
 

@@ -1,6 +1,5 @@
 import ky from 'ky';
 import is from '@sindresorhus/is';
-import { getTokenStore } from '../../core/token-store';
 import { createDefaultApiService } from '../../core/api/api-service';
 
 export type AuthRequestDTO = {

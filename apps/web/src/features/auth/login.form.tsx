@@ -1,14 +1,14 @@
-import React, {SyntheticEvent, useCallback, useState} from 'react';
+import React, { SyntheticEvent, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import styled from '@emotion/styled';
 import { Button, CircularProgress, TextField } from '../../component/ui';
-import {keyof} from "io-ts";
+import { keyof } from 'io-ts';
 
 const initialFormData = {
     username: '',
-    password: ''
-}
+    password: '',
+};
 type FormData = typeof initialFormData;
 
 type LoginFormProps = {
@@ -16,41 +16,45 @@ type LoginFormProps = {
     onSubmit: (params: FormData) => void;
 };
 
-function useTextField(props: {name: string, placeHolder: string, type: 'password' | 'text'}) {
-    const [value, setValue] = useState("");
-    const input = <TextField
-        name={props.name}
-        type={props.type}
-        value={value}
-        onChange={e => setValue(e.target.value)}
-        placeholder={props.placeHolder}
-    />
+function useTextField(props: { name: string; placeHolder: string; type: 'password' | 'text' }) {
+    const [value, setValue] = useState('');
+    const input = (
+        <TextField
+            name={props.name}
+            type={props.type}
+            value={value}
+            onChange={e => setValue(e.target.value)}
+            placeholder={props.placeHolder}
+        />
+    );
     return [value, input];
 }
 
 const LoginForm: React.FC<LoginFormProps> = props => {
-
     const { onSubmit, className = '' } = props;
 
     const { isLoading, error } = useSelector((state: RootState) => state.auth);
 
     const [data, setData] = useState<FormData>(initialFormData);
-    const [touchedValues, setTouchedValues] = useState<Partial<{[k in keyof FormData]: boolean}>>({});
-    const [errors, setErrors] = useState<Partial<{[k in keyof FormData]: string | null}>>({});
+    const [touchedValues, setTouchedValues] = useState<Partial<{ [k in keyof FormData]: boolean }>>({});
+    const [errors, setErrors] = useState<Partial<{ [k in keyof FormData]: string | null }>>({});
 
-    const handleSubmit = useCallback((e: SyntheticEvent) => {
-        onSubmit(data);
-        e.preventDefault();
-    }, [data]);
+    const handleSubmit = useCallback(
+        (e: SyntheticEvent) => {
+            onSubmit(data);
+            e.preventDefault();
+        },
+        [data]
+    );
 
-    const validate = (field: string, value: string|null): Partial<{[k in keyof FormData]: string}> => {
-        const errors: Partial<{[k in keyof FormData]: string}> = {};
+    const validate = (field: string, value: string | null): Partial<{ [k in keyof FormData]: string }> => {
+        const errors: Partial<{ [k in keyof FormData]: string }> = {};
         switch (field) {
             case 'username':
                 if (!value) {
                     errors.username = 'Username required';
                 } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-                    errors.username = "Invalid email address";
+                    errors.username = 'Invalid email address';
                 }
                 break;
             case 'password':
@@ -59,28 +63,34 @@ const LoginForm: React.FC<LoginFormProps> = props => {
                 }
         }
         return errors;
-    }
+    };
 
-    const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        const target = e.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-        setData({...data, [name]: value});
-    }, [data.username, data.password]);
+    const handleChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            const target = e.target;
+            const value = target.type === 'checkbox' ? target.checked : target.value;
+            const name = target.name;
+            setData({ ...data, [name]: value });
+        },
+        [data.username, data.password]
+    );
 
-    const handleBlur = useCallback((event: React.SyntheticEvent<HTMLInputElement>) => {
-        const target = event.currentTarget;
-        const name = target.name;
-        setTouchedValues({
-            ...touchedValues,
-            [name]: true
-        });
-        const e = validate(name, target.value);
-        setErrors({
-            ...errors,
-            ...e
-        })
-    }, [data.username, data.password]);
+    const handleBlur = useCallback(
+        (event: React.SyntheticEvent<HTMLInputElement>) => {
+            const target = event.currentTarget;
+            const name = target.name;
+            setTouchedValues({
+                ...touchedValues,
+                [name]: true,
+            });
+            const e = validate(name, target.value);
+            setErrors({
+                ...errors,
+                ...e,
+            });
+        },
+        [data.username, data.password]
+    );
 
     return (
         <div className={className}>
@@ -134,7 +144,7 @@ export const StyledLoginForm = styled(LoginForm)`
             display: flex;
             flex-direction: column;
             span.label {
-              margin-bottom: 5px;
+                margin-bottom: 5px;
             }
             input {
                 flex-grow: 1;
