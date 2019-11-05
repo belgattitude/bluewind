@@ -3,6 +3,8 @@ import { authApi, AuthRequestDTO } from './auth.api';
 import { AppThunk } from '../../store';
 import { getTokenStore } from '../../core/token-store';
 import { AuthContextState } from '../../core/context/auth/auth-context';
+import { JwtParser } from '../../core/utils/jwt/jwt-parser';
+import { getUserIdFromJwtPayload } from './utils';
 
 export type AuthState = {
     isLoading: boolean;
@@ -59,7 +61,9 @@ export const authenticateThunk = (loginRequestDto: AuthRequestDTO): AppThunk => 
         .login(loginRequestDto)
         .then(response => {
             const { token } = response;
-            dispatch(getAuthSuccess({ userId: 1 }));
+            const jwtPayload = JwtParser.getPayload(token);
+            const userId = getUserIdFromJwtPayload(jwtPayload, 'sub');
+            dispatch(getAuthSuccess({ userId }));
         })
         .catch(e => {
             dispatch(getAuthFailure(e));
