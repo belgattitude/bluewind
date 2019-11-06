@@ -3,7 +3,8 @@ import { getTokenStore, ITokenStore } from '../token-store';
 import { IRefreshTokenService, RefreshTokenService } from './refresh-token-service';
 import { Result } from '@bluewind/error-flow';
 import { isApiResponse } from '../typeguards';
-import { Router, useHistory } from 'react-router';
+import { runLogoutThunk } from '../../features/auth/auth.redux';
+import { store } from '../../store';
 
 export interface IApiService {
     createKy(): typeof ky;
@@ -13,7 +14,7 @@ type ApiServiceProps = {
     serverUrl: string;
     refreshTokenService: IRefreshTokenService;
     tokenStore: ITokenStore;
-    onAuthFailure: (response: Response) => void;
+    onAuthFailure: (response: Response) => Response;
 };
 
 export class ApiService implements IApiService {
@@ -78,7 +79,7 @@ export class ApiService implements IApiService {
                             } else {
                                 // remove the token
                                 tokenStore.removeToken();
-                                this.props.onAuthFailure(response);
+                                return this.props.onAuthFailure(response);
                             }
                         }
                         return response;
@@ -100,10 +101,9 @@ export const createDefaultApiService = () => {
         serverUrl,
         refreshTokenService: refreshTokenService,
         tokenStore: tokenStore,
-        onAuthFailure: () => {
-            // @todo need to find a better option
-            history.go(1);
-            //window.location.reload();
+        onAuthFailure: (response): Response => {
+            store.dispatch(runLogoutThunk());
+            return response;
         },
     });
 };
