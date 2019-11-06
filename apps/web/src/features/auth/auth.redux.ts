@@ -50,19 +50,20 @@ const authSlice = createSlice({
 export const { getAuthStart, getAuthFailure, getAuthSuccess, getAuthLogout } = authSlice.actions;
 export const authReducer = authSlice.reducer;
 
-// Thunks
+// Async thunks
 
 /**
- * Authenticate user thunk
+ * Run authentication with provided credentials
+ * @param jwtUserIdClaim The jwt claim containing the usedId: by default 'sub'.
  */
-export const authenticateThunk = (loginRequestDto: AuthRequestDTO): AppThunk => async dispatch => {
+export const runLoginThunk = (loginRequestDto: AuthRequestDTO, jwtUserIdClaim='sub'): AppThunk => async dispatch => {
     dispatch(getAuthStart());
     authApi
         .login(loginRequestDto)
         .then(response => {
             const { token } = response;
             const jwtPayload = JwtParser.getPayload(token);
-            const userId = getUserIdFromJwtPayload(jwtPayload, 'sub');
+            const userId = getUserIdFromJwtPayload(jwtPayload, jwtUserIdClaim);
             dispatch(getAuthSuccess({ userId }));
         })
         .catch(e => {

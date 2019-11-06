@@ -47,7 +47,7 @@ export const loginHandler = async (req: Request, res: Response): Promise<void> =
     // Regular token
     const token = createTokenService().createToken(
         {
-            userId: user.id,
+            sub: user.id,
         },
         tokenValidity
     );

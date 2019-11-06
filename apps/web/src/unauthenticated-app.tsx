@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { thunkAuthRequestUserData } from './features/auth/auth.redux';
+import { runLoginThunk } from './features/auth/auth.redux';
 import styled from '@emotion/styled';
 import { Box } from './component/ui';
 import { StyledLoginForm } from './features/auth/login.form';
@@ -19,7 +19,7 @@ const UnAuthenticatedApp: React.FC = () => {
                 Unauthenticated
                 <StyledLoginForm
                     onSubmit={credentials => {
-                        dispatch(thunkAuthRequestUserData(credentials));
+                        dispatch(runLoginThunk(credentials));
                     }}
                 />
             </Box>

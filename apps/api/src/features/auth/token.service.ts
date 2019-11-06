@@ -3,7 +3,11 @@ import { Result } from '@bluewind/error-flow';
 import is from '@sindresorhus/is';
 
 type TokenPayload = {
-    [key: string]: number | string;
+    iss?: string;
+    sub?: string;
+    aud?: string;
+    exp: number;
+    [k: string]: string | number | undefined;
 };
 
 type DefaultOptions = {
