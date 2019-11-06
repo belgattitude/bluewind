@@ -10,10 +10,15 @@ export type JwtPayload = {
 
 export class JwtParser {
     /**
+     * @throws {Error} if token payload is empty
      * @throws {SyntaxError} if token cannot be parsed (invalid json)
      */
     static getPayload(token: string): JwtPayload {
-        const base64 = token.split('.')[1];
+        const parts = token.split('.');
+        const base64 = typeof parts[1] === 'string' && parts[1].length > 0 ? parts[1] : null;
+        if (base64 === null) {
+            throw new Error('Invalid token, payload cannot be determined');
+        }
         return JSON.parse(Base64Codec.decode(base64));
     }
 }

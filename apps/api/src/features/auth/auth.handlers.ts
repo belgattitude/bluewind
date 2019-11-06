@@ -7,6 +7,7 @@ import { DatabaseError } from '../../core/exceptions';
 import { createRefreshTokenService, createTokenService } from './token.service';
 import { setHttpErrors } from '../../core/infra/http/error-utils';
 import is from '@sindresorhus/is';
+import {assertIsSafeId} from "../../core/typeguards";
 
 /**
  * Login handler just authenticate credentials
@@ -55,7 +56,7 @@ export const loginHandler = async (req: Request, res: Response): Promise<void> =
     // refresh token (use in secure session)
     const refreshToken = createRefreshTokenService().createToken(
         {
-            userId: user.id,
+            sub: user.id.toString(10),
         },
         refreshTokenValidity
     );
@@ -77,31 +78,32 @@ export const refreshTokenHandler = async (req: Request, res: Response): Promise<
     if (refreshToken === '') {
         res.status(401).send({ message: 'Refresh token is required' });
     }
-    const { payload } = createRefreshTokenService().verify<{ userId: number }>(refreshToken);
+
+    const { payload } = createRefreshTokenService().verify<{ sub: string }>(refreshToken);
     if (payload.isError) {
         res.status(401).send({ message: `Error ${payload.error.message}` });
         return;
     }
-
-    const { userId } = payload.value;
+    const {sub } = payload.value;
+    const userId = (typeof sub === 'string' && sub.match(/^\d+$/)) ? Number.parseInt(payload.value.sub, 10) : null;
 
     // Here we can check a lot -> db, token revocation list...
     // let's make it simple for now.
 
-    const tokenValidity = 60;
-
-    if (!is.safeInteger(userId) || userId < 0) {
+    if (!assertIsSafeId(userId) || userId < 1) {
         res.status(401).send({ message: `Invalid payload in refresh token.` });
         return;
     }
 
+    const tokenValidity = 60;
     // the new token
     const token = createTokenService().createToken(
         {
-            userId,
+            sub: userId.toString(10),
         },
         tokenValidity
     );
+
 
     res.json({ success: true, token: token });
 };

@@ -3,6 +3,7 @@ import { getTokenStore, ITokenStore } from '../token-store';
 import { IRefreshTokenService, RefreshTokenService } from './refresh-token-service';
 import { Result } from '@bluewind/error-flow';
 import { isApiResponse } from '../typeguards';
+import { Router, useHistory } from 'react-router';
 
 export interface IApiService {
     createKy(): typeof ky;
@@ -100,7 +101,9 @@ export const createDefaultApiService = () => {
         refreshTokenService: refreshTokenService,
         tokenStore: tokenStore,
         onAuthFailure: () => {
-            window.location.reload();
+            // @todo need to find a better option
+            history.go(1);
+            //window.location.reload();
         },
     });
 };

@@ -12,10 +12,27 @@ export type AuthState = {
     error: string | null;
 };
 
+const getInitialUser = (): AuthState['userId'] => {
+    let userId: AuthState['userId'] = null;
+    try {
+        const token = getTokenStore().getToken();
+        console.log('TOKEN', token);
+        if (token !== null) {
+            const payload = JwtParser.getPayload(token);
+            console.log('Payload', payload);
+            userId = getUserIdFromJwtPayload(payload);
+        }
+    } catch (e) {
+        userId = null;
+    }
+    console.log('AAAAAAAAAAAAA', userId);
+    return userId;
+};
+
 const initialAuthState: AuthState = {
     isLoading: false,
     error: null,
-    userId: null,
+    userId: getInitialUser(),
 };
 
 const authSlice = createSlice({
@@ -67,7 +84,7 @@ export const runLoginThunk = (loginRequestDto: AuthRequestDTO, jwtUserIdClaim = 
             dispatch(getAuthSuccess({ userId }));
         })
         .catch(e => {
-            dispatch(getAuthFailure(e));
+            dispatch(getAuthFailure(e.message));
         });
 };
 

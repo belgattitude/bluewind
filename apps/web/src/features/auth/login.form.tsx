@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import styled from '@emotion/styled';
 import { Button, CircularProgress, TextField } from '../../component/ui';
-import { keyof } from 'io-ts';
 
 const initialFormData = {
     username: '',
@@ -125,7 +124,7 @@ const LoginForm: React.FC<LoginFormProps> = props => {
                         </span>
                     )}
                 </Button>
-                {error}
+                {error && <div className={'error-msg'}>{error}</div>}
             </form>
         </div>
     );

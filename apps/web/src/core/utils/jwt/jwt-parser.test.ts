@@ -12,9 +12,19 @@ describe('JWTParser tests', () => {
         });
     });
 
-    it('Should throw error on invalid token', () => {
+    it('Should throw SyntaxError on non base-64 token', () => {
         expect(() => {
             JwtParser.getPayload('HEADER.PAYLOAD.HASH');
         }).toThrow(SyntaxError);
+    });
+
+    it('Should throw Error on invalid token', () => {
+        expect(() => {
+            JwtParser.getPayload('MYINVALIDTOKEN');
+        }).toThrow(Error);
+
+        expect(() => {
+            JwtParser.getPayload('...');
+        }).toThrow(Error);
     });
 });
