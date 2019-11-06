@@ -145,7 +145,7 @@
     "tslib": "^1.10.0",
     "typeface-muli": "0.0.71",
     "typesafe-actions": "^5.1.0",
-    "typescript": "^3.7.2",
+    "typescript": "3.6.4",
     "url-loader": "^2.2.0",
     "utility-types": "^3.9.0",
     "webpack": "^4.41.2",
