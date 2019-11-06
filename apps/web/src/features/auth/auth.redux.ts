@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
 import { authApi, AuthRequestDTO } from './auth.api';
 import { AppThunk } from '../../store';
-import { getTokenStore } from '../../core/token-store';
-import { AuthContextState } from '../../core/context/auth/auth-context';
+import { getTokenStore, ITokenStore } from '../../core/token-store';
 import { JwtParser } from '../../core/utils/jwt/jwt-parser';
 import { getUserIdFromJwtPayload } from './utils';
 
@@ -12,20 +11,22 @@ export type AuthState = {
     error: string | null;
 };
 
+/**
+ * Return the initial userId
+ * @todo load it async later and check for rememberMe option
+ *       or any more advanced techniques.
+ */
 const getInitialUser = (): AuthState['userId'] => {
     let userId: AuthState['userId'] = null;
     try {
         const token = getTokenStore().getToken();
-        console.log('TOKEN', token);
         if (token !== null) {
             const payload = JwtParser.getPayload(token);
-            console.log('Payload', payload);
             userId = getUserIdFromJwtPayload(payload);
         }
     } catch (e) {
         userId = null;
     }
-    console.log('AAAAAAAAAAAAA', userId);
     return userId;
 };
 
@@ -46,18 +47,18 @@ const authSlice = createSlice({
         }),
         getAuthSuccess: (state, action: PayloadAction<{ userId: number }>) => ({
             isLoading: false,
-            userId: action.payload.userId,
             error: null,
+            userId: action.payload.userId,
         }),
         getAuthFailure: (state, action: PayloadAction<string>) => ({
             isLoading: false,
-            userId: null,
             error: action.payload,
+            userId: null,
         }),
         getAuthLogout: state => ({
-            userId: null,
             isLoading: false,
             error: null,
+            userId: null,
         }),
     },
 });
@@ -66,14 +67,23 @@ const authSlice = createSlice({
 
 export const { getAuthStart, getAuthFailure, getAuthSuccess, getAuthLogout } = authSlice.actions;
 export const authReducer = authSlice.reducer;
+export { authSlice };
 
 // Async thunks
 
 /**
  * Run authentication with provided credentials
- * @param jwtUserIdClaim The jwt claim containing the usedId: by default 'sub'.
+ * @param loginRequestDto - DTO containing th credentials
+ * @param jwtUserIdClaim - The jwt claim containing the usedId: by default 'sub'.
+ * @param deps - essentially for mocking internal dependencies
  */
-export const runLoginThunk = (loginRequestDto: AuthRequestDTO, jwtUserIdClaim = 'sub'): AppThunk => async dispatch => {
+export const runLoginThunk = (
+    loginRequestDto: AuthRequestDTO,
+    jwtUserIdClaim = 'sub',
+    deps?: {
+        tokenStore?: ITokenStore;
+    }
+): AppThunk => async dispatch => {
     dispatch(getAuthStart());
     authApi
         .login(loginRequestDto)
@@ -81,6 +91,8 @@ export const runLoginThunk = (loginRequestDto: AuthRequestDTO, jwtUserIdClaim = 
             const { token } = response;
             const jwtPayload = JwtParser.getPayload(token);
             const userId = getUserIdFromJwtPayload(jwtPayload, jwtUserIdClaim);
+            const { tokenStore = getTokenStore() } = deps || {};
+            tokenStore.setToken(token);
             dispatch(getAuthSuccess({ userId }));
         })
         .catch(e => {
@@ -88,7 +100,26 @@ export const runLoginThunk = (loginRequestDto: AuthRequestDTO, jwtUserIdClaim = 
         });
 };
 
-export const thunkAuthRequestUserData = (loginRequestDto: AuthRequestDTO): AppThunk => async dispatch => {
+/**
+ * Execute a logout request
+ * @param tokenStore
+ * @param deps essentially for mocking internal dependencies
+ */
+export const runLogoutThunk = (deps?: { tokenStore?: ITokenStore }): AppThunk => async dispatch => {
+    try {
+        const { tokenStore = getTokenStore() } = deps || {};
+        const token = tokenStore.getToken();
+        tokenStore.removeToken();
+        if (token) {
+            const authResult = await authApi.logout(token);
+        }
+    } finally {
+        dispatch(getAuthLogout());
+    }
+};
+
+/*
+export const runLoginAndLoadUserDataThunk = (loginRequestDto: AuthRequestDTO): AppThunk => async dispatch => {
     try {
         dispatch(getAuthStart());
         const response = await authApi.login(loginRequestDto);
@@ -97,7 +128,7 @@ export const thunkAuthRequestUserData = (loginRequestDto: AuthRequestDTO): AppTh
 
         // read user data
         const userData = await authApi.getUserData(token).catch(error => {
-            dispatch(thunkLogoutRequest());
+            dispatch(runLogoutThunk());
             throw error;
         });
 
@@ -107,28 +138,4 @@ export const thunkAuthRequestUserData = (loginRequestDto: AuthRequestDTO): AppTh
         dispatch(getAuthFailure(msg));
     }
 };
-
-export const thunkLogoutRequest = (): AppThunk => async dispatch => {
-    try {
-        const token = getTokenStore().getToken();
-        getTokenStore().removeToken();
-        if (token) {
-            const authResult = await authApi.logout(token);
-        }
-    } finally {
-        dispatch(getAuthLogout());
-    }
-};
-
-async function bootstrapUserData(): Promise<AuthContextState> {
-    const token = getTokenStore().getToken();
-    if (token === null) {
-        return { user: null };
-    }
-    const userData = await authApi.getUserData(token).catch(error => {
-        getTokenStore().removeToken();
-        authApi.logout(token);
-        return null;
-    });
-    return { user: userData };
-}
+*/
