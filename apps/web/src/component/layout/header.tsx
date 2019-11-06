@@ -1,5 +1,5 @@
 import React from 'react';
-import { thunkLogoutRequest } from '../../features/auth/auth.redux';
+import { runLogoutThunk } from '../../features/auth/auth.redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import styled from '@emotion/styled';
@@ -23,7 +23,7 @@ const UnstyledHeader: React.FC<HeaderProps> = props => {
     const history = useHistory();
 
     const handleLogout = (e: unknown) => {
-        dispatch(thunkLogoutRequest());
+        dispatch(runLogoutThunk());
     };
 
     return (
