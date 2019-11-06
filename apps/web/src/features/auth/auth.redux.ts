@@ -56,7 +56,7 @@ export const authReducer = authSlice.reducer;
  * Run authentication with provided credentials
  * @param jwtUserIdClaim The jwt claim containing the usedId: by default 'sub'.
  */
-export const runLoginThunk = (loginRequestDto: AuthRequestDTO, jwtUserIdClaim='sub'): AppThunk => async dispatch => {
+export const runLoginThunk = (loginRequestDto: AuthRequestDTO, jwtUserIdClaim = 'sub'): AppThunk => async dispatch => {
     dispatch(getAuthStart());
     authApi
         .login(loginRequestDto)

@@ -14,5 +14,3 @@ export class SearchStudentDto {
     @Type(() => Number)
     offset?: number;
 }
-
-

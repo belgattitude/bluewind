@@ -2,13 +2,11 @@ import { getValidatedDto } from '../../../core/mapper/dto-mapper';
 import { IStudentService } from '../student.service';
 import { setHttpErrors } from '../../../core/infra/http/error-utils';
 import { ExpressHandler } from '../../../core/infra/http/express-handler';
-import {injectable, inject} from "tsyringe";
-
-
+import { injectable, inject } from 'tsyringe';
 
 @injectable()
 export class GetStudentHandler extends ExpressHandler {
-    constructor(@inject("IStudentService") private studentService: IStudentService) {
+    constructor(@inject('IStudentService') private studentService: IStudentService) {
         super();
     }
     async executeImpl(): Promise<void> {
@@ -21,4 +19,3 @@ export class GetStudentHandler extends ExpressHandler {
         res.json({ success: true, data: payload.value });
     }
 }
-

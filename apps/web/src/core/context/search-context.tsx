@@ -33,22 +33,11 @@ function createSearchContext<T extends object>(params: SearchContextParams<T>) {
     const SearchContext = React.createContext<SearchContextProps<T> | null>(null);
 
     const SearchProvider = (props: { children: ReactNode }) => {
-        //const [firstAttemptFinished, setFirstAttemptFinished] = React.useState<boolean>(false);
         const [query, setQuery] = useState<SearchContextState['query']>(null);
         const [error, setError] = useState<string | null>(null);
-        const [loading, setLoading] = useState<boolean | null>(null);
+        const [loading, setLoading] = useState<boolean>(false);
         const [data, setData] = useState<T[]>([]);
         const [force, forceUpdate] = useReducer(x => x + 1, 0);
-
-        //const abortTimer = useRef<ReturnType<typeof setTimeout> | null>();
-
-        /**
-        React.useLayoutEffect(() => {
-            if (isSettled) {
-                setFirstAttemptFinished(true);
-            }
-        }, [isSettled]);
-        */
 
         useEffect(() => {
             let mounted = true;
@@ -57,47 +46,33 @@ function createSearchContext<T extends object>(params: SearchContextParams<T>) {
                 setError(null);
                 setLoading(true);
                 const { signal } = abortController;
+                /*
                 signal.addEventListener('abort', a => {
                     console.log('aborted', loading, a);
                 });
+                */
                 const { payload } = await promiseFn(
                     { query: query || undefined },
                     {
                         signal,
                     }
                 );
-                /*
-                const { payload } = await new Promise(resolve => {
-                    setTimeout(() => {
-                        resolve(promiseFn({ query: query || undefined }, abortController.signal));
-                    }, 1000);
-                });
-                 */
                 if (mounted) {
+                    setLoading(false);
                     if (payload.isError) {
                         setError(payload.error.message);
                     } else {
                         setData(payload.value);
                     }
-                    setLoading(false);
                 }
             };
             fetchData();
             return () => {
-                // Frustrated by hooks ;)
-                // If using 'if (loading)'
-                // 'react-hooks/exhaustive-deps'
-                // will add 'loading' to the effect dependencies.
-                // Aborting should be a no-op
+                // Loading cannot be safely determined here
+                // abort should be a no-op anyway
                 abortController.abort();
-                //}
-
-                //}
                 mounted = false;
             };
-            // frustrated ;) loading will be added by eslint to
-            // the dependency lists.
-            //
         }, [query, force]);
 
         // Dispatch methods
@@ -106,7 +81,6 @@ function createSearchContext<T extends object>(params: SearchContextParams<T>) {
         };
 
         const reload = useCallback(() => {
-            console.log('force reloading');
             forceUpdate(force);
         }, [force]);
 

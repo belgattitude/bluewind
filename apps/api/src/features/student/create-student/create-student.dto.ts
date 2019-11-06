@@ -1,10 +1,9 @@
-import {IsDate, IsEmail, IsOptional, IsString, Max, MaxLength} from 'class-validator';
+import { IsDate, IsEmail, IsOptional, IsString, Max, MaxLength } from 'class-validator';
 import { Type } from 'class-transformer';
-import {StudentEntity} from "../../../entity/student.entity";
-import {Column, Index, PrimaryGeneratedColumn} from "typeorm";
+import { StudentEntity } from '../../../entity/student.entity';
+import { Column, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 export class CreateStudentDto {
-
     @IsString()
     @MaxLength(50)
     first_name!: string;
@@ -37,6 +36,4 @@ export class CreateStudentDto {
     @MaxLength(50)
     @IsOptional()
     facebook_url?: string;
-
 }
-

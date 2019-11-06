@@ -9,7 +9,7 @@ import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import * as swaggerConfig from './swagger.json';
 import { getMainRouterCreator } from './routes';
-import {getDefaultContainer} from "./container";
+import { getDefaultContainer } from './container';
 
 const port: number = env.DEVSERVER_PORT;
 

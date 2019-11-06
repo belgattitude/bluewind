@@ -44,7 +44,7 @@ const LoginForm: React.FC<LoginFormProps> = props => {
             onSubmit(data);
             e.preventDefault();
         },
-        [data]
+        [data, onSubmit]
     );
 
     const validate = (field: string, value: string | null): Partial<{ [k in keyof FormData]: string }> => {
@@ -72,7 +72,7 @@ const LoginForm: React.FC<LoginFormProps> = props => {
             const name = target.name;
             setData({ ...data, [name]: value });
         },
-        [data.username, data.password]
+        [data]
     );
 
     const handleBlur = useCallback(
@@ -89,7 +89,7 @@ const LoginForm: React.FC<LoginFormProps> = props => {
                 ...e,
             });
         },
-        [data.username, data.password]
+        [touchedValues, errors]
     );
 
     return (

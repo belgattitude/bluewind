@@ -6,7 +6,6 @@ type TokenPayload = {
     iss?: string;
     sub?: string;
     aud?: string;
-    exp: number;
     [k: string]: string | number | undefined;
 };
 

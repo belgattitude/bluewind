@@ -10,7 +10,7 @@ import { getProfileHandler } from './features/user/user.handlers';
 import { Request, Response, Router } from 'express';
 
 import { authMiddleware } from './features/auth/auth.middleware';
-import DependencyContainer from "tsyringe/dist/typings/types/dependency-container";
+import DependencyContainer from 'tsyringe/dist/typings/types/dependency-container';
 
 export function getMainRouterCreator(): (container: DependencyContainer) => Router {
     return (container: DependencyContainer): Router => {
