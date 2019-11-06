@@ -26,6 +26,20 @@ class LocalStorageTokenStore implements ITokenStore {
     }
 }
 
+export class MemoryStorageTokenStore implements ITokenStore {
+    private token: string | null = null;
+    setToken(token: string): void {
+        this.token = token;
+    }
+    removeToken(): void {
+        this.token = null;
+    }
+
+    getToken(): string | null {
+        return this.token;
+    }
+}
+
 export function getTokenStore(type: TokenStoreStrategy = 'local_storage'): ITokenStore {
     switch (type) {
         case 'local_storage':
