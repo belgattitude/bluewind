@@ -1,5 +1,8 @@
-import { authReducer, getAuthStart, getAuthSuccess, getAuthFailure } from './auth.redux';
+import { authReducer, getAuthStart, getAuthSuccess, getAuthFailure, runLogoutThunk } from './auth.redux';
 import { AnyAction } from 'redux';
+import thunk from 'redux-thunk';
+import { MemoryStorageTokenStore } from '../../core/token-store';
+import configureMockStore from 'redux-mock-store';
 
 describe('Redux Auth', () => {
     describe('Action creators and reducers', () => {
@@ -40,5 +43,17 @@ describe('Redux Auth', () => {
 
     describe('Async actions', () => {
         // @todo thunks
+        const middlewares = [thunk];
+        const mockStore = configureMockStore(middlewares);
+
+        it('Should remove token on logout', async () => {
+            const store = mockStore({ auth: {} });
+            const dispatch = store.dispatch;
+            const getState = jest.fn();
+            const ts = new MemoryStorageTokenStore();
+            ts.setToken('Should be removed');
+            await runLogoutThunk({ tokenStore: ts })(dispatch, getState, null);
+            expect(ts.getToken()).toBeNull();
+        });
     });
 });
