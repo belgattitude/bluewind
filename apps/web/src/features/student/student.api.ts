@@ -5,7 +5,7 @@ import ky from 'ky';
 import { classesListMock } from '../../mocks/datamocks';
 import { isApiResponse } from '../../core/typeguards';
 import { Result } from '@bluewind/error-flow';
-import {createDefaultApiService, IApiKyService} from '../../core/api/api-service';
+import { createDefaultApiService, IApiKyService } from '../../core/api/api-service';
 
 export interface StudentDetailDTO {
     id: number;

@@ -7,7 +7,7 @@ import { DatabaseError } from '../../core/exceptions';
 import { createRefreshTokenService, createTokenService } from './token.service';
 import { setHttpErrors } from '../../core/infra/http/error-utils';
 import is from '@sindresorhus/is';
-import {assertIsSafeId} from "../../core/typeguards";
+import { assertIsSafeId } from '../../core/typeguards';
 
 /**
  * Login handler just authenticate credentials
@@ -84,8 +84,8 @@ export const refreshTokenHandler = async (req: Request, res: Response): Promise<
         res.status(401).send({ message: `Error ${payload.error.message}` });
         return;
     }
-    const {sub } = payload.value;
-    const userId = (typeof sub === 'string' && sub.match(/^\d+$/)) ? Number.parseInt(payload.value.sub, 10) : null;
+    const { sub } = payload.value;
+    const userId = typeof sub === 'string' && sub.match(/^\d+$/) ? Number.parseInt(payload.value.sub, 10) : null;
 
     // Here we can check a lot -> db, token revocation list...
     // let's make it simple for now.
@@ -103,7 +103,6 @@ export const refreshTokenHandler = async (req: Request, res: Response): Promise<
         },
         tokenValidity
     );
-
 
     res.json({ success: true, token: token });
 };

@@ -6,7 +6,6 @@ import { ActiveStatus } from '../../entity/user.entity';
 import { hashSync } from 'bcryptjs';
 
 describe('AuthService tests', () => {
-
     /**
      * @todo refactor this ! should be split in different tests
      */

@@ -16,7 +16,6 @@ export interface IApiKyService {
     createKy(): typeof ky;
 }
 
-
 type ApiServiceProps = {
     serverUrl: string;
     refreshTokenService: IRefreshTokenService;

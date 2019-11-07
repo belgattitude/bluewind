@@ -2,7 +2,7 @@ import React, { ReactNode, useContext } from 'react';
 import { authApi, AuthRequestDTO, AuthUserDataResponseDTO } from '../../../features/auth/auth.api';
 import { useAsync } from 'react-async';
 import { getTokenStore } from '../../token-store';
-import {getDefaultProfileApi} from "../../../features/auth/profile.api";
+import { getDefaultProfileApi } from '../../../features/auth/profile.api';
 
 type RegisterRequestDTO = {
     username: string;
@@ -27,7 +27,7 @@ async function bootstrapUserData(): Promise<AuthContextState> {
     if (token === null) {
         return { user: null };
     }
-    const {payload} = await getDefaultProfileApi().getProfileData();
+    const { payload } = await getDefaultProfileApi().getProfileData();
     if (payload.isError) {
         getTokenStore().removeToken();
         authApi.logout(token);
