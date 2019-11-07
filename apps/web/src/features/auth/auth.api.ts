@@ -1,6 +1,5 @@
 import ky from 'ky';
 import is from '@sindresorhus/is';
-import { createDefaultApiService } from '../../core/api/api-service';
 
 export type AuthRequestDTO = {
     username: string;
@@ -27,8 +26,9 @@ export type AuthUserDataResponseDTO = {
 
 const defaultApiUrl = 'http://localhost:3000';
 
-interface IAuthApi {
+export interface IAuthApi {
     login(authRequest: AuthRequestDTO): Promise<AuthSuccessResponseDTO>;
+    logout(token?: string): Promise<boolean>;
 }
 
 export class AuthApi implements IAuthApi {
@@ -42,6 +42,9 @@ export class AuthApi implements IAuthApi {
         });
     }
 
+    /**
+     * @throws Error on unsuccessful attempt
+     */
     async login(authRequest: AuthRequestDTO): Promise<AuthSuccessResponseDTO> {
         return this.api
             .post('auth/login', {
@@ -63,30 +66,15 @@ export class AuthApi implements IAuthApi {
             });
     }
 
-    async getUserData(token: string): Promise<any> {
-        const api = createDefaultApiService().createKy({
-            forceToken: token,
-        });
-        return api
-            .get('api/profile')
-            .json()
-            .catch(reason => {
-                throw new Error(`Error: could not connect: ${reason}`);
-            })
-            .then(response => {
-                if (is.plainObject(response) && is.plainObject(response.value)) {
-                    return response.value;
-                }
-                throw new Error(`Invalid response`);
-            });
-    }
-
-    async logout(token: string): Promise<boolean> {
-        // @todo make it real baby ;)
-        return new Promise((resolve, reject) => {
+    /**
+     * Logout current user (currently does nothing)
+     * @param token - optional access token if needed, 'refresh token' in session should do th job
+     */
+    async logout(token?: string): Promise<boolean> {
+        return new Promise(resolve => {
             setTimeout(() => {
                 resolve(true);
-            }, 1000);
+            }, 0);
         });
     }
 }
