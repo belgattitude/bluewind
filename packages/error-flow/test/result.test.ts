@@ -13,26 +13,23 @@ describe('Result tests', () => {
         }
     }
 
-    test('Result.isError() must be true on error, false on success.', () => {
-        expect(Result.ok<User>({ username: 'Jest' }).isError()).toBeFalsy();
+    it('should set payload.isError === true with a failed result.', () => {
         expect(Result.fail(new Error('Error')).isError()).toBeTruthy();
     });
 
-    test('Payload.isError must be true on error, false on success.', () => {
-        expect(Result.ok<User>({ username: 'Jest' }).payload.isError).toBeFalsy();
-        expect(Result.fail(new Error('Error')).payload.isError).toBeTruthy();
+    it('should set payload.isError === false with a successful result.', () => {
+        expect(Result.ok<User>({ username: 'Jest' }).isError()).toBeFalsy();
     });
 
-    test('Payload error must always give an Error object.', () => {
-        // Arrange / Act
+    it('should always have an Error object on failure', () => {
         const failFromError = Result.fail(new Error('from error')).payload;
         const failFromString = Result.fail('from string').payload;
-        // Assert
+
         expect((failFromError as any).error).toBeInstanceOf(Error);
         expect((failFromString as any).error).toBeInstanceOf(Error);
     });
 
-    test('Result map().', () => {
+    it('Should allow to map over a successful result', () => {
         // Arrange
         const success = Result.ok<User>({ username: 'Jest' });
         // Act
@@ -51,7 +48,7 @@ describe('Result tests', () => {
         expect(result).toEqual(['username', 'is', 'jest']);
     });
 
-    test('Result mapErr().', () => {
+    it('Should allow to mapErr over a failed result', () => {
         // Arrange
         const fail = Result.fail(new ExampleError(`I'm a failure :)`));
         const mockCallback = jest.fn(() => {});
