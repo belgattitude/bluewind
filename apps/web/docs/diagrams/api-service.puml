@@ -1,0 +1,17 @@
+@startuml
+
+skinparam defaultFontSize 14
+skinparam monochrome true
+skinparam sequenceMessageAlign center
+skinparam shadowing false
+
+AuthService -> AuthService: Redux dispatch authLoading
+AuthService -> API: Post valid auth request
+API --> Database: Load user entity
+Database --> API
+API --> API: Compare password (bcrypt)
+API <--> API: Generate token (jwt)
+API -> AuthService: Ok response (access token + refresh (cookie))
+AuthService -> AuthService: Redux dispatch authsuccess
+
+@enduml
