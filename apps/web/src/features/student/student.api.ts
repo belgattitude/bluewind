@@ -5,7 +5,7 @@ import ky from 'ky';
 import { classesListMock } from '../../mocks/datamocks';
 import { isApiResponse } from '../../core/typeguards';
 import { Result } from '@bluewind/error-flow';
-import { createDefaultApiService, IApiService } from '../../core/api/api-service';
+import {createDefaultApiService, IApiKyService} from '../../core/api/api-service';
 
 export interface StudentDetailDTO {
     id: number;
@@ -25,14 +25,14 @@ type SearchParams = {
 };
 
 export class StudentApi {
-    private api: typeof ky;
+    private ky: typeof ky;
 
-    constructor(apiService: IApiService) {
-        this.api = apiService.createKy();
+    constructor(apiService: IApiKyService) {
+        this.ky = apiService.createKy();
     }
 
     async search(params: SearchParams, props: { signal?: AbortSignal }): Promise<Result<StudentDetailDTO[]>> {
-        return this.api
+        return this.ky
             .get('api/students', {
                 signal: props.signal,
                 //credentials: "include",
@@ -61,7 +61,7 @@ export class StudentApi {
     }
 
     async get(studentId: number): Promise<StudentDetailDTO> {
-        return this.api
+        return this.ky
             .get(`api/students/${studentId}`)
             .json()
             .then(response => {
@@ -74,7 +74,7 @@ export class StudentApi {
 
     async save<T>(student: { id: number } & T): Promise<StudentDetailDTO> {
         console.log('save student', student);
-        return this.api
+        return this.ky
             .put(`api/students/${student.id}`, {
                 json: snakecaseKeys(student),
             })
