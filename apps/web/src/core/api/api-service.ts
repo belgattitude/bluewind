@@ -6,9 +6,16 @@ import { isApiResponse } from '../typeguards';
 import { runLogoutThunk } from '../../features/auth/auth.redux';
 import { store } from '../../store';
 
+type SearchParams = { [key: string]: string | number } | URLSearchParams;
+
 export interface IApiService {
+    get<T>(url: string, params?: SearchParams, signal?: AbortSignal): Promise<Result<T>>;
+}
+
+export interface IApiKyService {
     createKy(): typeof ky;
 }
+
 
 type ApiServiceProps = {
     serverUrl: string;
@@ -17,33 +24,33 @@ type ApiServiceProps = {
     onAuthFailure: (response: Response) => Response;
 };
 
-export class ApiService implements IApiService {
+export class ApiService implements IApiService, IApiKyService {
     private props: ApiServiceProps;
+    private ky: typeof ky;
 
     constructor(props: ApiServiceProps) {
         this.props = props;
+        this.ky = this.createKy();
     }
 
-    get<T>(url: string, params: { [ky: string]: any }, signal?: AbortSignal): Promise<Result<T>> {
-        const ky = this.createKy();
-        return ky
+    get<T>(url: string, params?: SearchParams, signal?: AbortSignal): Promise<Result<T>> {
+        const searchParams = params;
+        return this.ky
             .get(url, {
                 signal: signal,
-                //credentials: "include",
-                searchParams: {
-                    ...params,
-                },
+                credentials: 'include',
+                searchParams,
             })
             .json()
             .then(response => {
                 if (isApiResponse(response) && response.success === true) {
                     return Result.ok(response.data as T);
                 }
-                return Result.fail<T>(new Error('Response is invalid or does not contain data'));
+                return Result.fail<T>(new Error(`Response is invalid or does not contain data`));
             })
             .catch(e => {
                 if (signal && e.name === 'AbortError') {
-                    return Result.fail(new Error(`ABORTED`));
+                    return Result.fail(new Error(`Aborted`));
                 }
                 return Result.fail(new Error(`${e.name}: ${e.message}`));
             });
@@ -62,7 +69,6 @@ export class ApiService implements IApiService {
                         }
                     },
                 ],
-
                 afterResponse: [
                     async (input, options, response) => {
                         const { status } = response;
