@@ -61,6 +61,9 @@ export class TokenService {
     }
 }
 
+/**
+ * JWT refresh token service factory
+ */
 export const createRefreshTokenService = (): TokenService => {
     const defaultOptions: DefaultOptions = {
         sign: {
@@ -77,6 +80,9 @@ export const createRefreshTokenService = (): TokenService => {
     );
 };
 
+/**
+ * JWT access token service factory
+ */
 export const createTokenService = (): TokenService => {
     const defaultOptions: DefaultOptions = {
         sign: {
