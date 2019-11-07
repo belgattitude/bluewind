@@ -51,6 +51,18 @@
                 "@typescript-eslint/no-explicit-any": "off",
                 "@typescript-eslint/no-var-requires": "off"
             }
+        },
+        {
+            "files": ["*.config.js", "webpack.*.js"],
+            "parser": "espree",
+            "parserOptions": {
+                "ecmaVersion": 2015
+            },
+            "rules": {
+                "sonarjs/no-duplicate-string": "off",
+                "@typescript-eslint/no-explicit-any": "off",
+                "@typescript-eslint/no-var-requires": "off"
+            }
         }
     ]
 }
