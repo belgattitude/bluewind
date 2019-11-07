@@ -1,15 +1,26 @@
 {
-    "extends": ["plugin:@typescript-eslint/recommended", "prettier/@typescript-eslint", "plugin:sonarjs/recommended"],
+    "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "prettier/@typescript-eslint",
+        "plugin:sonarjs/recommended",
+        "plugin:jest/recommended"
+    ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "project": "./tsconfig.eslint.json"
     },
-    "plugins": ["sonarjs", "@typescript-eslint", "prettier"],
+    "plugins": ["sonarjs", "@typescript-eslint", "prettier", "jest", "jest-formatting"],
     "rules": {
         "no-angle-bracket-type-assertion": "off",
         "no-throw-literal": "error",
         "camelcase": "off",
-        "@typescript-eslint/camelcase": ["error", { "properties": "never", "ignoreDestructuring": true }],
+        "@typescript-eslint/camelcase": [
+            "error",
+            {
+                "properties": "never",
+                "ignoreDestructuring": true
+            }
+        ],
         "@typescript-eslint/no-use-before-define": "warn",
         "@typescript-eslint/interface-name-prefix": "warn",
         "@typescript-eslint/explicit-function-return-type": "off",
@@ -26,6 +37,12 @@
             }
         ],
         "@typescript-eslint/await-thenable": "error",
+        "jest/consistent-test-it": [
+            "error",
+            {
+                "fn": "it"
+            }
+        ],
         "sonarjs/cognitive-complexity": "error",
         "sonarjs/no-useless-catch": "error",
         "sonarjs/no-identical-expressions": "warn",

@@ -1,23 +1,28 @@
 {
-    "extends": [
-        "plugin:@typescript-eslint/recommended",
-        "prettier/@typescript-eslint",
-        "plugin:sonarjs/recommended",
-        "plugin:jsx-a11y/recommended"
-    ],
+    "plugins": ["@typescript-eslint", "sonarjs", "react-hooks", "prettier", "jest", "jest-formatting"],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module",
         "ecmaFeatures": {
             "jsx": true
         },
         "project": "./tsconfig.eslint.json"
     },
-    "plugins": ["sonarjs", "@typescript-eslint", "react-hooks", "prettier"],
+    "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "prettier/@typescript-eslint",
+        "plugin:sonarjs/recommended",
+        "plugin:jsx-a11y/recommended",
+        "plugin:jest/recommended"
+    ],
     "rules": {
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
         "no-angle-bracket-type-assertion": "off",
         "no-throw-literal": "error",
+        "prefer-const": "error",
+        "no-var": "warn",
         "jsx-a11y/href-no-hash": "off",
         "jsx-a11y/anchor-is-valid": "off",
         "jsx-a11y/click-events-have-key-events": "warn",
@@ -34,11 +39,25 @@
             }
         ],
         "@typescript-eslint/no-use-before-define": "warn",
-        "@typescript-eslint/interface-name-prefix": "warn",
-        "@typescript-eslint/camelcase": ["error", { "properties": "never", "ignoreDestructuring": true }],
+        "@typescript-eslint/interface-name-prefix": "off",
+        "@typescript-eslint/camelcase": [
+            "error",
+            {
+                "properties": "never",
+                "ignoreDestructuring": true
+            }
+        ],
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-unused-vars": "off",
         "@typescript-eslint/explicit-member-accessibility": "off",
+        "jest/consistent-test-it": [
+            "error",
+            {
+                "fn": "it"
+            }
+        ],
+        "jest-formatting/padding-before-test-blocks": 2,
+        "jest-formatting/padding-before-describe-blocks": 2,
         "sonarjs/cognitive-complexity": "error",
         "sonarjs/no-useless-catch": "error",
         "sonarjs/no-identical-expressions": "warn",
