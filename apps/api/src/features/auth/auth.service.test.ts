@@ -6,15 +6,11 @@ import { ActiveStatus } from '../../entity/user.entity';
 import { hashSync } from 'bcryptjs';
 
 describe('AuthService tests', () => {
-    /**
-     * readonly users: User[] = [
-     * { id: 1, username: 'valid_user', password: 'valid_pwd', auth_status: 'active' },
-     * { id: 2, username: 'expired_user', password: 'valid_pwd', auth_status: 'expired' },
-     * { id: 3, username: 'locked_user', password: 'valid_pwd', auth_status: 'locked' },
-     * ];
-     */
 
-    test('authenticate should work', async () => {
+    /**
+     * @todo refactor this ! should be split in different tests
+     */
+    it('should pass authentication cases', async () => {
         // Arrange
         const password = 'theuserpasswOORD!';
         const foundUser = {
