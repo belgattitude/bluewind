@@ -27,7 +27,7 @@ jobs:
     - stage: "bluewind-web"
       script:
           - yarn workspace bluewind-web test:coverage
-          - cd apps/web && codecov -cF apps-web && cd ../..
+          - cd apps/web && codecov -F apps-web && cd ../..
           - yarn workspace bluewind-web build
           - yarn workspace bluewind-web es-check
     - stage: "bluewind-api"
