@@ -10,7 +10,7 @@ type RegisterRequestDTO = {
 };
 
 export type AuthContextState = {
-    user: {} & AuthUserDataResponseDTO | null;
+    user: ({} & AuthUserDataResponseDTO) | null;
 };
 
 export type AuthContextProps = {
