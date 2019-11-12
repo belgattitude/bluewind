@@ -9,6 +9,7 @@
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         "importHelpers": false,
-        "noEmitHelpers": false
+        "noEmitHelpers": false,
+        "isolatedModules": false
     }
 }
