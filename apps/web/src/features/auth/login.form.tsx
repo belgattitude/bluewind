@@ -22,7 +22,10 @@ function useTextField(props: { name: string; placeHolder: string; type: 'passwor
             name={props.name}
             type={props.type}
             value={value}
-            onChange={e => setValue(e.target.value)}
+            //onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setValue(e.target.value)} }
+            onChange={e => {
+                setValue(e.currentTarget.value);
+            }}
             placeholder={props.placeHolder}
         />
     );
