@@ -20,10 +20,11 @@ jobs:
   allow_failures:
     - stage: Lint
   include:
-    - stage: "@bluewind/packages (all)"
+    - stage: "Package @bluewind/error-flow"
       script:
-          - yarn lerna run --scope "@bluewind/*" test --stream
-          - yarn lerna run --scope "@bluewind/*" build --stream
+          - yarn workspace @bluewind/error-flow test:coverage
+          - cd packages/error-flow && codecov -F packagesErrorFlow && cd ../..
+          - yarn workspace @bluewind/error-flow build
     - stage: "bluewind-web"
       script:
           - yarn workspace bluewind-web test:coverage
