@@ -11,7 +11,10 @@ type HeaderProps = {
     className?: string;
 };
 
-const routes = [{ path: '/', label: 'Home' }, { path: '/students', label: 'Students' }];
+const routes = [
+    { path: '/', label: 'Home' },
+    { path: '/students', label: 'Students' },
+];
 
 const UnstyledHeader: React.FC<HeaderProps> = props => {
     const { className } = props;
