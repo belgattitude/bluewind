@@ -34,7 +34,6 @@ jobs:
     - stage: "bluewind-api"
       script:
           - yarn workspace bluewind-api test
-          - yarn workspace bluewind-api build
     - stage: CodeStyle
       script:
           - yarn lint
