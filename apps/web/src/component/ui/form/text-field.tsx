@@ -1,9 +1,16 @@
+import React from 'react';
 import styled from '@emotion/styled';
-import { color, space, fontSize, ColorProps, SpaceProps, FontSizeProps } from 'styled-system';
+import { color, space, fontSize, SpaceProps, FontSizeProps } from 'styled-system';
+import { HackedColorProps } from '../../../typings/styled-system';
 
-type TextFieldProps = ColorProps & SpaceProps & FontSizeProps;
+type TextFieldProps = HackedColorProps & SpaceProps & FontSizeProps & React.HTMLProps<HTMLInputElement>;
 
-export const TextField = styled.input<TextFieldProps>`
+const UnstyledTextField: React.FC<TextFieldProps> = props => {
+    const { children, ...innerProps } = props;
+    return <input {...innerProps}>{props.children}</input>;
+};
+
+export const TextField = styled(UnstyledTextField)<TextFieldProps>`
     ${color}
     ${space}
     ${fontSize}
