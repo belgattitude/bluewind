@@ -18,5 +18,5 @@ flags:
             - apps/web
     packagesErrorFlow:
         paths:
-            - packages-error-flow
+            - packages/error-flow
 
