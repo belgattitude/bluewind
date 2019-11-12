@@ -1,0 +1,22 @@
+coverage:
+    status:
+        project:
+            default: off
+            apps-api:
+                flags: apps-api
+            apps-web:
+                flags: apps-web
+            packages-error-flow:
+                flags: packages-error-flow
+
+flags:
+    apps-api:
+        paths:
+            - apps/api
+    apps-web:
+        paths:
+            - apps/web
+    packages-error-flow:
+        paths:
+            - packages-error-flow
+

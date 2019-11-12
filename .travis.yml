@@ -26,13 +26,14 @@ jobs:
           - yarn lerna run --scope "@bluewind/*" build --stream
     - stage: "bluewind-web"
       script:
-          - yarn lerna run --scope bluewind-web test
-          - yarn lerna run --scope bluewind-web build
-          - yarn lerna run --scope bluewind-web es-check
+          - yarn workspace bluewind-web test:coverage
+          - cd apps/web && codecov -cF apps-web && cd ../..
+          - yarn workspace bluewind-web build
+          - yarn workspace bluewind-web es-check
     - stage: "bluewind-api"
       script:
-          - yarn lerna run --scope bluewind-api test
-          - yarn lerna run --scope bluewind-api build
+          - yarn workspace bluewind-api test
+          - yarn workspace bluewind-api build
     - stage: CodeStyle
       script:
           - yarn lint
