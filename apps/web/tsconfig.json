@@ -12,7 +12,7 @@
 
         // Don't emit; allow Babel to transform files.
         "noEmit": true,                        /* Do not emit outputs. */
-        //"isolatedModules": true,               /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
+        "isolatedModules": true,               /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
 
         // "downlevelIteration": true,            /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */
         "forceConsistentCasingInFileNames": true, /* Avoid case-sensitivity issues for windows */
@@ -60,9 +60,9 @@
         "experimentalDecorators": true,           /* Enables experimental support for ES7 decorators. */
         "emitDecoratorMetadata": true,             /* Enables experimental support for emitting type metadata for decorators. */
 
-        // Incremental build disabled for typescript 3.6 / ts-loader
-        // see when https://github.com/TypeStrong/ts-loader/issues/995
-        "incremental": false
+        // For typescript < 3.7 be sure to set this o false
+        // see also https://github.com/TypeStrong/ts-loader/issues/995
+        "incremental": true
     },
     "include": [
       "./src"
