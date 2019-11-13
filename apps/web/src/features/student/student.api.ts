@@ -20,7 +20,7 @@ export interface StudentDetailDTO {
     pastClasses: typeof classesListMock;
 }
 
-type SearchParams = {
+export type StudentSearchParams = {
     query?: string;
 };
 
@@ -31,7 +31,7 @@ export class StudentApi {
         this.ky = apiService.createKy();
     }
 
-    async search(params: SearchParams, props: { signal?: AbortSignal }): Promise<Result<StudentDetailDTO[]>> {
+    async search(params: StudentSearchParams, props: { signal?: AbortSignal }): Promise<Result<StudentDetailDTO[]>> {
         return this.ky
             .get('api/students', {
                 signal: props.signal,
