@@ -1,7 +1,4 @@
 import { IsDate, IsEmail, IsOptional, IsString, Max, MaxLength } from 'class-validator';
-import { Type } from 'class-transformer';
-import { StudentEntity } from '../../../entity/student.entity';
-import { Column, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 export class CreateStudentDto {
     @IsString()
@@ -17,6 +14,10 @@ export class CreateStudentDto {
     @MaxLength(50)
     @IsOptional()
     email?: string;
+
+    @MaxLength(1)
+    @IsOptional()
+    gender?: string;
 
     @IsString()
     @MaxLength(20)
