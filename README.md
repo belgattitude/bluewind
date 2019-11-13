@@ -1,6 +1,8 @@
 # Bluewind 
 
-[![Build Status](https://travis-ci.org/belgattitude/bluewind.svg?branch=master)](https://travis-ci.org/belgattitude/bluewind) [![Greenkeeper badge](https://badges.greenkeeper.io/belgattitude/bluewind.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/belgattitude/bluewind.svg?branch=master)](https://travis-ci.org/belgattitude/bluewind) 
+[![Greenkeeper badge](https://badges.greenkeeper.io/belgattitude/bluewind.svg)](https://greenkeeper.io/)
+[![codecov](https://codecov.io/gh/belgattitude/bluewind/branch/master/graph/badge.svg)](https://codecov.io/gh/belgattitude/bluewind)
 
 At this point, it's more a spare-time playground than anything else. 
 The ultimate goal is to provide a simple PWA to manage yoga classes, students...
