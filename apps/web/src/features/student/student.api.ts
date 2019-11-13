@@ -56,7 +56,7 @@ export class StudentApi {
                         }, 100);
                     });
                 }
-                throw e;
+                return Result.fail(e);
             });
     }
 
