@@ -1,41 +1,54 @@
 language: node_js
 
 node_js:
-  - "10"
+  - "12"
 
 cache:
   directories:
+    # globals
     - node_modules
+    # apps/api (note coverage must be cached)
     - apps/api/node_modules
+    - apps/api/coverage
+    # apps/web
     - apps/web/node_modules
+    - apps/web/coverage
+    # package/error-fow
     - packages/error-flow/node_modules
+    - packages/error-flow/coverage
     - packages/error-flow/dist
 
 before_install:
-  - npm install -g codecov
-  - yarn install
-  - yarn bootstrap
+    - yarn install
 
 jobs:
   allow_failures:
     - stage: Lint
   include:
+    # Packages must be built prior to apps projects
     - stage: "Package @bluewind/error-flow"
       script:
           - yarn workspace @bluewind/error-flow test:coverage
-          - cd packages/error-flow && codecov -F packagesErrorFlow && cd ../..
           - yarn workspace @bluewind/error-flow build
+    # Apps projects
     - stage: "bluewind-web"
       script:
           - yarn workspace bluewind-web test:coverage
-          - cd apps/web && codecov -F appsWeb && cd ../..
           - yarn workspace bluewind-web build
+          # Optional check to ensure no es-modules ends up in the build (life saver)
           - yarn workspace bluewind-web es-check
     - stage: "bluewind-api"
       script:
           - yarn workspace bluewind-api test
+    # Globals
     - stage: CodeStyle
       script:
           - yarn lint
+    # Coverage
+    - stage: Coverage
+      script:
+          - yarn install codecov
+          - cd packages/error-flow && codecov -F packagesErrorFlow && cd ../..
+          - cd apps/web && codecov -F appsWeb && cd ../..
 
 
