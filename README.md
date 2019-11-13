@@ -16,7 +16,6 @@ my personal take on a better error handling in typescript.
 
 ```bash
 $ yarn install
-$ yarn lerna bootstrap  # Lerna bootrap
 $ yarn build:packages   # Build deps packages
 ```
 
