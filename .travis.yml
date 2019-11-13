@@ -47,7 +47,7 @@ jobs:
     # Coverage
     - stage: Coverage
       script:
-          - yarn install codecov
+          - yarn add codecov
           - cd packages/error-flow && codecov -F packagesErrorFlow && cd ../..
           - cd apps/web && codecov -F appsWeb && cd ../..
 
