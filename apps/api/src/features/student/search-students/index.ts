@@ -10,6 +10,7 @@ export class SearchStudentsHandler extends ExpressHandler {
     constructor(@inject('IStudentService') private studentService: IStudentService) {
         super();
     }
+
     async executeImpl(): Promise<void> {
         const { req, res } = this;
         const { payload: dtoRs } = await getValidatedDto(SearchStudentDto, req.query);
