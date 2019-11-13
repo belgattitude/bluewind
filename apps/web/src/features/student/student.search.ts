@@ -11,8 +11,8 @@ const studentDataProvider = (): ((
         return studentApi.search(params, { signal: props.signal });
     };
 };
-const { SearchProvider: StudentSearchProvider, useSearch: useStudentSearch } = createSearchContext<StudentDetailDTO>({
+const { SearchProvider: StudentSearchProvider, useSearch } = createSearchContext<StudentDetailDTO>({
     dataProvider: studentDataProvider,
 });
 
-export { StudentSearchProvider, useStudentSearch };
+export { StudentSearchProvider, useSearch as useStudentSearch };
