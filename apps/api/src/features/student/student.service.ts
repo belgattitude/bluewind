@@ -4,11 +4,13 @@ import { Brackets, getConnection, Repository } from 'typeorm';
 import { StudentEntity } from '../../entity/student.entity';
 import is from '@sindresorhus/is';
 import { Result } from '@bluewind/error-flow';
+import { UpdateStudentDto } from './update-student/update-student.dto';
 
 export interface IStudentService {
     search(params: SearchStudentDto): Promise<Result<StudentEntity[]>>;
     find(id: number): Promise<Result<StudentEntity>>;
-    save(studentDTO: CreateStudentDto): Promise<StudentEntity>;
+    save(studentDTO: CreateStudentDto): Promise<Result<StudentEntity>>;
+    update(studentId: number, studentDTO: UpdateStudentDto): Promise<Result<StudentEntity>>;
 }
 
 class StudentService implements IStudentService {
@@ -67,15 +69,29 @@ class StudentService implements IStudentService {
             });
     }
 
-    async save(studentDTO: CreateStudentDto): Promise<StudentEntity> {
+    async save(studentDTO: CreateStudentDto): Promise<Result<StudentEntity>> {
         return await this.studentRepo
             .save({
-                last_name: studentDTO.last_name,
-                first_name: studentDTO.first_name,
-                email: studentDTO.email,
+                ...studentDTO,
             })
             .then(entity => {
-                return entity;
+                return Result.ok(entity);
+            })
+            .catch(e => {
+                return Result.fail(`Cannot save student: ${e.message}`);
+            });
+    }
+
+    async update(studentId: number, studentDTO: UpdateStudentDto): Promise<Result<StudentEntity>> {
+        return await this.studentRepo
+            .update(studentId, {
+                ...studentDTO,
+            })
+            .then(async entity => {
+                return await this.find(studentId);
+            })
+            .catch(e => {
+                return Result.fail(`Cannot save student: ${e.message}`);
             });
     }
 }

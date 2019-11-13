@@ -1,10 +1,8 @@
-import { Body, Controller, Get, Header, Param, Post, Query, Req, UseInterceptors } from '@nestjs/common';
-import { Request } from 'express';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { StudentService } from './student.service';
 import { StudentEntity } from '../entity/student.entity';
 import { QueryResult } from '../core/query-result';
-import { ApiResponseInterceptor, GenericApiResponse } from '../core/api-response-interceptor';
 import { ApiCreatedResponse, ApiForbiddenResponse, ApiResponse } from '@nestjs/swagger';
 import { StudentListResponse } from './dto/student-list-response.dto';
 import { SearchStudentParamsDto } from './dto/search-student-params.dto';
