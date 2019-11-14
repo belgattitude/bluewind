@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from 'redux-starter-kit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { authApi, AuthRequestDTO } from './auth.api';
 import { AppThunk } from '../../store';
 import { getTokenStore, ITokenStore } from '../../core/token-store';
