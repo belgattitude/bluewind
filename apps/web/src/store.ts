@@ -1,4 +1,4 @@
-import { configureStore, Action } from 'redux-starter-kit';
+import { configureStore, Action } from '@reduxjs/toolkit';
 import { ThunkAction } from 'redux-thunk';
 
 export type AppThunk = ThunkAction<void, RootState, null, Action<string>>;
