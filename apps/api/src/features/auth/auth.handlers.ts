@@ -1,4 +1,4 @@
-import { CookieOptions, Request, Response, Router } from 'express';
+import { CookieOptions, Request, Response } from 'express';
 import { LoginRequestDto } from './auth.dto';
 import { getValidatedDto } from '../../core/mapper/dto-mapper';
 import { AuthService } from './auth.service';
@@ -6,7 +6,6 @@ import { AuthRepo } from './auth.repo';
 import { DatabaseError } from '../../core/exceptions';
 import { createRefreshTokenService, createTokenService } from './token.service';
 import { setHttpErrors } from '../../core/infra/http/error-utils';
-import is from '@sindresorhus/is';
 import { assertIsSafeId } from '../../core/typeguards';
 
 /**
