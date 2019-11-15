@@ -34,7 +34,6 @@ export class CreateStudentDto {
     @IsOptional()
     avatar_url?: string;
 
-
     @IsDate()
     @IsOptional()
     birthdate?: Date;
