@@ -1,5 +1,5 @@
 import { Result } from '@bluewind/error-flow';
-import {getDefaultStudentApi, StudentDetailDTO, StudentSearchParams} from './student.api';
+import { getDefaultStudentApi, StudentDetailDTO, StudentSearchParams } from './student.api';
 import { createSearchContext } from '../../core/context/search-context';
 
 const studentDataProvider = (): ((
