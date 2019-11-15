@@ -1,4 +1,4 @@
-import { IsDate, IsEmail, IsOptional, IsString, Max, MaxLength } from 'class-validator';
+import { IsDate, IsEmail, IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class CreateStudentDto {
     @IsString()
@@ -28,6 +28,12 @@ export class CreateStudentDto {
     @MaxLength(20)
     @IsOptional()
     mobile?: string;
+
+    @IsString()
+    @MaxLength(255)
+    @IsOptional()
+    avatar_url?: string;
+
 
     @IsDate()
     @IsOptional()

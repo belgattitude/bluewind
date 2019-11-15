@@ -29,6 +29,9 @@ export class StudentEntity {
     @Column('date', { nullable: true })
     birthdate?: Date | null;
 
+    @Column('varchar', { length: 255, nullable: true })
+    avatar_url?: string;
+
     @Column('varchar', { length: 50, nullable: true })
     facebook_url?: string | null;
 
