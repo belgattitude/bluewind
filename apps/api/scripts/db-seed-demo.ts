@@ -32,7 +32,6 @@ async function seedUserData(connection: Connection) {
     }));
 }
 
-
 async function seedStudentData(connection: Connection) {
 
     const students: Partial<StudentEntity>[] = [
