@@ -11,14 +11,14 @@ const defaultsProps = {
 };
 
 type Props = {
-    timeout: number;
+    timeout?: number;
     children?: never;
     className?: string;
 };
 
-const SearchBox: React.FC = props => {
+const SearchBox: React.FC<Props> = props => {
     const search = useStudentSearch();
-    const timeout = 150;
+    const {timeout = defaultsProps.timeout} = props;
     const searchRef = useRef<HTMLInputElement>(null);
 
     const [debouncedCallback] = useDebouncedCallback(query => {
@@ -65,12 +65,11 @@ const List: React.FC<{
 
 const UnstyledStudentPage: React.FC<Props> = props => {
     const [studentId, setStudentId] = useState<number | null>(null);
-    const { timeout = defaultsProps.timeout } = props;
-
+    const {className, timeout} = props;
     return (
-        <div className={props.className}>
+        <div className={className}>
             <StudentSearchProvider>
-                <SearchBox />
+                <SearchBox timeout={timeout} />
                 <div className="result-wrapper">
                     <List handleSelected={studentId => setStudentId(studentId)} />
                     <div className="test-detail">{studentId && <StudentDetail studentId={studentId} />}</div>
