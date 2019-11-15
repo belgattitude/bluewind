@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from '@emotion/styled';
 import { color, space, fontSize, SpaceProps, FontSizeProps } from 'styled-system';
 import { HackedColorProps } from '../../../typings/styled-system';
 
 type TextFieldProps = HackedColorProps & SpaceProps & FontSizeProps & React.HTMLProps<HTMLInputElement>;
 
-const UnstyledTextField: React.FC<TextFieldProps> = props => {
+const UnstyledTextField = forwardRef<HTMLInputElement, TextFieldProps>((props, ref) => {
     const { children, ...innerProps } = props;
-    return <input {...innerProps}>{props.children}</input>;
-};
+    return (
+        <input ref={ref} {...innerProps}>
+            {props.children}
+        </input>
+    );
+});
 
 export const TextField = styled(UnstyledTextField)<TextFieldProps>`
     ${color}
