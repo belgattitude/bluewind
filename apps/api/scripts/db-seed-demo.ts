@@ -3,10 +3,12 @@ import {Connection, createConnection} from 'typeorm';
 import {UserEntity} from '../src/entity/user.entity';
 import {StudentEntity} from "../src/entity/student.entity";
 import {HashService} from "../src/core/infra/hash-service";
+import * as faker from 'faker';
 
 async function seedUserData(connection: Connection) {
     const hashService = new HashService();
-    const users = [
+
+    const users: (Partial<UserEntity> & {password: string})[] = [
         {username: 'admin', password: 'demo', first_name: 'Tom', last_name: 'Sayer', email: 'admin@bluewind.com'},
         {username: 'test', password: 'demo', first_name: 'Bill', last_name: 'Pilou', email: 'test@bluewind.com'}
     ];
@@ -32,11 +34,27 @@ async function seedUserData(connection: Connection) {
 
 
 async function seedStudentData(connection: Connection) {
-    const students = [
+
+    const students: Partial<StudentEntity>[] = [
         {first_name: 'Jo', last_name: 'Leblanc', email: 'test@example.com'},
         {first_name: 'Marie', last_name: 'Currie', email: 'marie@example.com'},
         {first_name: 'Jade', last_name: 'Auburn', email: 'jade@example.com'}
     ];
+
+    // fake more students
+    for (let i = 0; i < 100; i++) {
+        //const gender = faker.name.gender;
+        const firstName = faker.name.firstName();
+        const lastName = faker.name.lastName();
+        const email = faker.internet.email(firstName, lastName);
+        students.push({
+            first_name: firstName,
+            last_name: lastName,
+            email: email,
+            avatar_url: faker.internet.avatar(),
+            birthdate: faker.date.past(),
+        })
+    }
 
     await Promise.all(students.map(async (studentData) => {
         const { email } = studentData;
