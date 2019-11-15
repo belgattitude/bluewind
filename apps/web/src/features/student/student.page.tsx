@@ -90,7 +90,6 @@ export const StudentPage = styled(UnstyledStudentPage)`
             overflow: auto;
             flex: 1 1 100%;
         }
-
         .test-detail {
             padding: 15px;
             flex: 1 1 100%;

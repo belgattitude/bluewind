@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StudentDetailDTO } from './student.api';
 import { useKeyPress } from '../../core/hooks/use-key-press';
 import styled from '@emotion/styled';
+import {Avatar} from "../../component/ui/avatar";
 
 type StudentListProps = {
     students: StudentDetailDTO[];
@@ -47,11 +48,15 @@ const UnstyledStudentList: React.FC<StudentListProps> = props => {
                                     props.handleSelected && props.handleSelected(student.id);
                                 }}
                             >
-                                <div>Left</div>
-                                <div>
+                                <div className={'avatar'}>
+                                    <Avatar src={student.avatar_url} alt={'avatar'} size={"3rem"}/>
+                                </div>
+                                <div className={'content'}>
                                     {student.first_name} / {student.last_name}
                                 </div>
-                                <div>Right</div>
+                                <div className={'actions'}>
+                                    Right
+                                </div>
                             </li>
                             <li className="divider" />
                         </React.Fragment>
@@ -92,23 +97,22 @@ export const StudentList = styled(UnstyledStudentList)`
                 flex-direction: row;
                 justify-content: space-between;
                 border: 1px solid white;
-                div {
-                    padding: 5px;
-                    &:first-of-type {
-                        border: 1px solid blue;
-                        border-radius: 100%;
-                        width: 30px;
+
+                div {                                             
+                    &.avatar {
+                        width: 64px;
                         overflow: hidden;
-                        margin-right: 5px;
+                        padding-right: 15px;                                            
                     }
-                    &:nth-of-type(2) {
+                    &.content {
                         flex-grow: 1;
                     }
-                    &:last-of-type {
+                    &.actions {
                         overflow: hidden;
                         max-width: 30px;
                     }
                 }
+                
             }
             &.item__active {
                 //border: 1px solid blue;

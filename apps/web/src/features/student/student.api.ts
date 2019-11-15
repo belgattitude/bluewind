@@ -7,16 +7,17 @@ import { isApiResponse } from '../../core/typeguards';
 import { Result } from '@bluewind/error-flow';
 import { createDefaultApiService, IApiKyService } from '../../core/api/api-service';
 
-export interface StudentDetailDTO {
+export type StudentDetailDTO = {
     id: number;
     first_name: string;
     last_name: string;
-    birthdate: string;
+    birthdate: string | null;
     email: string;
-    phone: string;
-    facebook_url: string;
+    phone: string  | null;
+    facebook_url: string  | null;
+    avatar_url: string | null;
     created_at: string;
-    updated_at: string;
+    updated_at: string | null;
     pastClasses: typeof classesListMock;
 }
 
