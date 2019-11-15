@@ -59,17 +59,19 @@ export class ApiService implements IApiService, IApiKyService {
         const { forceToken } = options || {};
         return ky.create({
             prefixUrl: this.props.serverUrl,
+
             hooks: {
                 beforeRequest: [
-                    (input, options): void => {
+                    (request, options): void => {
                         const token = forceToken || this.props.tokenStore.getToken();
                         if (token) {
-                            options.headers.set('Authorization', `Bearer ${token}`);
+                            request.headers.set('Authorization', `Bearer ${token}`);
                         }
                     },
                 ],
+
                 afterResponse: [
-                    async (input, options, response) => {
+                    async (request, options, response): Promise<Response> => {
                         const { status } = response;
                         if (status === 401 || status === 403) {
                             // attempt a refreshing token
@@ -77,10 +79,10 @@ export class ApiService implements IApiService, IApiKyService {
                             const { payload } = await refreshTokenService.getAccessToken();
                             if (!payload.isError) {
                                 const newToken = payload.value;
-                                options.headers.set('Authorization', `Bearer ${newToken}`);
+                                request.headers.set('Authorization', `Bearer ${newToken}`);
                                 tokenStore.setToken(newToken);
                                 // retry with the same
-                                return ky(input, options);
+                                return ky(request, options);
                             } else {
                                 // remove the token
                                 tokenStore.removeToken();
