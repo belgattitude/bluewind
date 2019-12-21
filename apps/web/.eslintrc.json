@@ -38,6 +38,7 @@
                 "depth": 2
             }
         ],
+        "@typescript-eslint/no-empty-function": "warn",
         "@typescript-eslint/no-use-before-define": "warn",
         "@typescript-eslint/interface-name-prefix": "off",
         "@typescript-eslint/camelcase": [
@@ -86,6 +87,7 @@
         {
             "files": ["*.test.ts", "*.spec.ts"],
             "rules": {
+                "@typescript-eslint/no-empty-function": "off",
                 "@typescript-eslint/no-non-null-assertion": "off",
                 "@typescript-eslint/no-object-literal-type-assertion": "off"
             }
