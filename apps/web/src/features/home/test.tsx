@@ -1,5 +1,4 @@
 import React, { ReactNode, useCallback, useContext, useEffect, useLayoutEffect, useReducer, useState } from 'react';
-import { useAsync } from 'react-async';
 import { getDefaultStudentApi, StudentDetailDTO } from '../student/student.api';
 
 const studentApi = getDefaultStudentApi();
@@ -65,7 +64,7 @@ const SearchProvider = (props: { children: ReactNode }) => {
 
     const reload = useCallback(() => {
         console.log('force reloading');
-        forceUpdate(force);
+        forceUpdate();
     }, [force]);
 
     return <SearchContext.Provider value={{ data: studentList, search, reload, loading, error }} {...props} />;

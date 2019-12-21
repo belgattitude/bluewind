@@ -73,7 +73,7 @@ function createSearchContext<T extends object>(params: SearchContextParams<T>) {
                 abortController.abort();
                 mounted = false;
             };
-        }, [query, force]);
+        }, [query]);
 
         // Dispatch methods
         const search = (query: string) => {
@@ -81,7 +81,7 @@ function createSearchContext<T extends object>(params: SearchContextParams<T>) {
         };
 
         const reload = useCallback(() => {
-            forceUpdate(force);
+            forceUpdate();
         }, [force]);
 
         return <SearchContext.Provider value={{ data: data, search, reload, loading, error }} {...props} />;
