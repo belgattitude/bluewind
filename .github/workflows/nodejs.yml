@@ -17,7 +17,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: yarn bootstrap, install, build, and test
+    - name: yarn bootstrap, install, build, test, lint
       run: |
         yarn install
         yarn bootstrap
@@ -28,5 +28,6 @@ jobs:
         yarn lerna run --scope bluewind-web es-check
         yarn lerna run --scope bluewind-api test
         yarn lerna run --scope bluewind-api build
+        yarn lint
       env:
         CI: true
