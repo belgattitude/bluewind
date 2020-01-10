@@ -19,7 +19,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: "Install & bootstrap"
       run: |
-        yarn install
+        yarn install --frozen-lockfile
         yarn bootstrap
     - name: "Build packages"
       run: |
@@ -29,6 +29,7 @@ jobs:
     - name: "Tests"
       run: |
         yarn workspace bluewind-web test:coverage
+        yarn workspace bluewind/api test:coverage
         yarn workspace @bluewind/error-flow test:coverage
       env:
         CI: true

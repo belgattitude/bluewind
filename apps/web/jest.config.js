@@ -9,6 +9,7 @@ module.exports = {
         'src/**/*.{js,jsx,ts,tsx}',
         '!src/**/*.d.ts'
     ],
+    coveragePathIgnorePatterns: ['node_modules'],
     moduleFileExtensions: [
         "web.js",
         "js",

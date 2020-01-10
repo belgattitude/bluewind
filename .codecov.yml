@@ -2,22 +2,18 @@ coverage:
     status:
         project:
             default: off
-            appsApi:
-                flags: appsApi
-            appsWeb:
-                flags: appsWeb
-            packagesErrorFlow:
-                flags: packagesErrorFlow
+            apps:
+                flags: apps
+            packages:
+                flags: packages
                 threshold: 60
 
 flags:
-    appsApi:
+    apps:
         paths:
             - apps/api
-    appsWeb:
-        paths:
             - apps/web
-    packagesErrorFlow:
+    packages:
         paths:
             - packages/error-flow
 

@@ -17,10 +17,12 @@
         "lint:fix": "eslint . --ext .ts,.tsx --fix",
         "fix": "npm run format && npm run lint",
         "test": "jest -c jest.unit.config.js && jest -c jest.integration.config.js",
+        "test:coverage": "jest -c jest.unit.config.js --coverage && jest -c jest.integration.config.js --coverage",
         "test:unit": "jest -c jest.unit.config.js",
         "test:integration": "jest -c jest.integration.config.js",
         "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-        "precommit": "lint-staged"
+        "precommit": "lint-staged",
+        "coverage:publish": "codecov --root=../../ -F apps"
     },
     "lint-staged": {
         "*.{json,css,scss}": [

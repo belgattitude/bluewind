@@ -12,7 +12,7 @@ module.exports = {
     transform: {
         "^.+\\.(ts|js|tsx)$": "ts-jest"
     },
-    coverageDirectory: "../coverage",
+    coverageDirectory: "./coverage",
     setupFilesAfterEnv: ["./test/jest.unit.setup.ts"],
     testEnvironment: "node",
     globals: {
