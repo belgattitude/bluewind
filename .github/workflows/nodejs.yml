@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [12.x]
 
     steps:
     - uses: actions/checkout@v1
@@ -17,17 +17,37 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: yarn bootstrap, install, build, test, lint
+    - name: "Install & bootstrap"
       run: |
         yarn install
         yarn bootstrap
+    - name: "Build packages"
+      run: |
         yarn build:packages
+      env:
+        CI: true
+    - name: "Tests"
+      run: |
+        yarn workspace bluewind-web test:coverage
+        yarn workspace @bluewind/error-flow test:coverage
+      env:
+        CI: true
+    - name: Send coverage
+      working-directory: .
+      run: |
+          cat .codecov.yml | curl --data-binary @- https://codecov.io/validate
+          npm install -g codecov
+          (cd packages/error-flow && codecov -F packageErrorFlow -t ${{ secrets.CODECOV_TOKEN }})
+          (cd apps/web && codecov -F appsWeb -t ${{ secrets.CODECOV_TOKEN }})
+
+    - name: "Lint & typecheck"
+      run: |
         yarn typecheck
-        yarn lerna run --scope bluewind-web test
+        yarn lint
+    - name: "Build & es-check"
+      run: |
+        yarn lerna run --scope bluewind-api build
         yarn lerna run --scope bluewind-web build
         yarn lerna run --scope bluewind-web es-check
-        yarn lerna run --scope bluewind-api test
-        yarn lerna run --scope bluewind-api build
-        yarn lint
       env:
         CI: true

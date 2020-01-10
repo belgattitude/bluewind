@@ -45,10 +45,10 @@ jobs:
       script:
           - yarn lint
     # Coverage
-    - stage: Coverage
-      script:
-          - npm install -g codecov
-          - cd packages/error-flow && codecov -F packagesErrorFlow && cd ../..
-          - cd apps/web && codecov -F appsWeb && cd ../..
+    #- stage: Coverage
+    #  script:
+    #      - npm install -g codecov
+    #      - cd packages/error-flow && codecov -F packagesErrorFlow && cd ../..
+    #      - cd apps/web && codecov -F appsWeb && cd ../..
 
 
