@@ -20,7 +20,8 @@
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "format": "prettier --write \"./src/**/*.{ts,tsx,css,scss,js,json}\"",
     "precommit": "lint-staged",
-    "coverage:publish": "codecov --root=../../ -F packages"
+    "coverage2:publish": "codecov --root=../../ -F packages",
+    "coverage:publish": "codecov -F apps"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
