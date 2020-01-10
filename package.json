@@ -21,8 +21,8 @@
     "api:start:dev": "cd apps/api && yarn start:dev",
     "web:start:dev": "cd apps/web && yarn start",
     "typecheck": "lerna run typecheck --parallel --stream",
-    "deduplicate": "yarn-deduplicate yarn.lock"
-
+    "deduplicate": "yarn-deduplicate yarn.lock",
+    "coverage:publish": "codecov && lerna run coverage:publish -- -f coverage/lcov.info"
   },
   "devDependencies": {
     "husky": "^3.1.0",

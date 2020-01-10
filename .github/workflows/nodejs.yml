@@ -37,9 +37,7 @@ jobs:
       run: |
           cat .codecov.yml | curl --data-binary @- https://codecov.io/validate
           npm install -g codecov
-          cd packages/error-flow && codecov -F packageErrorFlow -t ${{ secrets.CODECOV_TOKEN }} && cd ../..
-          cd apps/web && codecov -F appsWeb -t ${{ secrets.CODECOV_TOKEN }} && cd ../..
-
+          CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }} yarn coverage:publish
     - name: "Lint & typecheck"
       run: |
         yarn typecheck
