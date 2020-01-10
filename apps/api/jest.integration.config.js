@@ -12,7 +12,6 @@ module.exports = {
     transform: {
         "^.+\\.(ts|js|tsx)$": "ts-jest"
     },
-    coverageDirectory: "../coverage",
     setupFilesAfterEnv: ["./test/jest.integration.setup.ts"],
     testEnvironment: "node",
     globals: {

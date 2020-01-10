@@ -1,10 +1,8 @@
-name: Node CI
-
+name: All tests
 on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -28,9 +26,7 @@ jobs:
         CI: true
     - name: "Tests"
       run: |
-        yarn workspace bluewind-web test:coverage
-        yarn workspace bluewind/api test:coverage
-        yarn workspace @bluewind/error-flow test:coverage
+        yarn lerna run test:coverage
       env:
         CI: true
     - name: Send coverage
