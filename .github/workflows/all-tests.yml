@@ -29,12 +29,19 @@ jobs:
         yarn lerna run test:coverage
       env:
         CI: true
-    - name: Send coverage
-      working-directory: .
-      run: |
-          cat .codecov.yml | curl --data-binary @- https://codecov.io/validate
-          npm install -g codecov
-          CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }} yarn coverage:publish
+    #- name: Send coverage
+    #  working-directory: .
+    #  run: |
+    #      cat .codecov.yml | curl --data-binary @- https://codecov.io/validate
+    #      npm install -g codecov
+    #      CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }} yarn coverage:publish
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: unittests
+          yml: ./.codecov.yml
+          fail_ci_if_error: true
     - name: "Lint & typecheck"
       run: |
         yarn typecheck
