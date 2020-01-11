@@ -22,7 +22,7 @@
     "web:start:dev": "cd apps/web && yarn start",
     "typecheck": "lerna run typecheck --parallel --stream",
     "deduplicate": "yarn-deduplicate yarn.lock",
-    "coverage:publish": "lerna run coverage:publish -- -f coverage/lcov.info"
+    "coverage:publish": "codecov && lerna run coverage:publish -- -f coverage/clover.xml"
   },
   "devDependencies": {
     "husky": "^4.0.6",

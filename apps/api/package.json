@@ -22,8 +22,8 @@
         "test:integration": "jest -c jest.integration.config.js",
         "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
         "precommit": "lint-staged",
-        "coverage2:publish": "codecov --root=../../ -F apps",
-        "coverage:publish": "codecov -F apps"
+        "coverage:publish": "codecov --root=../../ -F apps",
+        "coverage2:publish": "codecov -F apps --root=../../ --dump"
     },
     "lint-staged": {
         "*.{json,css,scss}": [
