@@ -102,8 +102,6 @@ export const runLoginThunk = (
 
 /**
  * Execute a logout request
- * @param tokenStore
- * @param deps essentially for mocking internal dependencies
  */
 export const runLogoutThunk = (deps?: { tokenStore?: ITokenStore }): AppThunk => async dispatch => {
     try {
@@ -113,6 +111,8 @@ export const runLogoutThunk = (deps?: { tokenStore?: ITokenStore }): AppThunk =>
         if (token) {
             const authResult = await authApi.logout(token);
         }
+    } catch (e) {
+        // Maybe later log something ?
     } finally {
         dispatch(getAuthLogout());
     }
