@@ -17,8 +17,7 @@
     "test:coverage": "jest --config jest.config.js --coverage",
     "analyze": "webpack-bundle-analyzer dist/.webpack-stats.json dist/public",
     "precommit": "lint-staged",
-    "coverage:publish": "codecov --root=../../ -F apps",
-    "coverage2:publish": "codecov -F apps --dump"
+    "coverage:publish": "codecov --root=../../ -F apps"
   },
   "lint-staged": {
     "*.{json,css,scss}": [

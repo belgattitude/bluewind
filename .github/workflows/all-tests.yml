@@ -35,7 +35,7 @@ jobs:
     #      cat .codecov.yml | curl --data-binary @- https://codecov.io/validate
     #      npm install -g codecov
     #      CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }} yarn coverage:publish
-    - name: Upload coverage to Codecov
+    - name: Upload all coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
           token: ${{ secrets.CODECOV_TOKEN }}
