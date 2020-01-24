@@ -8,6 +8,6 @@ export const store = configureStore({
     },
 });
 
-export type AppThunk = ThunkAction<void, RootState, null, Action<string>>;
+export type AppThunk = ThunkAction<void, RootState, undefined, Action<string>>;
 
 export type RootState = ReturnType<typeof store.getState>;

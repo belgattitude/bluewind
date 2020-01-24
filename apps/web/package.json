@@ -165,7 +165,7 @@
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@emotion/core": "^10.0.27",
     "@emotion/styled": "^10.0.27",
-    "@reduxjs/toolkit": "1.2.1",
+    "@reduxjs/toolkit": "^1.2.3",
     "@sindresorhus/is": "^1.2.0",
     "@styled-system/css": "^5.1.4",
     "abort-controller": "^3.0.0",
