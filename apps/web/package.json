@@ -166,7 +166,7 @@
     "@emotion/core": "^10.0.27",
     "@emotion/styled": "^10.0.27",
     "@reduxjs/toolkit": "1.2.1",
-    "@sindresorhus/is": "^1.2.0",
+    "@sindresorhus/is": "^2.0.0",
     "@styled-system/css": "^5.1.4",
     "abort-controller": "^3.0.0",
     "camelcase-keys": "^6.1.1",
