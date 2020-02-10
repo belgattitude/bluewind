@@ -71,7 +71,7 @@
     "@types/redux-mock-store": "^1.0.2",
     "@types/source-map-support": "^0.5.1",
     "@types/styled-system": "^5.1.6",
-    "@typescript-eslint/eslint-plugin": "^2.19.0",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
     "@typescript-eslint/parser": "^2.19.0",
     "autoprefixer": "^9.7.4",
     "babel-core": "^7.0.0-bridge.0",
