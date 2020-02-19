@@ -10,7 +10,7 @@ export type Env = Readonly<{
     TYPEORM_SYNCHRONIZE: boolean;
     TYPEORM_LOGGING: boolean;
     TYPEORM_ENTITIES: string;
-    TYPEORM_DRIVER_EXTRA?: string;
+    TYPEORM_DRIVER_EXTRA?: string | null;
 }>;
 
 export const env: Env = cleanEnv(
@@ -19,13 +19,13 @@ export const env: Env = cleanEnv(
         TYPEORM_CONNECTION: str({ default: 'mysql' }),
         TYPEORM_HOST: str({ default: 'localhost' }),
         TYPEORM_PORT: num({ default: 3306 }),
-        TYPEORM_USERNAME: str(),
-        TYPEORM_PASSWORD: str(),
-        TYPEORM_DATABASE: str(),
+        TYPEORM_USERNAME: str({ devDefault: 'username' }),
+        TYPEORM_PASSWORD: str({ devDefault: 'password' }),
+        TYPEORM_DATABASE: str({ devDefault: 'database' }),
         TYPEORM_SYNCHRONIZE: bool({ default: true }),
         TYPEORM_LOGGING: bool({ default: true }),
         TYPEORM_ENTITIES: str(),
-        TYPEORM_DRIVER_EXTRA: str(),
+        TYPEORM_DRIVER_EXTRA: str( { default: '{"charset": "utf8mb4"}'}),
     },
     { strict: true, dotEnvPath: __dirname + '/../.env' },
 );
