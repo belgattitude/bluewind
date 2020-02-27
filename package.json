@@ -29,7 +29,7 @@
     "lerna": "^3.20.2",
     "stmux": "^1.8.0",
     "rimraf": "^3.0.2",
-    "lint-staged": "^10.0.7",
+    "lint-staged": "10.0.7",
     "yarn-deduplicate": "^1.1.1"
   },
   "husky": {
