@@ -58,43 +58,43 @@ const UnstyledHeader: React.FC<HeaderProps> = props => {
 };
 
 export const Header = styled(UnstyledHeader)`
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    color: #333;
-    font-weight: 300;
-    align-items: stretch;
-    box-shadow: rgb(0, 0, 0) 0px 5px 20px -10px;
-    > div {
-        margin: 5px;
-    }
-    .header-brand {
-        border-bottom: 1px solid white;
-        padding: 5px;
-        margin: 5px;
-        font-weight: 500;
-        align-self: center;
-    }
-
-    .header-nav {
-        flex: 1 1 100%;
         display: flex;
-        flex-wrap: wrap;
-
-        .tab {
+        flex-direction: row;
+        width: 100%;
+        color: #333;
+        font-weight: 300;
+        align-items: stretch;
+        box-shadow: rgb(0, 0, 0) 0px 5px 20px -10px;
+        > div {
+            margin: 5px;
+        }
+        .header-brand {
+            border-bottom: 1px solid white;
             padding: 5px;
             margin: 5px;
-            border-bottom: 1px solid #eee;
-            &:hover {
-                cursor: pointer;
-            }
-            &.tab__active {
-                background-color: white;
-                border-bottom: 1px solid deeppink;
+            font-weight: 500;
+            align-self: center;
+        }
+
+        .header-nav {
+            flex: 1 1 100%;
+            display: flex;
+            flex-wrap: wrap;
+
+            .tab {
+                padding: 5px;
+                margin: 5px;
+                border-bottom: 1px solid #eee;
+                &:hover {
+                    cursor: pointer;
+                }
+                &.tab__active {
+                    background-color: white;
+                    border-bottom: 1px solid deeppink;
+                }
             }
         }
-    }
-    .header-user {
-        flex-wrap: nowrap;
-    }
+        .header-user {
+            flex-wrap: nowrap;
+        }
 `;

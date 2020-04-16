@@ -40,7 +40,7 @@ const TestList: React.FC<{}> = props => {
 
 const TestQuery: React.FC<{}> = props => {
     const search = useSearch();
-    const [debouncedCallback] = useDebouncedCallback(query => {
+    const [debouncedCallback] = useDebouncedCallback<string[]>(query => {
         search.search(query);
     }, 150);
     return (
