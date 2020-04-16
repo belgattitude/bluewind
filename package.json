@@ -21,16 +21,19 @@
     "api:start:dev": "cd apps/api && yarn start:dev",
     "web:start:dev": "cd apps/web && yarn start",
     "typecheck": "lerna run typecheck --parallel --stream",
+    "deps:check": "npx npm-check-updates && lerna exec --concurrency 1 -- yarn deps:check",
+    "deps:update": "npx npm-check-updates -u && lerna exec -- yarn deps:update",
     "deduplicate": "yarn-deduplicate yarn.lock",
+    "reinstall": "lerna clean --yes && rimraf --no-glob ./yarn.lock ./node_modules && yarn install",
     "coverage:publish": "codecov && lerna run coverage:publish -- -f coverage/clover.xml"
   },
   "devDependencies": {
-    "husky": "^4.2.1",
+    "husky": "^4.2.5",
     "lerna": "^3.20.2",
     "stmux": "^1.8.0",
     "rimraf": "^3.0.2",
-    "lint-staged": "^10.0.7",
-    "yarn-deduplicate": "^1.1.1"
+    "lint-staged": "^10.1.3",
+    "yarn-deduplicate": "^2.0.0"
   },
   "husky": {
     "hooks": {

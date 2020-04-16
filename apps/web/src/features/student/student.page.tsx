@@ -21,7 +21,7 @@ const SearchBox: React.FC<Props> = props => {
     const {timeout = defaultsProps.timeout} = props;
     const searchRef = useRef<HTMLInputElement>(null);
 
-    const [debouncedCallback] = useDebouncedCallback(query => {
+    const [debouncedCallback] = useDebouncedCallback<string[]>(query => {
         search.search(query);
     }, timeout);
 
