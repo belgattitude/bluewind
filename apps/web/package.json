@@ -184,7 +184,7 @@
     "react": "^16.13.1",
     "react-async": "^10.0.1",
     "react-dom": "^16.13.1",
-    "react-error-boundary": "^1.2.5",
+    "react-error-boundary": "^2.2.0",
     "react-final-form": "^6.4.0",
     "react-icons": "^3.10.0",
     "react-redux": "^7.2.0",
