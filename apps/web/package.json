@@ -194,7 +194,7 @@
     "redux-thunk": "^2.3.0",
     "snakecase-keys": "^3.2.0",
     "styled-system": "^5.1.5",
-    "tslib": "^1.11.1",
+    "tslib": "^2.0.0",
     "use-debounce": "^3.4.1"
   }
 }
